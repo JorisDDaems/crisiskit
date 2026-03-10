@@ -205,8 +205,35 @@
       max-width: 500px; margin-bottom: 3rem;
     }
 
-    /* ── PRODUCTS ── */
+    /* ── CATEGORY FILTERS ── */
+    .cat-filters {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+      margin-bottom: 2.5rem;
+    }
+    .cat-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--light);
+      padding: .5rem 1.2rem;
+      font-family: var(--font-body); font-size: .85rem; font-weight: 500;
+      cursor: pointer; letter-spacing: .5px;
+      transition: all .2s;
+    }
+    .cat-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .cat-btn.active {
+      background: var(--accent); color: var(--black);
+      border-color: var(--accent); font-weight: 700;
+    }
+
+    /* ── PRODUCT CARD HIDE/SHOW ── */
+    .product-card.hidden {
+      display: none;
+    }
+
+    /* ── SECTION PRODUCTEN background fix ── */
     #producten { background: var(--dark); }
+
+    
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -464,72 +491,354 @@
   <!-- PRODUCTEN -->
   <section id="producten">
     <div class="section-label">Ons assortiment</div>
-    <h2 class="section-title">UITGELICHTE PAKKETTEN</h2>
-    <p class="section-sub">Elk pakket is samengesteld op basis van officiële richtlijnen van het Rode Kruis en nationale overheidsadviezen.</p>
+    <h2 class="section-title">ALLE PRODUCTEN</h2>
+    <p class="section-sub">Samengesteld op basis van officiële richtlijnen van het Belgisch Crisiscentrum en het Nederlandse Rode Kruis. Alles wat je nodig hebt voor 72 uur zelfstandigheid.</p>
 
-    <div class="products-grid reveal">
-
-      <!-- Pakket 1 -->
-      <div class="product-card">
-        <span class="product-badge badge-bestseller">Bestseller</span>
-        <div class="product-icon">🏠</div>
-        <div class="product-name">GEZINSPAKKET</div>
-        <div class="product-desc">Het complete startpakket voor een gezin van 4 personen. Goed voor 72 uur volledige zelfstandigheid.</div>
-        <ul class="product-includes">
-          <li>4× drinkwater (1,5L per persoon/dag)</li>
-          <li>Noodrantsoenen voor 3 dagen</li>
-          <li>EHBO-set (50 stuks)</li>
-          <li>Zaklamp + reservebatterijen</li>
-          <li>Nooddeken, fluitje &amp; handschoenen</li>
-          <li>Waterdichte instructiegids</li>
-        </ul>
-        <div class="product-footer">
-          <div class="product-price">€129 <span>/ pakket</span></div>
-          <button class="add-to-cart" onclick="addToCart('Gezinspakket', 129, '🏠')">+ Voeg toe</button>
-        </div>
-      </div>
-
-      <!-- Pakket 2 -->
-      <div class="product-card">
-        <span class="product-badge badge-nieuw">Nieuw</span>
-        <div class="product-icon">🎒</div>
-        <div class="product-name">GO-BAG</div>
-        <div class="product-desc">Lichtgewicht rugzak voor snelle evacuatie. Bevat het absolute minimum om 72 uur te overleven onderweg.</div>
-        <ul class="product-includes">
-          <li>Compacte waterfilter + pureeringstabletten</li>
-          <li>Energierepen (2.000 kcal)</li>
-          <li>Kompas + noodfluit + paracord</li>
-          <li>Mini-EHBO-kit</li>
-          <li>Warmtedeken (folie)</li>
-          <li>Waterdichte 30L rugzak inbegrepen</li>
-        </ul>
-        <div class="product-footer">
-          <div class="product-price">€89 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Go-Bag', 89, '🎒')">+ Voeg toe</button>
-        </div>
-      </div>
-
-      <!-- Pakket 3 -->
-      <div class="product-card">
-        <span class="product-badge badge-populair">Populair</span>
-        <div class="product-icon">🏢</div>
-        <div class="product-name">BEDRIJFSPAKKET</div>
-        <div class="product-desc">Voor kantoren en KMO's. Compliance-ready pakket voor 10 medewerkers, inclusief AED-handleiding.</div>
-        <ul class="product-includes">
-          <li>Water &amp; voedsel voor 10 personen/72h</li>
-          <li>Professionele EHBO-koffer</li>
-          <li>Noodverlichting (LED, 12h)</li>
-          <li>Brandblussers-gids &amp; evacuatiekaart</li>
-          <li>Certificaat voor arbocontrole</li>
-          <li>Jaarlijkse hercontrole inbegrepen</li>
-        </ul>
-        <div class="product-footer">
-          <div class="product-price">€349 <span>/ set</span></div>
-          <button class="add-to-cart" onclick="addToCart('Bedrijfspakket', 349, '🏢')">+ Voeg toe</button>
-        </div>
-      </div>
-
+    <!-- CATEGORY FILTERS -->
+    <div class="cat-filters">
+      <button class="cat-btn active" onclick="filterCat('alle', this)">Alles</button>
+      <button class="cat-btn" onclick="filterCat('pakketten', this)">🎁 Pakketten</button>
+      <button class="cat-btn" onclick="filterCat('licht', this)">🔦 Licht &amp; Energie</button>
+      <button class="cat-btn" onclick="filterCat('ehbo', this)">💊 EHBO &amp; Gezondheid</button>
+      <button class="cat-btn" onclick="filterCat('gereedschap', this)">🔧 Gereedschap</button>
+      <button class="cat-btn" onclick="filterCat('overleving', this)">🎒 Overleving</button>
     </div>
+
+    <div class="products-grid" id="productGrid">
+
+      <!-- ══ PAKKETTEN ══ -->
+
+      <div class="product-card" data-cat="pakketten">
+        <span class="product-badge badge-bestseller">Meest gekozen</span>
+        <div class="product-icon">⭐</div>
+        <div class="product-name">PREMIUM PAKKET</div>
+        <div class="product-desc">Het meest complete noodpakket. Samengesteld op basis van officiële overheidsaanbevelingen voor 72 uur zelfstandigheid.</div>
+        <ul class="product-includes">
+          <li>Noodradio met zonnepaneel + powerbank + zaklamp (3-in-1)</li>
+          <li>Luxe zaklamp met zonnepaneel</li>
+          <li>4× dubbelzijdig nooddeken</li>
+          <li>EHBO-set 280 artikelen</li>
+          <li>4× aansteker + 120× lucifers</li>
+          <li>Multitool zakmes 12-in-1</li>
+          <li>Powerbank 10.000 mAh + USB-kabel</li>
+          <li>Draagbaar zonnepaneel 30W</li>
+          <li>Waterdichte opbergzak 20L</li>
+          <li>Reservebatterijen AA + AAA</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€149 <span>/ pakket</span></div>
+          <button class="add-to-cart" onclick="addToCart('Premium Pakket', 149, '⭐')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="pakketten">
+        <span class="product-badge badge-populair">Populair</span>
+        <div class="product-icon">🟡</div>
+        <div class="product-name">PLUS PAKKET</div>
+        <div class="product-desc">Een stap boven basis — met luxe zaklamp, extra aanstekers en waterdichte opbergzak. Ideaal voor 1–2 personen.</div>
+        <ul class="product-includes">
+          <li>Noodradio met batterijen</li>
+          <li>Luxe zaklamp met zonnepaneel</li>
+          <li>2× dubbelzijdig nooddeken</li>
+          <li>EHBO-set 280 artikelen</li>
+          <li>4× aansteker + 120× lucifers</li>
+          <li>Survival mes</li>
+          <li>Powerbank 2.200 mAh + USB-kabel</li>
+          <li>Draagbaar zonnepaneel 30W</li>
+          <li>Waterdichte opbergzak 20L</li>
+          <li>Reservebatterijen AA + AAA</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€133 <span>/ pakket</span></div>
+          <button class="add-to-cart" onclick="addToCart('Plus Pakket', 133, '🟡')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="pakketten">
+        <span class="product-badge badge-nieuw">Voordeligst</span>
+        <div class="product-icon">🔵</div>
+        <div class="product-name">BASIS PAKKET</div>
+        <div class="product-desc">Het essentiële startpakket. Alles wat je nodig hebt voor 72 uur — zonder extra's, wel volledig conform overheidsadvies.</div>
+        <ul class="product-includes">
+          <li>Noodradio met batterijen</li>
+          <li>Zaklamp met batterijen</li>
+          <li>2× dubbelzijdig nooddeken</li>
+          <li>EHBO-set 280 artikelen</li>
+          <li>2× aansteker + 60× lucifers</li>
+          <li>Survival mes</li>
+          <li>Powerbank 2.200 mAh + USB-kabel</li>
+          <li>Draagbaar zonnepaneel 30W</li>
+          <li>Reservebatterijen AA + AAA</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€105 <span>/ pakket</span></div>
+          <button class="add-to-cart" onclick="addToCart('Basis Pakket', 105, '🔵')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <!-- ══ LICHT & ENERGIE ══ -->
+
+      <div class="product-card" data-cat="licht">
+        <span class="product-badge badge-bestseller">Bestseller</span>
+        <div class="product-icon">📻</div>
+        <div class="product-name">NOODRADIO 3-IN-1</div>
+        <div class="product-desc">Noodradio met ingebouwd zonnepaneel, USB-powerbank én zaklamp. Werkt zonder stroom of batterijen.</div>
+        <ul class="product-includes">
+          <li>AM/FM + NOAA noodfrequenties</li>
+          <li>Opladen via zonnepaneel, handslinger of USB</li>
+          <li>Ingebouwde powerbank (laadt je gsm op)</li>
+          <li>LED zaklamp + SOS knipperstand</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€29,75 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Noodradio 3-in-1', 29.75, '📻')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="licht">
+        <div class="product-icon">📡</div>
+        <div class="product-name">NOODRADIO MET BATTERIJEN</div>
+        <div class="product-desc">Compacte noodradio voor AM/FM-ontvangst. Inclusief batterijen. Essentieel bij stroomuitval om nieuws te blijven volgen.</div>
+        <ul class="product-includes">
+          <li>AM/FM ontvangst</li>
+          <li>Compact formaat, lichtgewicht</li>
+          <li>Batterijen inbegrepen</li>
+          <li>Koptelefoonaansluiting</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€15,95 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Noodradio met batterijen', 15.95, '📡')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="licht">
+        <span class="product-badge badge-populair">Populair</span>
+        <div class="product-icon">🔦</div>
+        <div class="product-name">ZAKLAMP MET ZONNEPANEEL</div>
+        <div class="product-desc">Krachtige zaklamp die oplaadt via zonnepaneel én als powerbank voor je gsm werkt. Nooit meer zonder licht.</div>
+        <ul class="product-includes">
+          <li>Oplaadbaar via zonnepaneel of USB</li>
+          <li>Powerbank-functie voor gsm</li>
+          <li>3 standen: sterk / zwak / SOS</li>
+          <li>Waterdicht IPX4</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€24,50 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Zaklamp met zonnepaneel', 24.50, '🔦')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="licht">
+        <div class="product-icon">💡</div>
+        <div class="product-name">ZAKLAMP MET BATTERIJEN</div>
+        <div class="product-desc">Betrouwbare LED-zaklamp met heldere lichtbundel. Inclusief batterijen. Compact genoeg voor elke noodtas.</div>
+        <ul class="product-includes">
+          <li>Heldere LED-bundel (150 lumen)</li>
+          <li>Batterijen inbegrepen</li>
+          <li>Verstelbare zoom</li>
+          <li>Val- en spatwaterbestendig</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€11,50 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Zaklamp met batterijen', 11.50, '💡')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="licht">
+        <div class="product-icon">🔋</div>
+        <div class="product-name">POWERBANK 10.000 MAH</div>
+        <div class="product-desc">Grote capaciteit voor meerdere oplaadcycli. Houdt je gsm, radio of zaklamp meerdere dagen op spanning.</div>
+        <ul class="product-includes">
+          <li>10.000 mAh — laadt gsm 3–4× op</li>
+          <li>2× USB-uitgang</li>
+          <li>USB-C + micro-USB kabel inbegrepen</li>
+          <li>LED-indicator voor batterijniveau</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€19,70 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Powerbank 10.000 mAh', 19.70, '🔋')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="licht">
+        <div class="product-icon">⚡</div>
+        <div class="product-name">POWERBANK 2.200 MAH</div>
+        <div class="product-desc">Compact en licht — past in elke broekzak. Genoeg voor één volledige gsm-oplading in noodsituaties.</div>
+        <ul class="product-includes">
+          <li>2.200 mAh — 1× volledige gsm-oplading</li>
+          <li>USB-uitgang</li>
+          <li>USB-kabel inbegrepen</li>
+          <li>Ultralicht (60g)</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€8,50 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Powerbank 2.200 mAh', 8.50, '⚡')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="licht">
+        <div class="product-icon">☀️</div>
+        <div class="product-name">ZONNEPANEEL 30W</div>
+        <div class="product-desc">Draagbaar opvouwbaar zonnepaneel. Laadt powerbanks, telefoons en kleine apparaten op via zonne-energie.</div>
+        <ul class="product-includes">
+          <li>30W vermogen</li>
+          <li>Opvouwbaar en lichtgewicht</li>
+          <li>USB-A + USB-C uitgang</li>
+          <li>Bevestigingslussen voor rugzak</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€20,80 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Zonnepaneel 30W', 20.80, '☀️')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="licht">
+        <div class="product-icon">🔌</div>
+        <div class="product-name">BATTERIJEN AA + AAA (SET)</div>
+        <div class="product-desc">Langdurige alkaline batterijen. Essentieel reserve voor zaklamp, radio en andere noodapparatuur.</div>
+        <ul class="product-includes">
+          <li>8× AA batterijen</li>
+          <li>8× AAA batterijen</li>
+          <li>10 jaar houdbaarheid</li>
+          <li>Alkaline — hoge capaciteit</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€5,00 <span>/ set</span></div>
+          <button class="add-to-cart" onclick="addToCart('Batterijen AA+AAA set', 5.00, '🔌')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <!-- ══ EHBO & GEZONDHEID ══ -->
+
+      <div class="product-card" data-cat="ehbo">
+        <span class="product-badge badge-bestseller">Aanbevolen</span>
+        <div class="product-icon">🩺</div>
+        <div class="product-name">EHBO-SET 280 STUKS</div>
+        <div class="product-desc">Professionele EHBO-koffer met 280 artikelen. Conform Rode Kruis-standaard. Voldoende voor een heel gezin.</div>
+        <ul class="product-includes">
+          <li>Pleisters in 6 maten (120 stuks)</li>
+          <li>Verbandgaas, zwachtels, kompres</li>
+          <li>Ontsmettingsdoekjes + jodium</li>
+          <li>Schaar, pincet, veiligheidspennen</li>
+          <li>Nooddeken + handschoenen (2 paar)</li>
+          <li>Instructiekaart EHBO</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€28,00 <span>/ set</span></div>
+          <button class="add-to-cart" onclick="addToCart('EHBO-set 280 stuks', 28.00, '🩺')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="ehbo">
+        <div class="product-icon">🌡️</div>
+        <div class="product-name">DIGITALE THERMOMETER</div>
+        <div class="product-desc">Snelle en nauwkeurige lichaamstemperatuurmeting. Onmisbaar in een noodpakket voor gezinnen met kinderen.</div>
+        <ul class="product-includes">
+          <li>Resultaat in 10 seconden</li>
+          <li>Koortssignaal bij 37,5°C+</li>
+          <li>Geheugen voor laatste 10 metingen</li>
+          <li>Batterij inbegrepen</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€8,50 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Digitale thermometer', 8.50, '🌡️')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="ehbo">
+        <div class="product-icon">🦺</div>
+        <div class="product-name">NOODDEKEN DUBBELZIJDIG (4×)</div>
+        <div class="product-desc">Professionele reddingsdeken, dubbelzijdig: goud reflecteert warmte terug, zilver houdt koel. Compact opgevouwen.</div>
+        <ul class="product-includes">
+          <li>4 stuks per verpakking</li>
+          <li>160 × 210 cm per deken</li>
+          <li>Weerspiegelt 90% lichaamswarmte</li>
+          <li>Waterdicht en windbestendig</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€9,00 <span>/ 4 stuks</span></div>
+          <button class="add-to-cart" onclick="addToCart('Nooddeken 4×', 9.00, '🦺')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <!-- ══ GEREEDSCHAP ══ -->
+
+      <div class="product-card" data-cat="gereedschap">
+        <span class="product-badge badge-populair">Aanbevolen</span>
+        <div class="product-icon">🛠️</div>
+        <div class="product-name">MULTITOOL ZAKMES 12-IN-1</div>
+        <div class="product-desc">Zwitsers zakmes met 12 functies. Veilig, legaal en uiterst praktisch. Aangeraden boven een louter mes.</div>
+        <ul class="product-includes">
+          <li>Mes, schaar, vijl, schroevendraaier</li>
+          <li>Blikopener, kurketrekker, prik</li>
+          <li>Zaag, liniaal, nagelschaar</li>
+          <li>Roestvrij staal — levenslange garantie</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€29,50 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Multitool zakmes 12-in-1', 29.50, '🛠️')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="gereedschap">
+        <div class="product-icon">🔪</div>
+        <div class="product-name">SURVIVAL MES</div>
+        <div class="product-desc">Robuust kampeermes met vaste kling. Geschikt als gereedschap voor het snijden van touw, voedsel en materialen.</div>
+        <ul class="product-includes">
+          <li>Roestvrijstalen kling (15 cm)</li>
+          <li>Ergonomisch antislip handvat</li>
+          <li>Inclusief beschermhoes</li>
+          <li>Voldoet aan Belgische wetgeving (gereedschap)</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€12,00 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Survival mes', 12.00, '🔪')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <!-- ══ OVERLEVING ══ -->
+
+      <div class="product-card" data-cat="overleving">
+        <span class="product-badge badge-bestseller">Essentieel</span>
+        <div class="product-icon">🔥</div>
+        <div class="product-name">AANSTEKERS + LUCIFERS SET</div>
+        <div class="product-desc">Dubbele zekerheid: 4 aanstekers én 120 lucifers in waterdichte verpakking. Vuur maken in elke omstandigheid.</div>
+        <ul class="product-includes">
+          <li>4× gasaansteker (windbestendig)</li>
+          <li>120× lucifers in waterdichte doos</li>
+          <li>Compact formaat</li>
+          <li>Lang houdbaar opgeslagen</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€4,50 <span>/ set</span></div>
+          <button class="add-to-cart" onclick="addToCart('Aanstekers + lucifers set', 4.50, '🔥')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="overleving">
+        <div class="product-icon">🎒</div>
+        <div class="product-name">WATERDICHTE ZAK 20L</div>
+        <div class="product-desc">Droge en veilige opslag voor al je noodspullen. Zwem-, regen- en spatwaterdicht. Past alles van een noodpakket in.</div>
+        <ul class="product-includes">
+          <li>20 liter inhoud</li>
+          <li>Rolsluiting — 100% waterdicht</li>
+          <li>Draagriemen voor rugzak-gebruik</li>
+          <li>Reflecterende strips voor zichtbaarheid</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€22,00 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Waterdichte zak 20L', 22.00, '🎒')">+ Voeg toe</button>
+        </div>
+      </div>
+
+    </div><!-- end #productGrid -->
+
+    <!-- Geen resultaten melding -->
+    <div id="noResults" style="display:none; text-align:center; padding:4rem 0; color:var(--muted);">
+      <div style="font-size:2.5rem; margin-bottom:1rem;">🔍</div>
+      <div style="font-family:var(--font-head); font-size:1.5rem; letter-spacing:2px;">Geen producten gevonden</div>
+    </div>
+
   </section>
 
   <!-- WAAROM ONS -->
@@ -732,7 +1041,7 @@
     <p><strong>BTW-nummer (BE):</strong> BE [0000.000.000]</p>
     <p><strong>KBO-nummer:</strong> [0000.000.000]</p>
     <p><strong>KVK-nummer (NL):</strong> [00000000]</p>
-    <p><strong>E-mail:</strong> info@crisiskit.be</p>
+    <p><strong>E-mail:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c9a0a7afa689aabba0baa0baa2a0bde7abac">[email&#160;protected]</a></p>
     <p><strong>Telefoon:</strong> +32 [0]00 00 00 00</p>
     <p><strong>Verantwoordelijke uitgever:</strong> [Voornaam Naam]</p>
     <p><strong>Webhosting:</strong> Vercel Inc., 340 Pine Street Suite 701, San Francisco, CA 94104, VS</p>
@@ -745,7 +1054,7 @@
     <p><em>Laatste update: maart 2025 — conform AVG/GDPR (Verordening (EU) 2016/679)</em></p>
 
     <h4>1. Wie is verantwoordelijk voor uw gegevens?</h4>
-    <p>CrisisKit, [adres], BTW [nr], e-mail: info@crisiskit.be (hierna "wij" of "CrisisKit") is de verwerkingsverantwoordelijke voor uw persoonsgegevens.</p>
+    <p>CrisisKit, [adres], BTW [nr], e-mail: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e78e898188a784958e948e948c8e93c98582">[email&#160;protected]</a> (hierna "wij" of "CrisisKit") is de verwerkingsverantwoordelijke voor uw persoonsgegevens.</p>
 
     <h4>2. Welke gegevens verzamelen wij?</h4>
     <ul>
@@ -775,7 +1084,7 @@
     <p>Gegevensoverdracht buiten de EU vindt enkel plaats op basis van passende waarborgen (Standard Contractual Clauses).</p>
 
     <h4>6. Uw rechten</h4>
-    <p>U heeft het recht op inzage, correctie, wissing ("recht op vergetelheid"), beperking van de verwerking, dataportabiliteit en bezwaar. Stuur een e-mail naar: info@crisiskit.be. Wij reageren binnen 30 dagen. U kunt ook een klacht indienen bij:</p>
+    <p>U heeft het recht op inzage, correctie, wissing ("recht op vergetelheid"), beperking van de verwerking, dataportabiliteit en bezwaar. Stuur een e-mail naar: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9af3f4fcf5daf9e8f3e9f3e9f1f3eeb4f8ff">[email&#160;protected]</a>. Wij reageren binnen 30 dagen. U kunt ook een klacht indienen bij:</p>
     <ul>
       <li>🇧🇪 Gegevensbeschermingsautoriteit (GBA): gegevensbeschermingsautoriteit.be</li>
       <li>🇳🇱 Autoriteit Persoonsgegevens (AP): autoriteitpersoonsgegevens.nl</li>
@@ -790,7 +1099,7 @@
     <p><em>Van toepassing op alle bestellingen via crisiskit.be — versie 2025</em></p>
 
     <h4>1. Identiteit van de verkoper</h4>
-    <p>CrisisKit, [volledige naam/vennootschapsvorm], [adres], BTW [nr], KBO [nr], e-mail: info@crisiskit.be</p>
+    <p>CrisisKit, [volledige naam/vennootschapsvorm], [adres], BTW [nr], KBO [nr], e-mail: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b0d9ded6dff0d3c2d9c3d9c3dbd9c49ed2d5">[email&#160;protected]</a></p>
 
     <h4>2. Toepasselijkheid</h4>
     <p>Deze voorwaarden zijn van toepassing op alle bestellingen die consumenten en ondernemingen plaatsen via onze website. Door een bestelling te plaatsen aanvaardt u deze voorwaarden. Voor Belgische consumenten gelden aanvullend de bepalingen van het Wetboek Economisch Recht (Boek VI). Voor Nederlandse consumenten gelden aanvullend de bepalingen van Boek 7 BW.</p>
@@ -814,10 +1123,10 @@
     <p>Als consument heeft u het recht om uw aankoop zonder opgave van reden te annuleren binnen <strong>14 kalenderdagen</strong> na ontvangst van de goederen. Zie ons aparte herroepingsbeleid voor de volledige procedure en het modelformulier.</p>
 
     <h4>7. Garantie</h4>
-    <p>Alle producten vallen onder de wettelijke garantie: 2 jaar voor Belgische consumenten (art. 1649bis BW), 2 jaar voor Nederlandse consumenten (art. 7:17 BW). Bij gebreken neemt u contact op via info@crisiskit.be.</p>
+    <p>Alle producten vallen onder de wettelijke garantie: 2 jaar voor Belgische consumenten (art. 1649bis BW), 2 jaar voor Nederlandse consumenten (art. 7:17 BW). Bij gebreken neemt u contact op via <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0d64636b624d6e7f647e647e666479236f68">[email&#160;protected]</a>.</p>
 
     <h4>8. Klachten en geschillenbeslechting</h4>
-    <p>Klachten kunt u melden via info@crisiskit.be. Wij streven naar een oplossing binnen 14 werkdagen. U kunt ook terecht bij:</p>
+    <p>Klachten kunt u melden via <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="caa3a4aca58aa9b8a3b9a3b9a1a3bee4a8af">[email&#160;protected]</a>. Wij streven naar een oplossing binnen 14 werkdagen. U kunt ook terecht bij:</p>
     <ul>
       <li>🇧🇪 Consumentenombudsdienst: consumentenombudsdienst.be</li>
       <li>🇳🇱 Geschillencommissie Webshop: sgc.nl</li>
@@ -839,7 +1148,7 @@
     <p>U heeft het recht om de overeenkomst zonder opgave van reden te herroepen binnen <strong>14 kalenderdagen</strong> na de dag waarop u (of een door u aangewezen derde) de goederen fysiek in bezit heeft gekregen.</p>
 
     <h4>Hoe herroept u?</h4>
-    <p>U kunt gebruik maken van het onderstaande modelformulier of uw beslissing duidelijk schriftelijk meedelen via info@crisiskit.be. Na uw melding heeft u nog 14 dagen om de goederen terug te sturen.</p>
+    <p>U kunt gebruik maken van het onderstaande modelformulier of uw beslissing duidelijk schriftelijk meedelen via <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="224b4c444d6241504b514b51494b560c4047">[email&#160;protected]</a>. Na uw melding heeft u nog 14 dagen om de goederen terug te sturen.</p>
 
     <h4>Terugbetaling</h4>
     <p>Wij betalen het aankoopbedrag én de oorspronkelijke standaard verzendkosten terug binnen <strong>14 dagen</strong> na ontvangst van de geretourneerde goederen of bewijs van terugzending — afhankelijk van wat het eerst plaatsvindt. Terugbetaling via hetzelfde betaalmiddel als de originele transactie.</p>
@@ -856,7 +1165,7 @@
 
     <h4>— Modelformulier voor herroeping —</h4>
     <div style="border:1px solid #333;padding:1.2rem;margin-top:1rem;font-size:.88rem;">
-      <p>Aan: CrisisKit, [adres], info@crisiskit.be</p>
+      <p>Aan: CrisisKit, [adres], <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4920272f26092a3b203a203a22203d672b2c">[email&#160;protected]</a></p>
       <p>Ik/Wij (*) deel/delen (*) u hierbij mede dat ik/wij (*) onze overeenkomst betreffende de verkoop van de volgende goederen herroep/herroepen (*):</p>
       <p>Besteld op (*) / ontvangen op (*):</p>
       <p>Naam/Namen consument(en):</p>
@@ -1246,78 +1555,62 @@
   </style>
 
   <script>
-    // ══════════════════════════════════
-    // CART DATA
-    // ══════════════════════════════════
-    let cart = [];  // Array van { id, name, price, icon, qty }
+    'use strict';
 
-    // ══════════════════════════════════
-    // CART OPEN / SLUIT
-    // ══════════════════════════════════
-    function openCart() {
+    // ══ CART DATA ══
+    let cart = [];
+
+    // ══ CART OPEN / SLUIT ══
+    window.openCart = function() {
       document.getElementById('cartDrawer').classList.add('open');
       document.getElementById('cartOverlay').classList.add('open');
       document.body.style.overflow = 'hidden';
-    }
-    function closeCart() {
+    };
+    window.closeCart = function() {
       document.getElementById('cartDrawer').classList.remove('open');
       document.getElementById('cartOverlay').classList.remove('open');
       document.body.style.overflow = '';
-    }
+    };
 
-    // ══════════════════════════════════
-    // PRODUCT TOEVOEGEN
-    // ══════════════════════════════════
-    function addToCart(name, price, icon) {
+    // ══ PRODUCT TOEVOEGEN ══
+    window.addToCart = function(name, price, icon) {
       const existing = cart.find(i => i.name === name);
-      if (existing) {
-        existing.qty++;
-      } else {
-        cart.push({ name, price, icon, qty: 1 });
-      }
+      if (existing) { existing.qty++; }
+      else { cart.push({ name, price, icon, qty: 1 }); }
       renderCart();
       updateBadge();
       showToast(name);
-    }
+    };
 
-    // ══════════════════════════════════
-    // HOEVEELHEID AANPASSEN
-    // ══════════════════════════════════
-    function changeQty(name, delta) {
+    // ══ HOEVEELHEID ══
+    window.changeQty = function(name, delta) {
       const item = cart.find(i => i.name === name);
       if (!item) return;
       item.qty += delta;
       if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
       renderCart();
       updateBadge();
-    }
-
-    function removeItem(name) {
+    };
+    window.removeItem = function(name) {
       cart = cart.filter(i => i.name !== name);
       renderCart();
       updateBadge();
-    }
+    };
 
-    // ══════════════════════════════════
-    // MANDJE TEKENEN
-    // ══════════════════════════════════
+    // ══ MANDJE RENDEREN ══
     function renderCart() {
-      const emptyEl   = document.getElementById('cartEmpty');
-      const itemsEl   = document.getElementById('cartItems');
-      const footerEl  = document.getElementById('cartFooter');
-
+      const emptyEl  = document.getElementById('cartEmpty');
+      const itemsEl  = document.getElementById('cartItems');
+      const footerEl = document.getElementById('cartFooter');
       if (cart.length === 0) {
         emptyEl.style.display  = 'flex';
         itemsEl.style.display  = 'none';
         footerEl.style.display = 'none';
         return;
       }
-
       emptyEl.style.display  = 'none';
       itemsEl.style.display  = 'flex';
       footerEl.style.display = 'block';
-
-      // Items renderen
       itemsEl.innerHTML = cart.map(item => `
         <div class="cart-item">
           <div class="cart-item-icon">${item.icon}</div>
@@ -1333,161 +1626,148 @@
           <button class="remove-btn" onclick="removeItem('${item.name}')" title="Verwijderen">🗑</button>
         </div>
       `).join('');
-
-      // Totalen berekenen
       const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
       const shipping = subtotal >= 75 ? 0 : 6.95;
       const total    = subtotal + shipping;
-
-      document.getElementById('summarySubtotal').textContent =
-        '€' + subtotal.toFixed(2).replace('.', ',');
-      document.getElementById('summaryShipping').textContent =
-        shipping === 0 ? 'Gratis' : '€' + shipping.toFixed(2).replace('.', ',');
-      document.getElementById('summaryTotal').textContent =
-        '€' + total.toFixed(2).replace('.', ',');
+      document.getElementById('summarySubtotal').textContent = '€' + subtotal.toFixed(2).replace('.', ',');
+      document.getElementById('summaryShipping').textContent = shipping === 0 ? 'Gratis' : '€' + shipping.toFixed(2).replace('.', ',');
+      document.getElementById('summaryTotal').textContent    = '€' + total.toFixed(2).replace('.', ',');
     }
 
-    // ══════════════════════════════════
-    // BADGE BIJWERKEN
-    // ══════════════════════════════════
+    // ══ BADGE ══
     function updateBadge() {
-      const total = cart.reduce((s, i) => s + i.qty, 0);
-      document.getElementById('cartCount').textContent = total;
+      document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.qty, 0);
     }
 
-    // ══════════════════════════════════
-    // TOAST MELDING
-    // ══════════════════════════════════
+    // ══ TOAST ══
     function showToast(name) {
       const t = document.getElementById('toast');
-      t.textContent = `✓ ${name} toegevoegd!`;
+      t.textContent = '✓ ' + name + ' toegevoegd!';
       t.style.transform = 'translateY(0)';
       t.style.opacity   = '1';
       clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(() => {
+      window._toastTimer = setTimeout(function() {
         t.style.transform = 'translateY(100px)';
         t.style.opacity   = '0';
       }, 2500);
     }
 
-    // ══════════════════════════════════════════
-    // BESTELLING PLAATSEN (met AV-validatie)
-    // ══════════════════════════════════════════
-    function placeOrder() {
-      const fields = ['fNaam','fEmail','fStraat','fPostcode','fStad','fLand'];
-      let valid = true;
-      fields.forEach(id => {
-        const el = document.getElementById(id);
+    // ══ BESTELLING PLAATSEN ══
+    window.placeOrder = function() {
+      var fields = ['fNaam','fEmail','fStraat','fPostcode','fStad','fLand'];
+      var valid = true;
+      fields.forEach(function(id) {
+        var el = document.getElementById(id);
         if (!el.value.trim()) {
           el.classList.add('error');
-          setTimeout(() => el.classList.remove('error'), 2000);
+          setTimeout(function() { el.classList.remove('error'); }, 2000);
           valid = false;
         } else { el.classList.remove('error'); }
       });
-      const emailEl = document.getElementById('fEmail');
-      if (emailEl.value && !emailEl.value.includes('@')) {
-        emailEl.classList.add('error'); valid = false;
-      }
-      // Verplichte checkboxes controleren
-      const akkoord   = document.getElementById('fAkkoord');
-      const herroep   = document.getElementById('fHerroeping');
+      var emailEl = document.getElementById('fEmail');
+      if (emailEl.value && !emailEl.value.includes('@')) { emailEl.classList.add('error'); valid = false; }
+      var akkoord = document.getElementById('fAkkoord');
+      var herroep = document.getElementById('fHerroeping');
       if (!akkoord.checked) {
         akkoord.parentElement.style.color = '#c0392b';
-        setTimeout(() => akkoord.parentElement.style.color = '', 2000);
+        setTimeout(function() { akkoord.parentElement.style.color = ''; }, 2000);
         valid = false;
       }
       if (!herroep.checked) {
         herroep.parentElement.style.color = '#c0392b';
-        setTimeout(() => herroep.parentElement.style.color = '', 2000);
+        setTimeout(function() { herroep.parentElement.style.color = ''; }, 2000);
         valid = false;
       }
       if (!valid) return;
-
-      const orderNr = 'CK-' + Date.now().toString().slice(-6);
+      var orderNr = 'CK-' + Date.now().toString().slice(-6);
       document.getElementById('confirmEmail').textContent = document.getElementById('fEmail').value;
       document.getElementById('confirmNr').textContent    = 'Bestelnummer: ' + orderNr;
       document.getElementById('confirmOverlay').classList.add('open');
-
       cart = [];
       renderCart();
       updateBadge();
-      closeCart();
-    }
+      window.closeCart();
+    };
 
-    function closeConfirm() {
+    window.closeConfirm = function() {
       document.getElementById('confirmOverlay').classList.remove('open');
-    }
+    };
 
-    // ══════════════════════════════════════════
-    // COOKIE BANNER
-    // ══════════════════════════════════════════
-    function initCookieBanner() {
-      if (!localStorage.getItem('ck_cookie_consent')) {
-        setTimeout(() => document.getElementById('cookieBanner').classList.add('show'), 1200);
-      }
-    }
-    function setCookieConsent(level) {
+    // ══ COOKIE BANNER ══
+    window.setCookieConsent = function(level) {
       localStorage.setItem('ck_cookie_consent', level);
       document.getElementById('cookieBanner').classList.remove('show');
-    }
-    function resetCookieConsent() {
+    };
+    window.resetCookieConsent = function() {
       localStorage.removeItem('ck_cookie_consent');
       document.getElementById('cookieBanner').classList.add('show');
-      closeLegal();
-    }
-    initCookieBanner();
-
-    // ══════════════════════════════════════════
-    // JURIDISCHE MODALS
-    // ══════════════════════════════════════════
-    const legalTitles = {
-      impressum:    'Impressum',
-      privacy:      'Privacybeleid',
-      voorwaarden:  'Algemene Voorwaarden',
-      herroeping:   'Herroepingsrecht',
-      cookies:      'Cookiebeleid',
+      window.closeLegal();
     };
-    function openLegal(page) {
-      const tpl = document.getElementById('tpl-' + page);
+
+    // ══ JURIDISCHE MODALS ══
+    var legalTitles = {
+      impressum:   'Impressum',
+      privacy:     'Privacybeleid',
+      voorwaarden: 'Algemene Voorwaarden',
+      herroeping:  'Herroepingsrecht',
+      cookies:     'Cookiebeleid'
+    };
+    window.openLegal = function(page) {
+      var tpl = document.getElementById('tpl-' + page);
       if (!tpl) return;
       document.getElementById('legalTitle').textContent = legalTitles[page] || page;
       document.getElementById('legalBody').innerHTML = tpl.innerHTML;
       document.getElementById('legalOverlay').classList.add('open');
       document.getElementById('legalModal').classList.add('open');
       document.body.style.overflow = 'hidden';
-    }
-    function closeLegal() {
+    };
+    window.closeLegal = function() {
       document.getElementById('legalOverlay').classList.remove('open');
       document.getElementById('legalModal').classList.remove('open');
       document.body.style.overflow = '';
-    }
+    };
 
-    // ══════════════════════════════════
-    // SCROLL REVEAL (van stap 1)
-    // ══════════════════════════════════
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => observer.observe(el));
+    // ══ CATEGORIE FILTER ══
+    window.filterCat = function(cat, btn) {
+      document.querySelectorAll('.cat-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var cards = document.querySelectorAll('#productGrid .product-card');
+      var zichtbaar = 0;
+      cards.forEach(function(card) {
+        var match = cat === 'alle' || card.dataset.cat === cat;
+        card.classList.toggle('hidden', !match);
+        if (match) zichtbaar++;
+      });
+      document.getElementById('noResults').style.display = zichtbaar === 0 ? 'block' : 'none';
+    };
 
-    // ══════════════════════════════════
-    // NIEUWSBRIEF
-    // ══════════════════════════════════
-    function subscribeNewsletter() {
-      const input = document.getElementById('emailInput');
+    // ══ NIEUWSBRIEF ══
+    window.subscribeNewsletter = function() {
+      var input = document.getElementById('emailInput');
       if (!input.value.includes('@')) {
         input.style.borderColor = '#8b2e2e';
-        setTimeout(() => input.style.borderColor = '', 1500);
+        setTimeout(function() { input.style.borderColor = ''; }, 1500);
         return;
       }
       document.getElementById('nl-success').style.display = 'block';
       input.value = '';
       input.disabled = true;
       document.querySelector('.newsletter-btn').disabled = true;
-    }
+    };
+
+    // ══ INIT ══
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('ck_cookie_consent')) {
+        setTimeout(function() {
+          document.getElementById('cookieBanner').classList.add('show');
+        }, 1200);
+      }
+      var reveals = document.querySelectorAll('.reveal');
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.1 });
+      reveals.forEach(function(el) { observer.observe(el); });
+    });
   </script>
 </body>
 </html>
-
-
