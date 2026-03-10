@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrisisKit — Altijd Voorbereid</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #0a0a0a;
+      --dark:    #111111;
+      --card:    #181818;
+      --border:  #2a2a2a;
+      --muted:   #555;
+      --light:   #c8c8c8;
+      --white:   #f0ede8;
+      --accent:  #d4a853;   /* warm amber — urgency without aggression */
+      --accent2: #8b2e2e;   /* deep red for badges */
+      --font-head: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .5;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 68px;
+      background: rgba(10,10,10,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--light); text-decoration: none;
+      font-size: .9rem; font-weight: 500; letter-spacing: .5px;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cart {
+      display: flex; align-items: center; gap: .5rem;
+      background: var(--accent); color: var(--black);
+      border: none; padding: .5rem 1.2rem;
+      font-family: var(--font-body); font-weight: 600; font-size: .9rem;
+      cursor: pointer; letter-spacing: .5px;
+      transition: opacity .2s;
+    }
+    .nav-cart:hover { opacity: .85; }
+    .cart-count {
+      background: var(--black); color: var(--accent);
+      border-radius: 50%; width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 5% 8vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(10,10,10,.2) 0%, rgba(10,10,10,.85) 70%, var(--black) 100%),
+        linear-gradient(135deg, #1a1008 0%, #0a0a0a 50%, #0d0a0a 100%);
+    }
+    /* Decorative grid */
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(212,168,83,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,168,83,.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(212,168,83,.12);
+      border: 1px solid rgba(212,168,83,.3);
+      color: var(--accent);
+      padding: .4rem 1rem;
+      font-size: .8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      position: relative; z-index: 1;
+      animation: fadeUp .8s ease both;
+    }
+    .hero-badge::before { content: '⬡'; font-size: .7rem; }
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: .92;
+      letter-spacing: 4px;
+      color: var(--white);
+      position: relative; z-index: 1;
+      animation: fadeUp .8s .15s ease both;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+      display: block;
+    }
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 1.1rem; font-weight: 300;
+      color: var(--light); max-width: 540px;
+      position: relative; z-index: 1;
+      animation: fadeUp .8s .3s ease both;
+    }
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin-top: 2.5rem;
+      position: relative; z-index: 1;
+      animation: fadeUp .8s .45s ease both;
+    }
+    .btn-primary {
+      background: var(--accent); color: var(--black);
+      padding: 1rem 2.4rem;
+      font-family: var(--font-body); font-weight: 700; font-size: 1rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      border: none; cursor: pointer; text-decoration: none;
+      display: inline-block;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(212,168,83,.4);
+    }
+    .btn-secondary {
+      background: transparent; color: var(--white);
+      padding: 1rem 2.4rem;
+      font-family: var(--font-body); font-weight: 500; font-size: 1rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      border: 1px solid var(--border); cursor: pointer; text-decoration: none;
+      display: inline-block;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-stats {
+      display: flex; gap: 3rem; flex-wrap: wrap;
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      position: relative; z-index: 1;
+      animation: fadeUp .8s .6s ease both;
+    }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 2.5rem; color: var(--accent); letter-spacing: 2px;
+    }
+    .stat-label { font-size: .8rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 7rem 5%; }
+    .section-label {
+      font-size: .75rem; font-weight: 600; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: 2px; line-height: 1;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--light); font-weight: 300;
+      max-width: 500px; margin-bottom: 3rem;
+    }
+
+    /* ── PRODUCTS ── */
+    #producten { background: var(--dark); }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5px;
+      background: var(--border);
+    }
+    .product-card {
+      background: var(--card);
+      padding: 2.5rem;
+      display: flex; flex-direction: column;
+      cursor: pointer;
+      transition: background .25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-card::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s ease;
+    }
+    .product-card:hover { background: #1e1e1e; }
+    .product-card:hover::before { transform: scaleX(1); }
+
+    .product-badge {
+      display: inline-block;
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: .25rem .7rem;
+      margin-bottom: 1.5rem;
+      width: fit-content;
+    }
+    .badge-bestseller { background: var(--accent); color: var(--black); }
+    .badge-nieuw { background: var(--accent2); color: var(--white); }
+    .badge-populair { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+
+    .product-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .product-name {
+      font-family: var(--font-head);
+      font-size: 1.8rem; letter-spacing: 2px;
+      color: var(--white); margin-bottom: .5rem;
+    }
+    .product-desc {
+      font-size: .9rem; color: var(--light); font-weight: 300;
+      margin-bottom: 1.5rem; flex: 1;
+    }
+    .product-includes {
+      list-style: none; margin-bottom: 2rem;
+    }
+    .product-includes li {
+      font-size: .83rem; color: var(--muted);
+      padding: .3rem 0;
+      border-bottom: 1px solid #222;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .product-includes li::before { content: '—'; color: var(--accent); font-size: .7rem; }
+    .product-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: auto;
+    }
+    .product-price {
+      font-family: var(--font-head);
+      font-size: 2rem; color: var(--accent); letter-spacing: 1px;
+    }
+    .product-price span { font-size: .85rem; color: var(--muted); font-family: var(--font-body); font-weight: 300; }
+    .add-to-cart {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--white);
+      padding: .6rem 1.2rem;
+      font-size: .85rem; font-weight: 600;
+      cursor: pointer; letter-spacing: 1px;
+      transition: all .2s;
+    }
+    .add-to-cart:hover {
+      background: var(--accent); color: var(--black);
+      border-color: var(--accent);
+    }
+
+    /* ── WHY US ── */
+    #waarom { background: var(--black); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2px;
+      background: var(--border);
+      margin-top: 3rem;
+    }
+    .why-card {
+      background: var(--black);
+      padding: 2.5rem 2rem;
+      transition: background .2s;
+    }
+    .why-card:hover { background: var(--card); }
+    .why-icon {
+      font-size: 2rem; margin-bottom: 1.2rem;
+      display: block;
+    }
+    .why-title {
+      font-family: var(--font-head);
+      font-size: 1.4rem; letter-spacing: 2px;
+      color: var(--white); margin-bottom: .6rem;
+    }
+    .why-text { font-size: .9rem; color: var(--muted); font-weight: 300; line-height: 1.7; }
+
+    /* ── NEWSLETTER ── */
+    #nieuwsbrief {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .newsletter-inner {
+      max-width: 640px;
+    }
+    .newsletter-form {
+      display: flex; gap: 0;
+      margin-top: 2rem;
+    }
+    .newsletter-input {
+      flex: 1;
+      background: var(--black);
+      border: 1px solid var(--border);
+      border-right: none;
+      color: var(--white);
+      padding: 1rem 1.5rem;
+      font-family: var(--font-body); font-size: 1rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .newsletter-input::placeholder { color: var(--muted); }
+    .newsletter-input:focus { border-color: var(--accent); }
+    .newsletter-btn {
+      background: var(--accent); color: var(--black);
+      border: none; padding: 1rem 2rem;
+      font-family: var(--font-body); font-weight: 700;
+      font-size: .95rem; letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; white-space: nowrap;
+      transition: opacity .2s;
+    }
+    .newsletter-btn:hover { opacity: .85; }
+    .newsletter-note {
+      font-size: .78rem; color: var(--muted);
+      margin-top: .8rem;
+    }
+    #nl-success {
+      display: none;
+      margin-top: 1rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 3rem 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo {
+      font-family: var(--font-head);
+      font-size: 1.5rem; letter-spacing: 3px; color: var(--white);
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-links a {
+      font-size: .82rem; color: var(--muted);
+      text-decoration: none; letter-spacing: .5px;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-size: .78rem; color: var(--muted); }
+
+    /* ── CART TOAST ── */
+    #toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--accent); color: var(--black);
+      padding: 1rem 1.8rem;
+      font-weight: 700; font-size: .9rem; letter-spacing: 1px;
+      transform: translateY(100px); opacity: 0;
+      transition: all .4s cubic-bezier(.34,1.56,.64,1);
+      z-index: 200;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-stats { gap: 1.5rem; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-input { border-right: 1px solid var(--border); border-bottom: none; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a class="nav-logo" href="#">CRISIS<span>KIT</span></a>
+    <ul class="nav-links">
+      <li><a href="#producten">Producten</a></li>
+      <li><a href="#waarom">Waarom ons</a></li>
+      <li><a href="#nieuwsbrief">Contact</a></li>
+    </ul>
+    <button class="nav-cart" onclick="openCart()">
+      🛒 Mandje <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-badge">Officieel leverancier — BE &amp; NL</div>
+    <h1>ALTIJD<em>VOORBEREID.</em></h1>
+    <p class="hero-sub">
+      Professionele noodpakketten voor gezinnen, bedrijven en professionals.
+      Samengesteld door experts. Klaar voor elke crisis.
+    </p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#producten">Bekijk pakketten</a>
+      <a class="btn-secondary" href="#waarom">Waarom CrisisKit?</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">4.800+</div>
+        <div class="stat-label">Tevreden klanten</div>
+      </div>
+      <div>
+        <div class="stat-num">72h</div>
+        <div class="stat-label">Overlevingstijd per pakket</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">CE-gecertificeerd</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTEN -->
+  <section id="producten">
+    <div class="section-label">Ons assortiment</div>
+    <h2 class="section-title">UITGELICHTE PAKKETTEN</h2>
+    <p class="section-sub">Elk pakket is samengesteld op basis van officiële richtlijnen van het Rode Kruis en nationale overheidsadviezen.</p>
+
+    <div class="products-grid reveal">
+
+      <!-- Pakket 1 -->
+      <div class="product-card">
+        <span class="product-badge badge-bestseller">Bestseller</span>
+        <div class="product-icon">🏠</div>
+        <div class="product-name">GEZINSPAKKET</div>
+        <div class="product-desc">Het complete startpakket voor een gezin van 4 personen. Goed voor 72 uur volledige zelfstandigheid.</div>
+        <ul class="product-includes">
+          <li>4× drinkwater (1,5L per persoon/dag)</li>
+          <li>Noodrantsoenen voor 3 dagen</li>
+          <li>EHBO-set (50 stuks)</li>
+          <li>Zaklamp + reservebatterijen</li>
+          <li>Nooddeken, fluitje &amp; handschoenen</li>
+          <li>Waterdichte instructiegids</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€129 <span>/ pakket</span></div>
+          <button class="add-to-cart" onclick="addToCart('Gezinspakket', 129, '🏠')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <!-- Pakket 2 -->
+      <div class="product-card">
+        <span class="product-badge badge-nieuw">Nieuw</span>
+        <div class="product-icon">🎒</div>
+        <div class="product-name">GO-BAG</div>
+        <div class="product-desc">Lichtgewicht rugzak voor snelle evacuatie. Bevat het absolute minimum om 72 uur te overleven onderweg.</div>
+        <ul class="product-includes">
+          <li>Compacte waterfilter + pureeringstabletten</li>
+          <li>Energierepen (2.000 kcal)</li>
+          <li>Kompas + noodfluit + paracord</li>
+          <li>Mini-EHBO-kit</li>
+          <li>Warmtedeken (folie)</li>
+          <li>Waterdichte 30L rugzak inbegrepen</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€89 <span>/ stuk</span></div>
+          <button class="add-to-cart" onclick="addToCart('Go-Bag', 89, '🎒')">+ Voeg toe</button>
+        </div>
+      </div>
+
+      <!-- Pakket 3 -->
+      <div class="product-card">
+        <span class="product-badge badge-populair">Populair</span>
+        <div class="product-icon">🏢</div>
+        <div class="product-name">BEDRIJFSPAKKET</div>
+        <div class="product-desc">Voor kantoren en KMO's. Compliance-ready pakket voor 10 medewerkers, inclusief AED-handleiding.</div>
+        <ul class="product-includes">
+          <li>Water &amp; voedsel voor 10 personen/72h</li>
+          <li>Professionele EHBO-koffer</li>
+          <li>Noodverlichting (LED, 12h)</li>
+          <li>Brandblussers-gids &amp; evacuatiekaart</li>
+          <li>Certificaat voor arbocontrole</li>
+          <li>Jaarlijkse hercontrole inbegrepen</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€349 <span>/ set</span></div>
+          <button class="add-to-cart" onclick="addToCart('Bedrijfspakket', 349, '🏢')">+ Voeg toe</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WAAROM ONS -->
+  <section id="waarom">
+    <div class="section-label">Onze beloftes</div>
+    <h2 class="section-title">WAAROM CRISISKIT?</h2>
+    <p class="section-sub">Wij leveren geen goedkope catalogusproducten. Elk pakket wordt handmatig gecontroleerd voor verzending.</p>
+
+    <div class="why-grid reveal">
+      <div class="why-card">
+        <span class="why-icon">✅</span>
+        <div class="why-title">CE-GECERTIFICEERD</div>
+        <div class="why-text">Alle producten voldoen aan Europese veiligheidsnormen. Geen grijze import, geen goedkope vervangers.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🚚</span>
+        <div class="why-title">GRATIS VERZENDING</div>
+        <div class="why-text">Gratis levering in België en Nederland bij bestellingen vanaf €75. Verzending binnen 2 werkdagen.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🔄</span>
+        <div class="why-title">30 DAGEN RETOUR</div>
+        <div class="why-text">Niet tevreden? Stuur je pakket ongebruikt terug binnen 30 dagen voor een volledige terugbetaling.</div>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">📞</span>
+        <div class="why-title">EXPERT SUPPORT</div>
+        <div class="why-text">Onze crisisexperts helpen je het juiste pakket kiezen. Bereikbaar via chat, mail en telefoon.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NIEUWSBRIEF -->
+  <section id="nieuwsbrief">
+    <div class="newsletter-inner reveal">
+      <div class="section-label">Blijf op de hoogte</div>
+      <h2 class="section-title">NOODTIPS IN JE INBOX</h2>
+      <p class="section-sub">Schrijf je in en ontvang maandelijks gratis tips over crisisvoorbereiding, acties en nieuwe producten.</p>
+      <div class="newsletter-form">
+        <input class="newsletter-input" type="email" id="emailInput" placeholder="jouw@emailadres.be" />
+        <button class="newsletter-btn" onclick="subscribeNewsletter()">Inschrijven</button>
+      </div>
+      <div class="newsletter-note">🔒 Geen spam. Uitschrijven kan altijd. AVG/GDPR-conform.</div>
+      <div id="nl-success">✓ Bedankt! Je ontvangt binnenkort een bevestiging.</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">CRISIS<span>KIT</span></div>
+    <div class="footer-links">
+      <a href="#">Privacy­beleid</a>
+      <a href="#">Algemene voorwaarden</a>
+      <a href="#">Leveringsinfo</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025 CrisisKit — BE &amp; NL</div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════
+       WINKELMANDJE ZIJPANEEL
+  ══════════════════════════════════════════ -->
+  <div id="cartOverlay" onclick="closeCart()"></div>
+
+  <div id="cartDrawer">
+    <div class="cart-header">
+      <div class="cart-title">JOUW MANDJE</div>
+      <button class="cart-close" onclick="closeCart()">✕</button>
+    </div>
+
+    <!-- Lege staat -->
+    <div id="cartEmpty" class="cart-empty">
+      <div class="cart-empty-icon">🛒</div>
+      <div class="cart-empty-title">Je mandje is leeg</div>
+      <div class="cart-empty-sub">Voeg een pakket toe om te beginnen.</div>
+      <button class="btn-primary" style="margin-top:1.5rem;width:100%;text-align:center;" onclick="closeCart()">Bekijk pakketten</button>
+    </div>
+
+    <!-- Items lijst -->
+    <div id="cartItems" class="cart-items"></div>
+
+    <!-- Samenvatting + bestelformulier -->
+    <div id="cartFooter" class="cart-footer" style="display:none;">
+      <div class="cart-summary">
+        <div class="summary-row"><span>Subtotaal</span><span id="summarySubtotal">€0</span></div>
+        <div class="summary-row"><span>Verzending</span><span id="summaryShipping">Gratis</span></div>
+        <div class="summary-row summary-total"><span>TOTAAL</span><span id="summaryTotal">€0</span></div>
+        <div class="summary-vat">Inclusief BTW (21%)</div>
+      </div>
+
+      <!-- Bestelformulier -->
+      <div class="order-form">
+        <div class="form-label">AFLEVERGEGEVENS</div>
+        <div class="form-row">
+          <input class="form-input" id="fNaam" type="text" placeholder="Volledige naam *" />
+          <input class="form-input" id="fEmail" type="email" placeholder="E-mailadres *" />
+        </div>
+        <input class="form-input" id="fStraat" type="text" placeholder="Straat + huisnummer *" style="margin-bottom:.6rem;" />
+        <div class="form-row">
+          <input class="form-input" id="fPostcode" type="text" placeholder="Postcode *" />
+          <input class="form-input" id="fStad" type="text" placeholder="Stad *" />
+        </div>
+        <select class="form-input form-select" id="fLand" style="margin-bottom:.6rem;">
+          <option value="">Land kiezen *</option>
+          <option value="BE">🇧🇪 België</option>
+          <option value="NL">🇳🇱 Nederland</option>
+        </select>
+        <textarea class="form-input" id="fOpmerking" placeholder="Opmerking (optioneel)" rows="2" style="resize:none;margin-bottom:1rem;"></textarea>
+
+        <div class="form-label" style="margin-top:.5rem;">BETAALMETHODE</div>
+        <div class="pay-options">
+          <label class="pay-option">
+            <input type="radio" name="betaal" value="bancontact" checked />
+            <span>💳 Bancontact</span>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="betaal" value="ideal" />
+            <span>🏦 iDEAL</span>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="betaal" value="visa" />
+            <span>💳 Visa / Mastercard</span>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="betaal" value="paypal" />
+            <span>🅿️ PayPal</span>
+          </label>
+        </div>
+
+        <button class="btn-order" onclick="placeOrder()">
+          🔒 BESTELLING PLAATSEN
+        </button>
+        <div class="order-note">Veilige verbinding · AVG-conform · 30 dagen retour</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bestelbevestiging overlay -->
+  <div id="confirmOverlay">
+    <div class="confirm-box">
+      <div class="confirm-icon">✅</div>
+      <div class="confirm-title">BESTELLING ONTVANGEN!</div>
+      <div class="confirm-sub">Bedankt voor je bestelling. Je ontvangt binnen enkele minuten een bevestigingsmail op <strong id="confirmEmail"></strong>.</div>
+      <div class="confirm-nr" id="confirmNr"></div>
+      <button class="btn-primary" style="margin-top:2rem;width:100%;" onclick="closeConfirm()">Terug naar de winkel</button>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast">✓ Toegevoegd aan mandje!</div>
+
+  <style>
+    /* ══ CART OVERLAY ══ */
+    #cartOverlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.7);
+      z-index: 300;
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s;
+      backdrop-filter: blur(4px);
+    }
+    #cartOverlay.open { opacity: 1; pointer-events: all; }
+
+    /* ══ CART DRAWER ══ */
+    #cartDrawer {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: min(480px, 100vw);
+      background: var(--dark);
+      border-left: 1px solid var(--border);
+      z-index: 400;
+      display: flex; flex-direction: column;
+      transform: translateX(100%);
+      transition: transform .4s cubic-bezier(.4,0,.2,1);
+      overflow: hidden;
+    }
+    #cartDrawer.open { transform: translateX(0); }
+
+    .cart-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 1.8rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .cart-title {
+      font-family: var(--font-head);
+      font-size: 1.5rem; letter-spacing: 3px; color: var(--white);
+    }
+    .cart-close {
+      background: none; border: 1px solid var(--border);
+      color: var(--light); width: 36px; height: 36px;
+      cursor: pointer; font-size: 1rem;
+      transition: all .2s;
+    }
+    .cart-close:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ══ EMPTY STATE ══ */
+    .cart-empty {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 3rem 2rem; text-align: center;
+    }
+    .cart-empty-icon { font-size: 3.5rem; margin-bottom: 1rem; opacity: .4; }
+    .cart-empty-title {
+      font-family: var(--font-head); font-size: 1.6rem;
+      letter-spacing: 2px; color: var(--white); margin-bottom: .5rem;
+    }
+    .cart-empty-sub { color: var(--muted); font-size: .9rem; }
+
+    /* ══ ITEMS ══ */
+    .cart-items {
+      flex: 1; overflow-y: auto; padding: 1.2rem 1.8rem;
+      display: flex; flex-direction: column; gap: 1px;
+    }
+    .cart-items::-webkit-scrollbar { width: 4px; }
+    .cart-items::-webkit-scrollbar-track { background: var(--black); }
+    .cart-items::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .cart-item {
+      background: var(--card);
+      padding: 1.2rem;
+      display: flex; align-items: center; gap: 1rem;
+      animation: slideIn .3s ease both;
+    }
+    @keyframes slideIn {
+      from { opacity:0; transform: translateX(20px); }
+      to   { opacity:1; transform: translateX(0); }
+    }
+    .cart-item-icon { font-size: 1.8rem; flex-shrink: 0; }
+    .cart-item-info { flex: 1; }
+    .cart-item-name {
+      font-family: var(--font-head); font-size: 1rem;
+      letter-spacing: 1.5px; color: var(--white);
+    }
+    .cart-item-price { font-size: .85rem; color: var(--accent); font-weight: 600; }
+
+    .qty-controls {
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .qty-btn {
+      background: var(--black); border: 1px solid var(--border);
+      color: var(--white); width: 28px; height: 28px;
+      cursor: pointer; font-size: 1rem; font-weight: 700;
+      transition: all .15s; flex-shrink: 0;
+    }
+    .qty-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .qty-num {
+      font-family: var(--font-head); font-size: 1.1rem;
+      color: var(--white); min-width: 20px; text-align: center;
+    }
+    .remove-btn {
+      background: none; border: none;
+      color: var(--muted); cursor: pointer; font-size: 1rem;
+      margin-left: .5rem; padding: .2rem;
+      transition: color .2s; flex-shrink: 0;
+    }
+    .remove-btn:hover { color: var(--accent2); }
+
+    /* ══ CART FOOTER ══ */
+    .cart-footer {
+      border-top: 1px solid var(--border);
+      padding: 1.2rem 1.8rem 1.8rem;
+      flex-shrink: 0;
+      overflow-y: auto;
+      max-height: 65vh;
+    }
+    .cart-footer::-webkit-scrollbar { width: 4px; }
+    .cart-footer::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .cart-summary { margin-bottom: 1.4rem; }
+    .summary-row {
+      display: flex; justify-content: space-between;
+      padding: .45rem 0;
+      font-size: .9rem; color: var(--light);
+      border-bottom: 1px solid #1e1e1e;
+    }
+    .summary-total {
+      font-family: var(--font-head);
+      font-size: 1.3rem; letter-spacing: 2px;
+      color: var(--white); border-bottom: none;
+      margin-top: .3rem;
+    }
+    .summary-total span:last-child { color: var(--accent); }
+    .summary-vat { font-size: .75rem; color: var(--muted); text-align: right; margin-top: .2rem; }
+
+    /* ══ ORDER FORM ══ */
+    .order-form { display: flex; flex-direction: column; }
+    .form-label {
+      font-size: .7rem; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: .6rem; margin-top: .5rem;
+    }
+    .form-row { display: flex; gap: .6rem; margin-bottom: .6rem; }
+    .form-input {
+      background: var(--black);
+      border: 1px solid var(--border);
+      color: var(--white);
+      padding: .65rem .9rem;
+      font-family: var(--font-body); font-size: .88rem;
+      width: 100%; outline: none;
+      transition: border-color .2s;
+    }
+    .form-input::placeholder { color: var(--muted); }
+    .form-input:focus { border-color: var(--accent); }
+    .form-input.error { border-color: var(--accent2); }
+    .form-select { appearance: none; cursor: pointer; }
+
+    /* ══ PAY OPTIONS ══ */
+    .pay-options {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: .5rem; margin-bottom: 1.2rem;
+    }
+    .pay-option {
+      display: flex; align-items: center; gap: .5rem;
+      background: var(--black);
+      border: 1px solid var(--border);
+      padding: .6rem .9rem;
+      cursor: pointer; font-size: .85rem; color: var(--light);
+      transition: border-color .2s, color .2s;
+    }
+    .pay-option:has(input:checked) {
+      border-color: var(--accent); color: var(--white);
+    }
+    .pay-option input { accent-color: var(--accent); }
+
+    /* ══ ORDER BUTTON ══ */
+    .btn-order {
+      background: var(--accent); color: var(--black);
+      border: none; padding: 1.1rem;
+      font-family: var(--font-body); font-weight: 700;
+      font-size: 1rem; letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer; width: 100%;
+      transition: opacity .2s, transform .2s;
+    }
+    .btn-order:hover { opacity: .88; transform: translateY(-1px); }
+    .order-note {
+      font-size: .75rem; color: var(--muted);
+      text-align: center; margin-top: .7rem;
+    }
+
+    /* ══ CONFIRM OVERLAY ══ */
+    #confirmOverlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.92);
+      z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s;
+    }
+    #confirmOverlay.open { opacity: 1; pointer-events: all; }
+    .confirm-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 3rem 2.5rem;
+      max-width: 440px; width: 100%;
+      text-align: center;
+      transform: translateY(20px);
+      transition: transform .4s;
+    }
+    #confirmOverlay.open .confirm-box { transform: translateY(0); }
+    .confirm-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .confirm-title {
+      font-family: var(--font-head);
+      font-size: 2rem; letter-spacing: 3px;
+      color: var(--white); margin-bottom: 1rem;
+    }
+    .confirm-sub { color: var(--light); font-size: .95rem; line-height: 1.6; }
+    .confirm-nr {
+      font-family: var(--font-head);
+      font-size: 1.1rem; letter-spacing: 2px;
+      color: var(--accent); margin-top: 1.2rem;
+    }
+  </style>
+
+  <script>
+    // ══════════════════════════════════
+    // CART DATA
+    // ══════════════════════════════════
+    let cart = [];  // Array van { id, name, price, icon, qty }
+
+    // ══════════════════════════════════
+    // CART OPEN / SLUIT
+    // ══════════════════════════════════
+    function openCart() {
+      document.getElementById('cartDrawer').classList.add('open');
+      document.getElementById('cartOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCart() {
+      document.getElementById('cartDrawer').classList.remove('open');
+      document.getElementById('cartOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ══════════════════════════════════
+    // PRODUCT TOEVOEGEN
+    // ══════════════════════════════════
+    function addToCart(name, price, icon) {
+      const existing = cart.find(i => i.name === name);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ name, price, icon, qty: 1 });
+      }
+      renderCart();
+      updateBadge();
+      showToast(name);
+    }
+
+    // ══════════════════════════════════
+    // HOEVEELHEID AANPASSEN
+    // ══════════════════════════════════
+    function changeQty(name, delta) {
+      const item = cart.find(i => i.name === name);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
+      renderCart();
+      updateBadge();
+    }
+
+    function removeItem(name) {
+      cart = cart.filter(i => i.name !== name);
+      renderCart();
+      updateBadge();
+    }
+
+    // ══════════════════════════════════
+    // MANDJE TEKENEN
+    // ══════════════════════════════════
+    function renderCart() {
+      const emptyEl   = document.getElementById('cartEmpty');
+      const itemsEl   = document.getElementById('cartItems');
+      const footerEl  = document.getElementById('cartFooter');
+
+      if (cart.length === 0) {
+        emptyEl.style.display  = 'flex';
+        itemsEl.style.display  = 'none';
+        footerEl.style.display = 'none';
+        return;
+      }
+
+      emptyEl.style.display  = 'none';
+      itemsEl.style.display  = 'flex';
+      footerEl.style.display = 'block';
+
+      // Items renderen
+      itemsEl.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div class="cart-item-icon">${item.icon}</div>
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-price">€${(item.price * item.qty).toFixed(2).replace('.',',')} (€${item.price} /st)</div>
+          </div>
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="changeQty('${item.name}', -1)">−</button>
+            <div class="qty-num">${item.qty}</div>
+            <button class="qty-btn" onclick="changeQty('${item.name}', 1)">+</button>
+          </div>
+          <button class="remove-btn" onclick="removeItem('${item.name}')" title="Verwijderen">🗑</button>
+        </div>
+      `).join('');
+
+      // Totalen berekenen
+      const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const shipping = subtotal >= 75 ? 0 : 6.95;
+      const total    = subtotal + shipping;
+
+      document.getElementById('summarySubtotal').textContent =
+        '€' + subtotal.toFixed(2).replace('.', ',');
+      document.getElementById('summaryShipping').textContent =
+        shipping === 0 ? 'Gratis' : '€' + shipping.toFixed(2).replace('.', ',');
+      document.getElementById('summaryTotal').textContent =
+        '€' + total.toFixed(2).replace('.', ',');
+    }
+
+    // ══════════════════════════════════
+    // BADGE BIJWERKEN
+    // ══════════════════════════════════
+    function updateBadge() {
+      const total = cart.reduce((s, i) => s + i.qty, 0);
+      document.getElementById('cartCount').textContent = total;
+    }
+
+    // ══════════════════════════════════
+    // TOAST MELDING
+    // ══════════════════════════════════
+    function showToast(name) {
+      const t = document.getElementById('toast');
+      t.textContent = `✓ ${name} toegevoegd!`;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ══════════════════════════════════
+    // BESTELLING PLAATSEN
+    // ══════════════════════════════════
+    function placeOrder() {
+      // Validatie — zijn alle verplichte velden ingevuld?
+      const fields = ['fNaam','fEmail','fStraat','fPostcode','fStad','fLand'];
+      let valid = true;
+      fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) {
+          el.classList.add('error');
+          setTimeout(() => el.classList.remove('error'), 2000);
+          valid = false;
+        } else {
+          el.classList.remove('error');
+        }
+      });
+      // E-mail controleren
+      const emailEl = document.getElementById('fEmail');
+      if (emailEl.value && !emailEl.value.includes('@')) {
+        emailEl.classList.add('error');
+        valid = false;
+      }
+      if (!valid) return;
+
+      // Bestellingsnummer genereren (willekeurig, later vervangen door echte backend)
+      const orderNr = 'CK-' + Date.now().toString().slice(-6);
+
+      // Bevestigingsscherm tonen
+      document.getElementById('confirmEmail').textContent = document.getElementById('fEmail').value;
+      document.getElementById('confirmNr').textContent    = 'Bestelnummer: ' + orderNr;
+      document.getElementById('confirmOverlay').classList.add('open');
+
+      // Mandje leegmaken
+      cart = [];
+      renderCart();
+      updateBadge();
+      closeCart();
+    }
+
+    function closeConfirm() {
+      document.getElementById('confirmOverlay').classList.remove('open');
+    }
+
+    // ══════════════════════════════════
+    // SCROLL REVEAL (van stap 1)
+    // ══════════════════════════════════
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // ══════════════════════════════════
+    // NIEUWSBRIEF
+    // ══════════════════════════════════
+    function subscribeNewsletter() {
+      const input = document.getElementById('emailInput');
+      if (!input.value.includes('@')) {
+        input.style.borderColor = '#8b2e2e';
+        setTimeout(() => input.style.borderColor = '', 1500);
+        return;
+      }
+      document.getElementById('nl-success').style.display = 'block';
+      input.value = '';
+      input.disabled = true;
+      document.querySelector('.newsletter-btn').disabled = true;
+    }
+  </script>
+</body>
+</html>
