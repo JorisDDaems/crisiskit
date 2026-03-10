@@ -425,6 +425,7 @@
       <li><a href="#producten">Producten</a></li>
       <li><a href="#waarom">Waarom ons</a></li>
       <li><a href="#nieuwsbrief">Contact</a></li>
+      <li><a href="#" onclick="openLegal('impressum');return false;">Info</a></li>
     </ul>
     <button class="nav-cart" onclick="openCart()">
       🛒 Mandje <span class="cart-count" id="cartCount">0</span>
@@ -580,13 +581,17 @@
   <footer>
     <div class="footer-logo">CRISIS<span>KIT</span></div>
     <div class="footer-links">
-      <a href="#">Privacy­beleid</a>
-      <a href="#">Algemene voorwaarden</a>
-      <a href="#">Leveringsinfo</a>
-      <a href="#">Contact</a>
+      <a href="#" onclick="openLegal('privacy');return false;">Privacybeleid</a>
+      <a href="#" onclick="openLegal('voorwaarden');return false;">Algemene voorwaarden</a>
+      <a href="#" onclick="openLegal('herroeping');return false;">Herroepingsrecht</a>
+      <a href="#" onclick="openLegal('impressum');return false;">Impressum</a>
+      <a href="#" onclick="openLegal('cookies');return false;">Cookiebeleid</a>
     </div>
-    <div class="footer-copy">© 2025 CrisisKit — BE &amp; NL</div>
+    <div class="footer-copy">© 2025 CrisisKit — BE &amp; NL &nbsp;|&nbsp; BTW: [JOUW BTW-NR] &nbsp;|&nbsp; KBO/KVK: [JOUW NR]</div>
   </footer>
+
+  <!-- TOAST -->
+  <div id="toast" style="position:fixed;bottom:2rem;right:2rem;background:var(--accent);color:var(--black);padding:1rem 1.8rem;font-weight:700;font-size:.9rem;letter-spacing:1px;transform:translateY(100px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);z-index:200;"></div>
 
   <!-- ══════════════════════════════════════════
        WINKELMANDJE ZIJPANEEL
@@ -658,6 +663,19 @@
           </label>
         </div>
 
+        <div class="form-av-check">
+          <input type="checkbox" id="fAkkoord" />
+          <label for="fAkkoord">
+            Ik ga akkoord met de <a href="#" onclick="openLegal('voorwaarden');return false;">algemene voorwaarden</a> en het <a href="#" onclick="openLegal('privacy');return false;">privacybeleid</a> van CrisisKit. *
+          </label>
+        </div>
+        <div class="form-av-check">
+          <input type="checkbox" id="fHerroeping" />
+          <label for="fHerroeping">
+            Ik heb het <a href="#" onclick="openLegal('herroeping');return false;">herroepingsrecht</a> gelezen en begrepen (14 dagen bedenktijd). *
+          </label>
+        </div>
+
         <button class="btn-order" onclick="placeOrder()">
           🔒 BESTELLING PLAATSEN
         </button>
@@ -677,8 +695,332 @@
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast">✓ Toegevoegd aan mandje!</div>
+  <div id="cookieBanner">
+    <div class="cookie-inner">
+      <div class="cookie-text">
+        <strong>🍪 Wij gebruiken cookies</strong><br>
+        CrisisKit gebruikt <strong>functionele cookies</strong> (noodzakelijk voor het winkelmandje) en optionele <strong>analytische cookies</strong> om ons aanbod te verbeteren. Lees ons <a href="#" onclick="openLegal('cookies');return false;">cookiebeleid</a>.
+      </div>
+      <div class="cookie-btns">
+        <button class="cookie-btn-refuse" onclick="setCookieConsent('minimal')">Alleen noodzakelijk</button>
+        <button class="cookie-btn-accept" onclick="setCookieConsent('all')">Alles accepteren</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       JURIDISCHE MODALS (Privacy / AV / Herroeping / Impressum / Cookies)
+  ══════════════════════════════════════════ -->
+  <div id="legalOverlay" onclick="closeLegal()"></div>
+  <div id="legalModal">
+    <div class="legal-header">
+      <div class="legal-title" id="legalTitle">Titel</div>
+      <button class="legal-close" onclick="closeLegal()">✕</button>
+    </div>
+    <div class="legal-body" id="legalBody"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       JURIDISCHE CONTENT (verborgen)
+  ══════════════════════════════════════════ -->
+
+  <template id="tpl-impressum">
+    <h3>Impressum / Wettelijke vermeldingen</h3>
+    <p><strong>Handelsnaam:</strong> CrisisKit</p>
+    <p><strong>Ondernemingsvorm:</strong> [BV / Eenmanszaak / …]</p>
+    <p><strong>Maatschappelijke zetel:</strong> [Straat + nr, Postcode Stad, België]</p>
+    <p><strong>BTW-nummer (BE):</strong> BE [0000.000.000]</p>
+    <p><strong>KBO-nummer:</strong> [0000.000.000]</p>
+    <p><strong>KVK-nummer (NL):</strong> [00000000]</p>
+    <p><strong>E-mail:</strong> info@crisiskit.be</p>
+    <p><strong>Telefoon:</strong> +32 [0]00 00 00 00</p>
+    <p><strong>Verantwoordelijke uitgever:</strong> [Voornaam Naam]</p>
+    <p><strong>Webhosting:</strong> Vercel Inc., 340 Pine Street Suite 701, San Francisco, CA 94104, VS</p>
+    <p>Geschillen vallen onder de bevoegdheid van de rechtbank van [Jouw gerechtelijk arrondissement], tenzij dwingende wettelijke bepalingen anders voorschrijven.</p>
+    <p>Toepasselijk recht: Belgisch recht (voor BE-klanten) / Nederlands recht (voor NL-klanten), in overeenstemming met de Europese consumentenregelgeving.</p>
+  </template>
+
+  <template id="tpl-privacy">
+    <h3>Privacybeleid</h3>
+    <p><em>Laatste update: maart 2025 — conform AVG/GDPR (Verordening (EU) 2016/679)</em></p>
+
+    <h4>1. Wie is verantwoordelijk voor uw gegevens?</h4>
+    <p>CrisisKit, [adres], BTW [nr], e-mail: info@crisiskit.be (hierna "wij" of "CrisisKit") is de verwerkingsverantwoordelijke voor uw persoonsgegevens.</p>
+
+    <h4>2. Welke gegevens verzamelen wij?</h4>
+    <ul>
+      <li>Naam, e-mailadres, postadres, telefoonnummer (bij bestelling)</li>
+      <li>Betaalgegevens (verwerkt door onze betaalpartner Mollie — wij slaan geen kaartgegevens op)</li>
+      <li>IP-adres en browsegedrag (via analytische cookies, mits toestemming)</li>
+    </ul>
+
+    <h4>3. Waarom verwerken wij uw gegevens?</h4>
+    <ul>
+      <li><strong>Uitvoering overeenkomst:</strong> verwerking en levering van uw bestelling</li>
+      <li><strong>Wettelijke verplichting:</strong> boekhouding, factuurplicht</li>
+      <li><strong>Gerechtvaardigd belang:</strong> fraudepreventie, klantenservice</li>
+      <li><strong>Toestemming:</strong> nieuwsbrief (enkel na expliciete opt-in)</li>
+    </ul>
+
+    <h4>4. Hoe lang bewaren wij uw gegevens?</h4>
+    <p>Bestelgegevens: 7 jaar (wettelijke boekhoudplicht). Nieuwsbriefadressen: tot uitschrijving. Analytische gegevens: maximaal 26 maanden.</p>
+
+    <h4>5. Delen wij uw gegevens?</h4>
+    <p>Uw gegevens worden nooit verkocht. Wij delen ze enkel met:</p>
+    <ul>
+      <li>Mollie B.V. (betaalverwerking) — privacy.mollie.com</li>
+      <li>Vercel Inc. (hosting) — vercel.com/legal/privacy-policy</li>
+      <li>Bezorgdienst (naam invullen) voor levering van uw bestelling</li>
+    </ul>
+    <p>Gegevensoverdracht buiten de EU vindt enkel plaats op basis van passende waarborgen (Standard Contractual Clauses).</p>
+
+    <h4>6. Uw rechten</h4>
+    <p>U heeft het recht op inzage, correctie, wissing ("recht op vergetelheid"), beperking van de verwerking, dataportabiliteit en bezwaar. Stuur een e-mail naar: info@crisiskit.be. Wij reageren binnen 30 dagen. U kunt ook een klacht indienen bij:</p>
+    <ul>
+      <li>🇧🇪 Gegevensbeschermingsautoriteit (GBA): gegevensbeschermingsautoriteit.be</li>
+      <li>🇳🇱 Autoriteit Persoonsgegevens (AP): autoriteitpersoonsgegevens.nl</li>
+    </ul>
+
+    <h4>7. Beveiliging</h4>
+    <p>Onze website gebruikt een SSL/TLS-certificaat (HTTPS). Betalingen verlopen volledig via de beveiligde omgeving van Mollie (PCI DSS gecertificeerd).</p>
+  </template>
+
+  <template id="tpl-voorwaarden">
+    <h3>Algemene Verkoopvoorwaarden</h3>
+    <p><em>Van toepassing op alle bestellingen via crisiskit.be — versie 2025</em></p>
+
+    <h4>1. Identiteit van de verkoper</h4>
+    <p>CrisisKit, [volledige naam/vennootschapsvorm], [adres], BTW [nr], KBO [nr], e-mail: info@crisiskit.be</p>
+
+    <h4>2. Toepasselijkheid</h4>
+    <p>Deze voorwaarden zijn van toepassing op alle bestellingen die consumenten en ondernemingen plaatsen via onze website. Door een bestelling te plaatsen aanvaardt u deze voorwaarden. Voor Belgische consumenten gelden aanvullend de bepalingen van het Wetboek Economisch Recht (Boek VI). Voor Nederlandse consumenten gelden aanvullend de bepalingen van Boek 7 BW.</p>
+
+    <h4>3. Aanbod en prijs</h4>
+    <p>Alle prijzen zijn vermeld inclusief BTW (21%). Verzendkosten worden apart vermeld bij het afrekenen. Wij behouden ons het recht voor om prijzen te wijzigen, maar de prijs die gold op het moment van uw bestelling is bindend.</p>
+
+    <h4>4. Verzending en levering</h4>
+    <ul>
+      <li>Levertijd: 2–5 werkdagen na betaling</li>
+      <li>Gratis verzending bij bestellingen ≥ €75 (BE en NL)</li>
+      <li>Onder €75: €6,95 verzendkosten</li>
+      <li>Belgische webshops zijn verplicht minimaal 2 leveringsmethoden aan te bieden (art. 18 WER, van kracht per 21/09/2024): thuislevering en afhaalpunt</li>
+      <li>Wij kunnen niet verantwoordelijk worden gesteld voor vertragingen door overmacht of de bezorgdienst</li>
+    </ul>
+
+    <h4>5. Betaling</h4>
+    <p>Betaling geschiedt via Bancontact, iDEAL, Visa/Mastercard of PayPal, verwerkt door Mollie B.V. Wij rekenen geen extra betaalkosten aan (conform Belgische en Europese regelgeving). De bestelling wordt verwerkt na ontvangst van de betaling.</p>
+
+    <h4>6. Herroepingsrecht</h4>
+    <p>Als consument heeft u het recht om uw aankoop zonder opgave van reden te annuleren binnen <strong>14 kalenderdagen</strong> na ontvangst van de goederen. Zie ons aparte herroepingsbeleid voor de volledige procedure en het modelformulier.</p>
+
+    <h4>7. Garantie</h4>
+    <p>Alle producten vallen onder de wettelijke garantie: 2 jaar voor Belgische consumenten (art. 1649bis BW), 2 jaar voor Nederlandse consumenten (art. 7:17 BW). Bij gebreken neemt u contact op via info@crisiskit.be.</p>
+
+    <h4>8. Klachten en geschillenbeslechting</h4>
+    <p>Klachten kunt u melden via info@crisiskit.be. Wij streven naar een oplossing binnen 14 werkdagen. U kunt ook terecht bij:</p>
+    <ul>
+      <li>🇧🇪 Consumentenombudsdienst: consumentenombudsdienst.be</li>
+      <li>🇳🇱 Geschillencommissie Webshop: sgc.nl</li>
+      <li>🌐 EU-platform voor onlinegeschillenbeslechting: ec.europa.eu/consumers/odr</li>
+    </ul>
+
+    <h4>9. Intellectueel eigendom</h4>
+    <p>Alle inhoud op deze website (teksten, afbeeldingen, logo's) is eigendom van CrisisKit of wordt gebruikt met toestemming. Reproductie zonder schriftelijke toestemming is verboden.</p>
+
+    <h4>10. Aansprakelijkheid</h4>
+    <p>CrisisKit is niet aansprakelijk voor indirecte schade, gevolgschade of schade door overmacht. Onze producten zijn bedoeld als aanvulling op, niet als vervanging van, officieel noodadvies van overheidsdiensten.</p>
+  </template>
+
+  <template id="tpl-herroeping">
+    <h3>Herroepingsrecht &amp; Retourbeleid</h3>
+    <p><em>Conform Richtlijn 2011/83/EU — van toepassing op consumenten in BE en NL</em></p>
+
+    <h4>Uw recht op herroeping</h4>
+    <p>U heeft het recht om de overeenkomst zonder opgave van reden te herroepen binnen <strong>14 kalenderdagen</strong> na de dag waarop u (of een door u aangewezen derde) de goederen fysiek in bezit heeft gekregen.</p>
+
+    <h4>Hoe herroept u?</h4>
+    <p>U kunt gebruik maken van het onderstaande modelformulier of uw beslissing duidelijk schriftelijk meedelen via info@crisiskit.be. Na uw melding heeft u nog 14 dagen om de goederen terug te sturen.</p>
+
+    <h4>Terugbetaling</h4>
+    <p>Wij betalen het aankoopbedrag én de oorspronkelijke standaard verzendkosten terug binnen <strong>14 dagen</strong> na ontvangst van de geretourneerde goederen of bewijs van terugzending — afhankelijk van wat het eerst plaatsvindt. Terugbetaling via hetzelfde betaalmiddel als de originele transactie.</p>
+
+    <h4>Retourkosten</h4>
+    <p>De kosten voor retourzending zijn voor rekening van de klant, tenzij het product defect of verkeerd geleverd was.</p>
+
+    <h4>Uitzonderingen op het herroepingsrecht</h4>
+    <p>Het herroepingsrecht is <strong>niet</strong> van toepassing op:</p>
+    <ul>
+      <li>Producten die om hygiënische redenen niet retourneerbaar zijn na opening van de verpakking (o.a. voedsel, drinkwater, medisch materiaal)</li>
+      <li>Op maat gemaakte pakketten die op uitdrukkelijk verzoek van de klant zijn samengesteld</li>
+    </ul>
+
+    <h4>— Modelformulier voor herroeping —</h4>
+    <div style="border:1px solid #333;padding:1.2rem;margin-top:1rem;font-size:.88rem;">
+      <p>Aan: CrisisKit, [adres], info@crisiskit.be</p>
+      <p>Ik/Wij (*) deel/delen (*) u hierbij mede dat ik/wij (*) onze overeenkomst betreffende de verkoop van de volgende goederen herroep/herroepen (*):</p>
+      <p>Besteld op (*) / ontvangen op (*):</p>
+      <p>Naam/Namen consument(en):</p>
+      <p>Adres consument(en):</p>
+      <p>Handtekening (alleen bij papieren formulier):</p>
+      <p>Datum:</p>
+      <p><em>(*) Doorhalen wat niet van toepassing is.</em></p>
+    </div>
+  </template>
+
+  <template id="tpl-cookies">
+    <h3>Cookiebeleid</h3>
+    <p><em>Conform AVG/GDPR en de Belgische Wet Elektronische Communicatie — versie 2025</em></p>
+
+    <h4>Wat zijn cookies?</h4>
+    <p>Cookies zijn kleine tekstbestanden die op uw apparaat worden opgeslagen wanneer u onze website bezoekt. Ze helpen de website correct te functioneren en geven ons inzicht in het gebruik ervan.</p>
+
+    <h4>Welke cookies gebruiken wij?</h4>
+
+    <p><strong>1. Strikt noodzakelijke cookies (geen toestemming vereist)</strong></p>
+    <ul>
+      <li><code>cart_session</code> — onthoudt de inhoud van uw winkelmandje (sessie)</li>
+      <li><code>cookie_consent</code> — onthoudt uw cookievoorkeur (1 jaar)</li>
+    </ul>
+
+    <p><strong>2. Analytische cookies (enkel na toestemming)</strong></p>
+    <ul>
+      <li>Worden op dit moment niet actief ingezet. Wanneer wij analytics toevoegen, werken wij dit beleid bij en vragen opnieuw uw toestemming.</li>
+    </ul>
+
+    <p><strong>3. Marketingcookies</strong></p>
+    <ul>
+      <li>Wij plaatsen momenteel geen marketingcookies of tracking pixels van derden.</li>
+    </ul>
+
+    <h4>Uw keuze aanpassen</h4>
+    <p>U kunt uw toestemming te allen tijde intrekken door onderstaande knop te klikken:</p>
+    <button onclick="resetCookieConsent()" style="margin-top:.5rem;background:#d4a853;color:#000;border:none;padding:.6rem 1.2rem;font-weight:700;cursor:pointer;">Cookie-instellingen opnieuw instellen</button>
+
+    <h4>Meer informatie</h4>
+    <ul>
+      <li>🇧🇪 GBA: gegevensbeschermingsautoriteit.be</li>
+      <li>🇳🇱 AP: autoriteitpersoonsgegevens.nl</li>
+    </ul>
+  </template>
+
+  <style>
+    /* ══ COOKIE BANNER ══ */
+    #cookieBanner {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #111;
+      border-top: 2px solid var(--accent);
+      z-index: 600;
+      padding: 1.2rem 5%;
+      transform: translateY(100%);
+      transition: transform .5s cubic-bezier(.4,0,.2,1);
+    }
+    #cookieBanner.show { transform: translateY(0); }
+    .cookie-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .cookie-text { font-size: .88rem; color: var(--light); flex: 1; line-height: 1.5; }
+    .cookie-text a { color: var(--accent); }
+    .cookie-btns { display: flex; gap: .8rem; flex-shrink: 0; }
+    .cookie-btn-refuse {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--light); padding: .6rem 1.2rem;
+      font-size: .85rem; cursor: pointer; font-family: var(--font-body);
+      transition: border-color .2s;
+    }
+    .cookie-btn-refuse:hover { border-color: var(--accent); color: var(--accent); }
+    .cookie-btn-accept {
+      background: var(--accent); color: var(--black);
+      border: none; padding: .6rem 1.4rem;
+      font-size: .85rem; font-weight: 700; cursor: pointer;
+      font-family: var(--font-body);
+    }
+
+    /* ══ LEGAL MODAL ══ */
+    #legalOverlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.75);
+      z-index: 700;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s;
+      backdrop-filter: blur(4px);
+    }
+    #legalOverlay.open { opacity: 1; pointer-events: all; }
+
+    #legalModal {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(.96);
+      width: min(720px, 95vw);
+      max-height: 85vh;
+      background: var(--card);
+      border: 1px solid var(--border);
+      z-index: 800;
+      display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s, transform .3s;
+    }
+    #legalModal.open {
+      opacity: 1; pointer-events: all;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .legal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 2rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .legal-title {
+      font-family: var(--font-head);
+      font-size: 1.4rem; letter-spacing: 2px; color: var(--accent);
+    }
+    .legal-close {
+      background: none; border: 1px solid var(--border);
+      color: var(--light); width: 36px; height: 36px;
+      cursor: pointer; font-size: 1rem;
+      transition: all .2s;
+    }
+    .legal-close:hover { border-color: var(--accent); color: var(--accent); }
+    .legal-body {
+      padding: 1.8rem 2rem;
+      overflow-y: auto;
+      font-size: .9rem; line-height: 1.8;
+      color: var(--light);
+    }
+    .legal-body h3 {
+      font-family: var(--font-head);
+      font-size: 1.5rem; letter-spacing: 2px;
+      color: var(--white); margin-bottom: 1.2rem;
+    }
+    .legal-body h4 {
+      font-size: 1rem; font-weight: 700;
+      color: var(--accent); margin: 1.4rem 0 .4rem;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .legal-body p { margin-bottom: .7rem; }
+    .legal-body ul { padding-left: 1.4rem; margin-bottom: .7rem; }
+    .legal-body ul li { margin-bottom: .3rem; }
+    .legal-body code {
+      background: #1e1e1e; padding: .1rem .4rem;
+      font-size: .82rem; color: var(--accent);
+    }
+
+    /* ══ AV-AKKOORD IN CHECKOUT ══ */
+    .form-av-check {
+      display: flex; align-items: flex-start; gap: .7rem;
+      margin-bottom: .8rem;
+    }
+    .form-av-check input[type=checkbox] {
+      accent-color: var(--accent);
+      width: 16px; height: 16px;
+      flex-shrink: 0; margin-top: .2rem;
+    }
+    .form-av-check label {
+      font-size: .82rem; color: var(--light); line-height: 1.5; cursor: pointer;
+    }
+    .form-av-check label a { color: var(--accent); text-decoration: underline; }
+  </style>
 
   <style>
     /* ══ CART OVERLAY ══ */
@@ -1019,15 +1361,19 @@
     function showToast(name) {
       const t = document.getElementById('toast');
       t.textContent = `✓ ${name} toegevoegd!`;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
+      t.style.transform = 'translateY(0)';
+      t.style.opacity   = '1';
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        t.style.transform = 'translateY(100px)';
+        t.style.opacity   = '0';
+      }, 2500);
     }
 
-    // ══════════════════════════════════
-    // BESTELLING PLAATSEN
-    // ══════════════════════════════════
+    // ══════════════════════════════════════════
+    // BESTELLING PLAATSEN (met AV-validatie)
+    // ══════════════════════════════════════════
     function placeOrder() {
-      // Validatie — zijn alle verplichte velden ingevuld?
       const fields = ['fNaam','fEmail','fStraat','fPostcode','fStad','fLand'];
       let valid = true;
       fields.forEach(id => {
@@ -1036,27 +1382,32 @@
           el.classList.add('error');
           setTimeout(() => el.classList.remove('error'), 2000);
           valid = false;
-        } else {
-          el.classList.remove('error');
-        }
+        } else { el.classList.remove('error'); }
       });
-      // E-mail controleren
       const emailEl = document.getElementById('fEmail');
       if (emailEl.value && !emailEl.value.includes('@')) {
-        emailEl.classList.add('error');
+        emailEl.classList.add('error'); valid = false;
+      }
+      // Verplichte checkboxes controleren
+      const akkoord   = document.getElementById('fAkkoord');
+      const herroep   = document.getElementById('fHerroeping');
+      if (!akkoord.checked) {
+        akkoord.parentElement.style.color = '#c0392b';
+        setTimeout(() => akkoord.parentElement.style.color = '', 2000);
+        valid = false;
+      }
+      if (!herroep.checked) {
+        herroep.parentElement.style.color = '#c0392b';
+        setTimeout(() => herroep.parentElement.style.color = '', 2000);
         valid = false;
       }
       if (!valid) return;
 
-      // Bestellingsnummer genereren (willekeurig, later vervangen door echte backend)
       const orderNr = 'CK-' + Date.now().toString().slice(-6);
-
-      // Bevestigingsscherm tonen
       document.getElementById('confirmEmail').textContent = document.getElementById('fEmail').value;
       document.getElementById('confirmNr').textContent    = 'Bestelnummer: ' + orderNr;
       document.getElementById('confirmOverlay').classList.add('open');
 
-      // Mandje leegmaken
       cart = [];
       renderCart();
       updateBadge();
@@ -1065,6 +1416,50 @@
 
     function closeConfirm() {
       document.getElementById('confirmOverlay').classList.remove('open');
+    }
+
+    // ══════════════════════════════════════════
+    // COOKIE BANNER
+    // ══════════════════════════════════════════
+    function initCookieBanner() {
+      if (!localStorage.getItem('ck_cookie_consent')) {
+        setTimeout(() => document.getElementById('cookieBanner').classList.add('show'), 1200);
+      }
+    }
+    function setCookieConsent(level) {
+      localStorage.setItem('ck_cookie_consent', level);
+      document.getElementById('cookieBanner').classList.remove('show');
+    }
+    function resetCookieConsent() {
+      localStorage.removeItem('ck_cookie_consent');
+      document.getElementById('cookieBanner').classList.add('show');
+      closeLegal();
+    }
+    initCookieBanner();
+
+    // ══════════════════════════════════════════
+    // JURIDISCHE MODALS
+    // ══════════════════════════════════════════
+    const legalTitles = {
+      impressum:    'Impressum',
+      privacy:      'Privacybeleid',
+      voorwaarden:  'Algemene Voorwaarden',
+      herroeping:   'Herroepingsrecht',
+      cookies:      'Cookiebeleid',
+    };
+    function openLegal(page) {
+      const tpl = document.getElementById('tpl-' + page);
+      if (!tpl) return;
+      document.getElementById('legalTitle').textContent = legalTitles[page] || page;
+      document.getElementById('legalBody').innerHTML = tpl.innerHTML;
+      document.getElementById('legalOverlay').classList.add('open');
+      document.getElementById('legalModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLegal() {
+      document.getElementById('legalOverlay').classList.remove('open');
+      document.getElementById('legalModal').classList.remove('open');
+      document.body.style.overflow = '';
     }
 
     // ══════════════════════════════════
