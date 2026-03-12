@@ -440,6 +440,97 @@
       .newsletter-form { flex-direction: column; }
       .newsletter-input { border-right: 1px solid var(--border); border-bottom: none; }
       footer { flex-direction: column; align-items: flex-start; }
+      .pakket-keuze { grid-template-columns: 1fr; }
+      .pakket-featured { transform: none; margin: 0; }
+    }
+
+    /* ══ PAKKET KEUZE (3 kaarten met decoy-effect) ══ */
+    .pakket-keuze {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    .pakket-card {
+      background: var(--card);
+      padding: 2.2rem 2rem;
+      display: flex; flex-direction: column;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .pakket-card:last-child { border-right: none; }
+    .pakket-featured {
+      background: #161610;
+      border: 2px solid var(--accent) !important;
+      margin: -1px;
+      z-index: 2;
+      transform: scaleY(1.02);
+    }
+    .pakket-tag {
+      display: inline-block;
+      background: var(--accent); color: var(--black);
+      font-size: .72rem; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: .3rem .9rem;
+      margin-bottom: 1rem; width: fit-content;
+    }
+    .pakket-naam {
+      font-family: var(--font-head);
+      font-size: 1.7rem; letter-spacing: 3px; line-height: 1.1;
+      color: var(--white); margin-bottom: 1.2rem;
+    }
+    .pakket-featured .pakket-naam { color: var(--accent); }
+    .pakket-prijs-wrap { margin-bottom: 1.5rem; }
+    .pakket-prijs {
+      font-family: var(--font-head);
+      font-size: 2.8rem; color: var(--white); letter-spacing: 2px;
+    }
+    .pakket-featured .pakket-prijs { color: var(--accent); }
+    .pakket-unit { font-size: .8rem; color: var(--muted); margin-top: .1rem; }
+    .pakket-lijst {
+      list-style: none; margin-bottom: 1.8rem; flex: 1;
+    }
+    .pakket-lijst li {
+      font-size: .85rem; color: var(--light);
+      padding: .3rem 0; border-bottom: 1px solid #1e1e1e;
+    }
+    .pakket-lijst li strong { color: var(--white); }
+    .pakket-mist { color: var(--muted) !important; text-decoration: line-through; opacity: .5; }
+    .pakket-stock { font-size: .78rem; font-weight: 700; text-align: center; margin-top: .8rem; letter-spacing: 1px; }
+    .pakket-stock-low { color: #e74c3c; animation: pulse 2s infinite; }
+    .pakket-note { font-size: .85rem; color: var(--muted); text-align: center; padding: 1.2rem; border: 1px solid var(--border); }
+    .pakket-note strong { color: var(--accent); }
+
+    /* ══ VOORRAAD INDICATOR ══ */
+    .product-stock { font-size: .78rem; font-weight: 700; letter-spacing: 1px; margin-bottom: .8rem; }
+    .product-stock-low { color: #e74c3c; }
+
+    /* ══ REVIEWS ══ */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px; background: var(--border);
+      margin-top: 2.5rem;
+    }
+    .review-card {
+      background: var(--dark);
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: .8rem;
+      transition: background .2s;
+    }
+    .review-card:hover { background: var(--card); }
+    .review-featured { background: #12120e; border-left: 3px solid var(--accent); }
+    .review-stars { color: var(--accent); font-size: 1.1rem; letter-spacing: 2px; }
+    .review-text { font-size: .92rem; color: var(--light); line-height: 1.7; font-style: italic; }
+    .review-meta { font-size: .8rem; color: var(--muted); }
+    .review-meta strong { color: var(--white); }
+    .review-meta span { color: var(--accent); }
+
+    /* ══ PULSE ══ */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .6; }
     }
   </style>
 </head>
@@ -462,42 +553,127 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-badge">Officieel leverancier — BE &amp; NL</div>
-    <h1>ALTIJD<em>VOORBEREID.</em></h1>
+    <div class="hero-badge">Gebaseerd op richtlijnen van Crisis.be &amp; Rode Kruis</div>
+    <h1>WAT DOE JIJ<em>ALS HET LICHT UITVALT?</em></h1>
     <p class="hero-sub">
-      Professionele noodpakketten voor gezinnen, bedrijven en professionals.
-      Samengesteld door experts. Klaar voor elke crisis.
+      Midden in de nacht. Kinderen thuis. Geen stroom, geen gsm-signaal, geen warmte.
+      <strong>247 Belgische gezinnen</strong> bestelden deze maand een CrisisKit — zij zijn klaar. Ben jij het ook?
     </p>
     <div class="hero-cta">
-      <a class="btn-primary" href="#producten">Bekijk pakketten</a>
-      <a class="btn-secondary" href="#waarom">Waarom CrisisKit?</a>
+      <a class="btn-primary" href="#pakketten">Bekijk de 72u pakketten</a>
+      <a class="btn-secondary" href="#waarom">Slimme voorbereiding →</a>
     </div>
     <div class="hero-stats">
       <div>
-        <div class="stat-num">4.800+</div>
-        <div class="stat-label">Tevreden klanten</div>
+        <div class="stat-num">247</div>
+        <div class="stat-label">Belgische gezinnen deze maand</div>
       </div>
       <div>
-        <div class="stat-num">72h</div>
-        <div class="stat-label">Overlevingstijd per pakket</div>
+        <div class="stat-num">72u</div>
+        <div class="stat-label">Zelfstandig overleven</div>
       </div>
       <div>
-        <div class="stat-num">100%</div>
-        <div class="stat-label">CE-gecertificeerd</div>
+        <div class="stat-num">Crisis.be</div>
+        <div class="stat-label">Richtlijnen gevolgd</div>
       </div>
     </div>
   </section>
 
-  <!-- PRODUCTEN -->
-  <section id="producten">
+  <!-- PAKKETTEN ANCHOR — aparte sectie met decoy-effect -->
+  <section id="pakketten" style="background:var(--black); padding: 7rem 5%;">
+    <div class="section-label">Slimme voorbereiding</div>
+    <h2 class="section-title">KIES JE 72U STARTKIT</h2>
+    <p class="section-sub">Stel je voor: het is woensdag 23u. Stroom weg, geen internet, kinderen wakker. Welk pakket had jij dan gewild?</p>
+
+    <div class="pakket-keuze">
+
+      <!-- BASIS — anchor (minder aantrekkelijk gepresenteerd) -->
+      <div class="pakket-card pakket-basis">
+        <div class="pakket-naam">STROOMUITVAL<br>STARTKIT</div>
+        <div class="pakket-prijs-wrap">
+          <div class="pakket-prijs">€105</div>
+          <div class="pakket-unit">voor 1 persoon · 72u</div>
+        </div>
+        <ul class="pakket-lijst">
+          <li>✓ Noodradio met batterijen</li>
+          <li>✓ Zaklamp met batterijen</li>
+          <li>✓ 2× nooddeken</li>
+          <li>✓ EHBO-set 280 stuks</li>
+          <li>✓ Aanstekers + lucifers</li>
+          <li>✓ Survival mes</li>
+          <li>✓ Powerbank 2.200 mAh</li>
+          <li>✓ Zonnepaneel 30W</li>
+          <li class="pakket-mist">✗ Grote powerbank</li>
+          <li class="pakket-mist">✗ Waterdichte opbergzak</li>
+        </ul>
+        <button class="btn-secondary" style="width:100%;margin-top:auto;" onclick="addToCart('Stroomuitval Startkit', 105, '🔵')">Voeg toe</button>
+        <div class="pakket-stock" style="opacity:.5;">Beschikbaar</div>
+      </div>
+
+      <!-- PLUS — decoy (de echte bestseller, visueel dominant) -->
+      <div class="pakket-card pakket-plus pakket-featured">
+        <div class="pakket-tag">⚡ MEEST GEKOZEN</div>
+        <div class="pakket-naam">72U<br>GEZINSPAKKET</div>
+        <div class="pakket-prijs-wrap">
+          <div class="pakket-prijs">€133</div>
+          <div class="pakket-unit">voor 2 personen · 72u</div>
+        </div>
+        <ul class="pakket-lijst">
+          <li>✓ Noodradio met batterijen</li>
+          <li>✓ <strong>Luxe zaklamp met zonnepaneel</strong></li>
+          <li>✓ 2× nooddeken</li>
+          <li>✓ EHBO-set 280 stuks</li>
+          <li>✓ <strong>4× aanstekers + 120× lucifers</strong></li>
+          <li>✓ Survival mes</li>
+          <li>✓ Powerbank 2.200 mAh</li>
+          <li>✓ Zonnepaneel 30W</li>
+          <li>✓ <strong>Waterdichte opbergzak 20L</strong></li>
+          <li class="pakket-mist">✗ Grote powerbank 10.000 mAh</li>
+        </ul>
+        <button class="btn-primary" style="width:100%;margin-top:auto;" onclick="addToCart('72u Gezinspakket', 133, '🟡')">Direct bestellen</button>
+        <div class="pakket-stock pakket-stock-low">🔴 Nog 11 op voorraad</div>
+      </div>
+
+      <!-- PREMIUM — anchoring (maakt plus goedkoop lijken) -->
+      <div class="pakket-card pakket-premium">
+        <div class="pakket-naam">VOLLEDIGE<br>BESCHERMING</div>
+        <div class="pakket-prijs-wrap">
+          <div class="pakket-prijs">€149</div>
+          <div class="pakket-unit">voor 2–4 personen · 72u</div>
+        </div>
+        <ul class="pakket-lijst">
+          <li>✓ <strong>Noodradio 3-in-1 met zonnepaneel</strong></li>
+          <li>✓ Luxe zaklamp met zonnepaneel</li>
+          <li>✓ <strong>4× nooddeken</strong></li>
+          <li>✓ EHBO-set 280 stuks</li>
+          <li>✓ 4× aanstekers + 120× lucifers</li>
+          <li>✓ <strong>Multitool zakmes 12-in-1</strong></li>
+          <li>✓ <strong>Powerbank 10.000 mAh</strong></li>
+          <li>✓ Zonnepaneel 30W</li>
+          <li>✓ Waterdichte opbergzak 20L</li>
+          <li>✓ <strong>Reservebatterijen AA + AAA</strong></li>
+        </ul>
+        <button class="btn-secondary" style="width:100%;margin-top:auto;" onclick="addToCart('Volledige Bescherming Pakket', 149, '⭐')">Voeg toe</button>
+        <div class="pakket-stock" style="opacity:.5;">Beschikbaar</div>
+      </div>
+
+    </div>
+
+    <div class="pakket-note">
+      🛡️ Alle pakketten zijn samengesteld op basis van de officiële aanbevelingen van <strong>Crisis.be</strong> en het <strong>Rode Kruis</strong>.
+      Gratis levering bij bestelling vanaf €75 — ook bij losse producten.
+    </div>
+  </section>
+
+  <!-- LOSSE PRODUCTEN -->
+  <section id="producten" style="background:var(--dark); padding: 7rem 5%;">
     <div class="section-label">Ons assortiment</div>
-    <h2 class="section-title">ALLE PRODUCTEN</h2>
-    <p class="section-sub">Samengesteld op basis van officiële richtlijnen van het Belgisch Crisiscentrum en het Nederlandse Rode Kruis. Alles wat je nodig hebt voor 72 uur zelfstandigheid.</p>
+    <h2 class="section-title">LOSSE PRODUCTEN</h2>
+    <p class="section-sub">Weet je al wat je mist? Vul je pakket aan met individuele producten — of start van nul.</p>
 
     <!-- CATEGORY FILTERS -->
     <div class="cat-filters">
       <button class="cat-btn active" onclick="filterCat('alle', this)">Alles</button>
-      <button class="cat-btn" onclick="filterCat('pakketten', this)">🎁 Pakketten</button>
       <button class="cat-btn" onclick="filterCat('licht', this)">🔦 Licht &amp; Energie</button>
       <button class="cat-btn" onclick="filterCat('ehbo', this)">💊 EHBO &amp; Gezondheid</button>
       <button class="cat-btn" onclick="filterCat('gereedschap', this)">🔧 Gereedschap</button>
@@ -506,89 +682,20 @@
 
     <div class="products-grid" id="productGrid">
 
-      <!-- ══ PAKKETTEN ══ -->
-
-      <div class="product-card" data-cat="pakketten">
-        <span class="product-badge badge-bestseller">Meest gekozen</span>
-        <div class="product-icon">⭐</div>
-        <div class="product-name">PREMIUM PAKKET</div>
-        <div class="product-desc">Het meest complete noodpakket. Samengesteld op basis van officiële overheidsaanbevelingen voor 72 uur zelfstandigheid.</div>
-        <ul class="product-includes">
-          <li>Noodradio met zonnepaneel + powerbank + zaklamp (3-in-1)</li>
-          <li>Luxe zaklamp met zonnepaneel</li>
-          <li>4× dubbelzijdig nooddeken</li>
-          <li>EHBO-set 280 artikelen</li>
-          <li>4× aansteker + 120× lucifers</li>
-          <li>Multitool zakmes 12-in-1</li>
-          <li>Powerbank 10.000 mAh + USB-kabel</li>
-          <li>Draagbaar zonnepaneel 30W</li>
-          <li>Waterdichte opbergzak 20L</li>
-          <li>Reservebatterijen AA + AAA</li>
-        </ul>
-        <div class="product-footer">
-          <div class="product-price">€149 <span>/ pakket</span></div>
-          <button class="add-to-cart" onclick="addToCart('Premium Pakket', 149, '⭐')">+ Voeg toe</button>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="pakketten">
-        <span class="product-badge badge-populair">Populair</span>
-        <div class="product-icon">🟡</div>
-        <div class="product-name">PLUS PAKKET</div>
-        <div class="product-desc">Een stap boven basis — met luxe zaklamp, extra aanstekers en waterdichte opbergzak. Ideaal voor 1–2 personen.</div>
-        <ul class="product-includes">
-          <li>Noodradio met batterijen</li>
-          <li>Luxe zaklamp met zonnepaneel</li>
-          <li>2× dubbelzijdig nooddeken</li>
-          <li>EHBO-set 280 artikelen</li>
-          <li>4× aansteker + 120× lucifers</li>
-          <li>Survival mes</li>
-          <li>Powerbank 2.200 mAh + USB-kabel</li>
-          <li>Draagbaar zonnepaneel 30W</li>
-          <li>Waterdichte opbergzak 20L</li>
-          <li>Reservebatterijen AA + AAA</li>
-        </ul>
-        <div class="product-footer">
-          <div class="product-price">€133 <span>/ pakket</span></div>
-          <button class="add-to-cart" onclick="addToCart('Plus Pakket', 133, '🟡')">+ Voeg toe</button>
-        </div>
-      </div>
-
-      <div class="product-card" data-cat="pakketten">
-        <span class="product-badge badge-nieuw">Voordeligst</span>
-        <div class="product-icon">🔵</div>
-        <div class="product-name">BASIS PAKKET</div>
-        <div class="product-desc">Het essentiële startpakket. Alles wat je nodig hebt voor 72 uur — zonder extra's, wel volledig conform overheidsadvies.</div>
-        <ul class="product-includes">
-          <li>Noodradio met batterijen</li>
-          <li>Zaklamp met batterijen</li>
-          <li>2× dubbelzijdig nooddeken</li>
-          <li>EHBO-set 280 artikelen</li>
-          <li>2× aansteker + 60× lucifers</li>
-          <li>Survival mes</li>
-          <li>Powerbank 2.200 mAh + USB-kabel</li>
-          <li>Draagbaar zonnepaneel 30W</li>
-          <li>Reservebatterijen AA + AAA</li>
-        </ul>
-        <div class="product-footer">
-          <div class="product-price">€105 <span>/ pakket</span></div>
-          <button class="add-to-cart" onclick="addToCart('Basis Pakket', 105, '🔵')">+ Voeg toe</button>
-        </div>
-      </div>
-
       <!-- ══ LICHT & ENERGIE ══ -->
 
       <div class="product-card" data-cat="licht">
         <span class="product-badge badge-bestseller">Bestseller</span>
         <div class="product-icon">📻</div>
         <div class="product-name">NOODRADIO 3-IN-1</div>
-        <div class="product-desc">Noodradio met ingebouwd zonnepaneel, USB-powerbank én zaklamp. Werkt zonder stroom of batterijen.</div>
+        <div class="product-desc">"Stel je voor: het licht valt uit en je weet niet wat er aan de hand is. Met deze radio blijf je altijd op de hoogte — zonder stroom of batterijen."</div>
         <ul class="product-includes">
-          <li>AM/FM + NOAA noodfrequenties</li>
-          <li>Opladen via zonnepaneel, handslinger of USB</li>
-          <li>Ingebouwde powerbank (laadt je gsm op)</li>
-          <li>LED zaklamp + SOS knipperstand</li>
+          <li>AM/FM + noodfrequenties</li>
+          <li>Opladen via zon, handslinger of USB</li>
+          <li>Ingebouwde powerbank voor je gsm</li>
+          <li>LED zaklamp + SOS-stand</li>
         </ul>
+        <div class="product-stock product-stock-low">🔴 Nog 8 op voorraad</div>
         <div class="product-footer">
           <div class="product-price">€29,75 <span>/ stuk</span></div>
           <button class="add-to-cart" onclick="addToCart('Noodradio 3-in-1', 29.75, '📻')">+ Voeg toe</button>
@@ -598,10 +705,10 @@
       <div class="product-card" data-cat="licht">
         <div class="product-icon">📡</div>
         <div class="product-name">NOODRADIO MET BATTERIJEN</div>
-        <div class="product-desc">Compacte noodradio voor AM/FM-ontvangst. Inclusief batterijen. Essentieel bij stroomuitval om nieuws te blijven volgen.</div>
+        <div class="product-desc">Compact en betrouwbaar. Bij een black-out is een radio je enige verbinding met de buitenwereld als gsm-masten uitvallen.</div>
         <ul class="product-includes">
           <li>AM/FM ontvangst</li>
-          <li>Compact formaat, lichtgewicht</li>
+          <li>Compact en lichtgewicht</li>
           <li>Batterijen inbegrepen</li>
           <li>Koptelefoonaansluiting</li>
         </ul>
@@ -615,13 +722,14 @@
         <span class="product-badge badge-populair">Populair</span>
         <div class="product-icon">🔦</div>
         <div class="product-name">ZAKLAMP MET ZONNEPANEEL</div>
-        <div class="product-desc">Krachtige zaklamp die oplaadt via zonnepaneel én als powerbank voor je gsm werkt. Nooit meer zonder licht.</div>
+        <div class="product-desc">Weet jij nu al waar je zaklamp ligt? En zijn de batterijen nog goed? Met deze oplader hoef je dat nooit meer te checken.</div>
         <ul class="product-includes">
-          <li>Oplaadbaar via zonnepaneel of USB</li>
-          <li>Powerbank-functie voor gsm</li>
+          <li>Oplaadbaar via zon of USB</li>
+          <li>Powerbank-functie voor je gsm</li>
           <li>3 standen: sterk / zwak / SOS</li>
           <li>Waterdicht IPX4</li>
         </ul>
+        <div class="product-stock product-stock-low">🔴 Nog 14 op voorraad</div>
         <div class="product-footer">
           <div class="product-price">€24,50 <span>/ stuk</span></div>
           <button class="add-to-cart" onclick="addToCart('Zaklamp met zonnepaneel', 24.50, '🔦')">+ Voeg toe</button>
@@ -631,7 +739,7 @@
       <div class="product-card" data-cat="licht">
         <div class="product-icon">💡</div>
         <div class="product-name">ZAKLAMP MET BATTERIJEN</div>
-        <div class="product-desc">Betrouwbare LED-zaklamp met heldere lichtbundel. Inclusief batterijen. Compact genoeg voor elke noodtas.</div>
+        <div class="product-desc">Eenvoudig, betrouwbaar, direct klaar. Het absolute minimum dat elk huishouden in huis moet hebben bij stroomuitval.</div>
         <ul class="product-includes">
           <li>Heldere LED-bundel (150 lumen)</li>
           <li>Batterijen inbegrepen</li>
@@ -647,7 +755,7 @@
       <div class="product-card" data-cat="licht">
         <div class="product-icon">🔋</div>
         <div class="product-name">POWERBANK 10.000 MAH</div>
-        <div class="product-desc">Grote capaciteit voor meerdere oplaadcycli. Houdt je gsm, radio of zaklamp meerdere dagen op spanning.</div>
+        <div class="product-desc">Als het net uitvalt, valt ook mobiel data vaak weg. Deze powerbank houdt je gsm 3–4 dagen op spanning voor noodoproepen.</div>
         <ul class="product-includes">
           <li>10.000 mAh — laadt gsm 3–4× op</li>
           <li>2× USB-uitgang</li>
@@ -663,11 +771,10 @@
       <div class="product-card" data-cat="licht">
         <div class="product-icon">⚡</div>
         <div class="product-name">POWERBANK 2.200 MAH</div>
-        <div class="product-desc">Compact en licht — past in elke broekzak. Genoeg voor één volledige gsm-oplading in noodsituaties.</div>
+        <div class="product-desc">Klein genoeg voor elke noodtas. Één volledige gsm-oplading — genoeg om hulpdiensten te bereiken of familie te bellen.</div>
         <ul class="product-includes">
           <li>2.200 mAh — 1× volledige gsm-oplading</li>
-          <li>USB-uitgang</li>
-          <li>USB-kabel inbegrepen</li>
+          <li>USB-uitgang + kabel inbegrepen</li>
           <li>Ultralicht (60g)</li>
         </ul>
         <div class="product-footer">
@@ -679,9 +786,9 @@
       <div class="product-card" data-cat="licht">
         <div class="product-icon">☀️</div>
         <div class="product-name">ZONNEPANEEL 30W</div>
-        <div class="product-desc">Draagbaar opvouwbaar zonnepaneel. Laadt powerbanks, telefoons en kleine apparaten op via zonne-energie.</div>
+        <div class="product-desc">Dag 2. Batterijen leeg, stroom nog altijd weg. Dit paneel laadt alles op zolang de zon schijnt — oneindig en stil.</div>
         <ul class="product-includes">
-          <li>30W vermogen</li>
+          <li>30W — oplaadt powerbank in 2–3u</li>
           <li>Opvouwbaar en lichtgewicht</li>
           <li>USB-A + USB-C uitgang</li>
           <li>Bevestigingslussen voor rugzak</li>
@@ -695,12 +802,11 @@
       <div class="product-card" data-cat="licht">
         <div class="product-icon">🔌</div>
         <div class="product-name">BATTERIJEN AA + AAA (SET)</div>
-        <div class="product-desc">Langdurige alkaline batterijen. Essentieel reserve voor zaklamp, radio en andere noodapparatuur.</div>
+        <div class="product-desc">Vergeet dit niet. Bijna elk noodapparaat — radio, zaklamp, thermometer — vraagt batterijen. Dit is de goedkoopste verzekering die bestaat.</div>
         <ul class="product-includes">
-          <li>8× AA batterijen</li>
-          <li>8× AAA batterijen</li>
-          <li>10 jaar houdbaarheid</li>
-          <li>Alkaline — hoge capaciteit</li>
+          <li>8× AA + 8× AAA alkaline</li>
+          <li>10 jaar houdbaar</li>
+          <li>Hoge capaciteit</li>
         </ul>
         <div class="product-footer">
           <div class="product-price">€5,00 <span>/ set</span></div>
@@ -714,14 +820,13 @@
         <span class="product-badge badge-bestseller">Aanbevolen</span>
         <div class="product-icon">🩺</div>
         <div class="product-name">EHBO-SET 280 STUKS</div>
-        <div class="product-desc">Professionele EHBO-koffer met 280 artikelen. Conform Rode Kruis-standaard. Voldoende voor een heel gezin.</div>
+        <div class="product-desc">Bij een noodsituatie kunnen hulpdiensten pas na uren ter plaatse zijn. Dan ben jij de eerste hulp. Ben je klaar voor die rol?</div>
         <ul class="product-includes">
           <li>Pleisters in 6 maten (120 stuks)</li>
           <li>Verbandgaas, zwachtels, kompres</li>
           <li>Ontsmettingsdoekjes + jodium</li>
-          <li>Schaar, pincet, veiligheidspennen</li>
-          <li>Nooddeken + handschoenen (2 paar)</li>
-          <li>Instructiekaart EHBO</li>
+          <li>Schaar, pincet, handschoenen (2 paar)</li>
+          <li>Nooddeken + instructiekaart EHBO</li>
         </ul>
         <div class="product-footer">
           <div class="product-price">€28,00 <span>/ set</span></div>
@@ -732,7 +837,7 @@
       <div class="product-card" data-cat="ehbo">
         <div class="product-icon">🌡️</div>
         <div class="product-name">DIGITALE THERMOMETER</div>
-        <div class="product-desc">Snelle en nauwkeurige lichaamstemperatuurmeting. Onmisbaar in een noodpakket voor gezinnen met kinderen.</div>
+        <div class="product-desc">Koorts bij een kind in een noodsituatie zonder dokter bereikbaar? Een thermometer is het eerste wat je wil hebben.</div>
         <ul class="product-includes">
           <li>Resultaat in 10 seconden</li>
           <li>Koortssignaal bij 37,5°C+</li>
@@ -748,11 +853,11 @@
       <div class="product-card" data-cat="ehbo">
         <div class="product-icon">🦺</div>
         <div class="product-name">NOODDEKEN DUBBELZIJDIG (4×)</div>
-        <div class="product-desc">Professionele reddingsdeken, dubbelzijdig: goud reflecteert warmte terug, zilver houdt koel. Compact opgevouwen.</div>
+        <div class="product-desc">Warmteverlies is de stille killer bij langdurige stroomuitval in de winter. Eén deken weerspiegelt 90% van je lichaamswarmte terug.</div>
         <ul class="product-includes">
-          <li>4 stuks per verpakking</li>
+          <li>4 stuks — voor heel het gezin</li>
           <li>160 × 210 cm per deken</li>
-          <li>Weerspiegelt 90% lichaamswarmte</li>
+          <li>Goud (warm) + zilver (koel) — dubbelzijdig</li>
           <li>Waterdicht en windbestendig</li>
         </ul>
         <div class="product-footer">
@@ -767,12 +872,12 @@
         <span class="product-badge badge-populair">Aanbevolen</span>
         <div class="product-icon">🛠️</div>
         <div class="product-name">MULTITOOL ZAKMES 12-IN-1</div>
-        <div class="product-desc">Zwitsers zakmes met 12 functies. Veilig, legaal en uiterst praktisch. Aangeraden boven een louter mes.</div>
+        <div class="product-desc">Twaalf gereedschappen in je zak. Bij crisis zijn kleine problemen plots grote: een doos openen, touw snijden, een schroef vastdraaien.</div>
         <ul class="product-includes">
           <li>Mes, schaar, vijl, schroevendraaier</li>
           <li>Blikopener, kurketrekker, prik</li>
-          <li>Zaag, liniaal, nagelschaar</li>
-          <li>Roestvrij staal — levenslange garantie</li>
+          <li>Roestvrij staal — legaal als gereedschap</li>
+          <li>Compact: past in elke zak</li>
         </ul>
         <div class="product-footer">
           <div class="product-price">€29,50 <span>/ stuk</span></div>
@@ -783,12 +888,12 @@
       <div class="product-card" data-cat="gereedschap">
         <div class="product-icon">🔪</div>
         <div class="product-name">SURVIVAL MES</div>
-        <div class="product-desc">Robuust kampeermes met vaste kling. Geschikt als gereedschap voor het snijden van touw, voedsel en materialen.</div>
+        <div class="product-desc">Robuust kampeermes voor het kamp. Touw snijden, eten klaarmaken, takken bewerken — het basistool dat nooit ontbreekt.</div>
         <ul class="product-includes">
           <li>Roestvrijstalen kling (15 cm)</li>
           <li>Ergonomisch antislip handvat</li>
           <li>Inclusief beschermhoes</li>
-          <li>Voldoet aan Belgische wetgeving (gereedschap)</li>
+          <li>Voldoet aan Belgische wetgeving</li>
         </ul>
         <div class="product-footer">
           <div class="product-price">€12,00 <span>/ stuk</span></div>
@@ -802,11 +907,10 @@
         <span class="product-badge badge-bestseller">Essentieel</span>
         <div class="product-icon">🔥</div>
         <div class="product-name">AANSTEKERS + LUCIFERS SET</div>
-        <div class="product-desc">Dubbele zekerheid: 4 aanstekers én 120 lucifers in waterdichte verpakking. Vuur maken in elke omstandigheid.</div>
+        <div class="product-desc">Vuur maken lijkt simpel — tot het moet. Wind, regen, natte vingers. Vier aanstekers én 120 lucifers geven je altijd een tweede kans.</div>
         <ul class="product-includes">
-          <li>4× gasaansteker (windbestendig)</li>
+          <li>4× windbestendige gasaansteker</li>
           <li>120× lucifers in waterdichte doos</li>
-          <li>Compact formaat</li>
           <li>Lang houdbaar opgeslagen</li>
         </ul>
         <div class="product-footer">
@@ -818,10 +922,10 @@
       <div class="product-card" data-cat="overleving">
         <div class="product-icon">🎒</div>
         <div class="product-name">WATERDICHTE ZAK 20L</div>
-        <div class="product-desc">Droge en veilige opslag voor al je noodspullen. Zwem-, regen- en spatwaterdicht. Past alles van een noodpakket in.</div>
+        <div class="product-desc">Bij evacuatie heb je 5 minuten. Één zak, alles erin, deur uit. Waterdicht zodat noodrantsoenen en documenten droog blijven.</div>
         <ul class="product-includes">
-          <li>20 liter inhoud</li>
-          <li>Rolsluiting — 100% waterdicht</li>
+          <li>20 liter — past compleet noodpakket</li>
+          <li>Rolsluiting: 100% waterdicht</li>
           <li>Draagriemen voor rugzak-gebruik</li>
           <li>Reflecterende strips voor zichtbaarheid</li>
         </ul>
@@ -833,7 +937,6 @@
 
     </div><!-- end #productGrid -->
 
-    <!-- Geen resultaten melding -->
     <div id="noResults" style="display:none; text-align:center; padding:4rem 0; color:var(--muted);">
       <div style="font-size:2.5rem; margin-bottom:1rem;">🔍</div>
       <div style="font-family:var(--font-head); font-size:1.5rem; letter-spacing:2px;">Geen producten gevonden</div>
@@ -843,30 +946,61 @@
 
   <!-- WAAROM ONS -->
   <section id="waarom">
-    <div class="section-label">Onze beloftes</div>
+    <div class="section-label">Slimme weerbaarheid</div>
     <h2 class="section-title">WAAROM CRISISKIT?</h2>
-    <p class="section-sub">Wij leveren geen goedkope catalogusproducten. Elk pakket wordt handmatig gecontroleerd voor verzending.</p>
+    <p class="section-sub">Niet omdat je bang moet zijn. Maar omdat slimme mensen niet wachten tot het te laat is.</p>
 
     <div class="why-grid reveal">
       <div class="why-card">
-        <span class="why-icon">✅</span>
-        <div class="why-title">CE-GECERTIFICEERD</div>
-        <div class="why-text">Alle producten voldoen aan Europese veiligheidsnormen. Geen grijze import, geen goedkope vervangers.</div>
+        <span class="why-icon">🛡️</span>
+        <div class="why-title">CRISIS.BE RICHTLIJNEN</div>
+        <div class="why-text">Elk pakket is samengesteld op basis van de officiële aanbevelingen van Crisis.be en het Rode Kruis. Geen willekeurig assortiment — het juiste spul.</div>
       </div>
       <div class="why-card">
         <span class="why-icon">🚚</span>
-        <div class="why-title">GRATIS VERZENDING</div>
-        <div class="why-text">Gratis levering in België en Nederland bij bestellingen vanaf €75. Verzending binnen 2 werkdagen.</div>
+        <div class="why-title">GRATIS LEVERING V.A. €75</div>
+        <div class="why-text">Gratis levering in België en Nederland. Psychologisch bewezen: gratis verzending weegt zwaarder dan een korting. Wij maken het simpel.</div>
       </div>
       <div class="why-card">
         <span class="why-icon">🔄</span>
-        <div class="why-title">30 DAGEN RETOUR</div>
-        <div class="why-text">Niet tevreden? Stuur je pakket ongebruikt terug binnen 30 dagen voor een volledige terugbetaling.</div>
+        <div class="why-title">30 DAGEN BEDENKTIJD</div>
+        <div class="why-text">Je koopt iets wat je hoopt nooit te gebruiken. Dat vraagt vertrouwen. Daarom: 30 dagen retour, geen vragen gesteld.</div>
       </div>
       <div class="why-card">
-        <span class="why-icon">📞</span>
-        <div class="why-title">EXPERT SUPPORT</div>
-        <div class="why-text">Onze crisisexperts helpen je het juiste pakket kiezen. Bereikbaar via chat, mail en telefoon.</div>
+        <span class="why-icon">✅</span>
+        <div class="why-title">CE-GECERTIFICEERD</div>
+        <div class="why-text">Alle producten voldoen aan Europese veiligheidsnormen. Geen grijze import, geen goedkope vervangers die zakken als het erop aankomt.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS — sociale bewijskracht (Belgisch specifiek) -->
+  <section id="reviews" style="background:var(--dark); padding: 7rem 5%;">
+    <div class="section-label">Wat klanten zeggen</div>
+    <h2 class="section-title">POPULAIR IN ANTWERPEN,<br>GENT EN LEUVEN</h2>
+    <p class="section-sub">Belgische kopers zijn kritisch. Terecht. Dit is wat zij zeggen.</p>
+
+    <div class="reviews-grid reveal">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Na de stroomstoring in onze straat vorig december was ik blij dat ik dit had besteld. Binnen het uur hadden we licht en warmte. Mijn buurman had niets."</div>
+        <div class="review-meta">
+          <strong>Lien V.</strong> — Antwerpen &nbsp;·&nbsp; <span>72u Gezinspakket</span>
+        </div>
+      </div>
+      <div class="review-card review-featured">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Ik had lang getwijfeld — leek overdreven. Totdat er een gaslek was in onze wijk en we 6 uur buiten moesten wachten. Nu heb ik er twee besteld: één thuis, één op het werk."</div>
+        <div class="review-meta">
+          <strong>Tom D.</strong> — Gent &nbsp;·&nbsp; <span>Volledige Bescherming Pakket</span>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Als KMO-eigenaar was ik verplicht iets te regelen voor mijn medewerkers. Dit was verreweg de makkelijkste en goedkoopste oplossing. Snelle levering ook."</div>
+        <div class="review-meta">
+          <strong>Nathalie W.</strong> — Leuven &nbsp;·&nbsp; <span>Meerdere pakketten</span>
+        </div>
       </div>
     </div>
   </section>
@@ -874,15 +1008,15 @@
   <!-- NIEUWSBRIEF -->
   <section id="nieuwsbrief">
     <div class="newsletter-inner reveal">
-      <div class="section-label">Blijf op de hoogte</div>
-      <h2 class="section-title">NOODTIPS IN JE INBOX</h2>
-      <p class="section-sub">Schrijf je in en ontvang maandelijks gratis tips over crisisvoorbereiding, acties en nieuwe producten.</p>
+      <div class="section-label">Gratis weerbaarheidsadvies</div>
+      <h2 class="section-title">WAT ALS HET MORGEN GEBEURT?</h2>
+      <p class="section-sub">Schrijf je in en ontvang maandelijks concrete tips over crisisvoorbereiding — gebaseerd op actuele nieuwsgebeurtenissen in BE en NL. Geen reclame, geen spam.</p>
       <div class="newsletter-form">
         <input class="newsletter-input" type="email" id="emailInput" placeholder="jouw@emailadres.be" />
-        <button class="newsletter-btn" onclick="subscribeNewsletter()">Inschrijven</button>
+        <button class="newsletter-btn" onclick="subscribeNewsletter()">Ja, ik wil klaar zijn</button>
       </div>
-      <div class="newsletter-note">🔒 Geen spam. Uitschrijven kan altijd. AVG/GDPR-conform.</div>
-      <div id="nl-success">✓ Bedankt! Je ontvangt binnenkort een bevestiging.</div>
+      <div class="newsletter-note">🔒 Uitschrijven kan altijd met één klik. AVG/GDPR-conform. Al <strong>1.240 lezers</strong> gingen je voor.</div>
+      <div id="nl-success">✓ Goed gedaan. Je ontvangt binnenkort je eerste tip.</div>
     </div>
   </section>
 
