@@ -628,14 +628,16 @@
 
     <div class="pakket-keuze">
 
-      <!-- BASIS — anchor (minder aantrekkelijk gepresenteerd) -->
+      <!-- BASIS — Startkit 1 persoon -->
       <div class="pakket-card pakket-basis">
         <div class="pakket-naam">STROOMUITVAL<br>STARTKIT</div>
         <div class="pakket-prijs-wrap">
-          <div class="pakket-prijs">€105</div>
+          <div class="pakket-prijs">€119</div>
           <div class="pakket-unit">voor 1 persoon · 72u</div>
         </div>
         <ul class="pakket-lijst">
+          <li>💧 <strong>3× Seven Oceans water 500ml</strong></li>
+          <li>🍫 <strong>1× Seven Oceans noodrantsoen 500g</strong></li>
           <li>✓ Noodradio met batterijen</li>
           <li>✓ Zaklamp met batterijen</li>
           <li>✓ 2× nooddeken</li>
@@ -644,30 +646,31 @@
           <li>✓ Survival mes</li>
           <li>✓ Powerbank 2.200 mAh</li>
           <li>✓ Zonnepaneel 30W</li>
+          <li class="pakket-mist">✗ Waterfilter</li>
           <li class="pakket-mist">✗ Grote powerbank</li>
-          <li class="pakket-mist">✗ Waterdichte opbergzak</li>
         </ul>
         <button class="btn-secondary waitlist-btn" style="width:100%;margin-top:auto;" onclick="openWaitlist('Stroomuitval Startkit')">📬 Stuur me een seintje</button>
         <div class="pakket-stock" style="opacity:.5;">Beschikbaar</div>
       </div>
 
-      <!-- PLUS — decoy (de echte bestseller, visueel dominant) -->
+      <!-- PLUS — Gezinspakket 2 personen (decoy, visueel dominant) -->
       <div class="pakket-card pakket-plus pakket-featured">
         <div class="pakket-tag">⚡ MEEST GEKOZEN</div>
         <div class="pakket-naam">72U<br>GEZINSPAKKET</div>
         <div class="pakket-prijs-wrap">
-          <div class="pakket-prijs">€133</div>
+          <div class="pakket-prijs">€159</div>
           <div class="pakket-unit">voor 2 personen · 72u</div>
         </div>
         <ul class="pakket-lijst">
+          <li>💧 <strong>6× Seven Oceans water 500ml</strong></li>
+          <li>🍫 <strong>2× Seven Oceans noodrantsoen 500g</strong></li>
+          <li>🔬 <strong>LifeStraw waterfilter</strong></li>
           <li>✓ Noodradio met batterijen</li>
           <li>✓ <strong>Luxe zaklamp met zonnepaneel</strong></li>
           <li>✓ 2× nooddeken</li>
           <li>✓ EHBO-set 280 stuks</li>
           <li>✓ <strong>4× aanstekers + 120× lucifers</strong></li>
-          <li>✓ Survival mes</li>
-          <li>✓ Powerbank 2.200 mAh</li>
-          <li>✓ Zonnepaneel 30W</li>
+          <li>✓ Powerbank 2.200 mAh + zonnepaneel 30W</li>
           <li>✓ <strong>Waterdichte opbergzak 20L</strong></li>
           <li class="pakket-mist">✗ Grote powerbank 10.000 mAh</li>
         </ul>
@@ -675,22 +678,23 @@
         <div class="pakket-stock pakket-stock-low">🔴 Nog 11 op voorraad</div>
       </div>
 
-      <!-- PREMIUM — anchoring (maakt plus goedkoop lijken) -->
+      <!-- PREMIUM — Volledige bescherming 2-4 personen -->
       <div class="pakket-card pakket-premium">
         <div class="pakket-naam">VOLLEDIGE<br>BESCHERMING</div>
         <div class="pakket-prijs-wrap">
-          <div class="pakket-prijs">€149</div>
+          <div class="pakket-prijs">€189</div>
           <div class="pakket-unit">voor 2–4 personen · 72u</div>
         </div>
         <ul class="pakket-lijst">
+          <li>💧 <strong>12× Seven Oceans water 500ml</strong></li>
+          <li>🍫 <strong>4× Seven Oceans noodrantsoen 500g</strong></li>
+          <li>🔬 <strong>LifeStraw waterfilter</strong></li>
           <li>✓ <strong>Noodradio 3-in-1 met zonnepaneel</strong></li>
           <li>✓ Luxe zaklamp met zonnepaneel</li>
           <li>✓ <strong>4× nooddeken</strong></li>
           <li>✓ EHBO-set 280 stuks</li>
-          <li>✓ 4× aanstekers + 120× lucifers</li>
           <li>✓ <strong>Multitool zakmes 12-in-1</strong></li>
-          <li>✓ <strong>Powerbank 10.000 mAh</strong></li>
-          <li>✓ Zonnepaneel 30W</li>
+          <li>✓ <strong>Powerbank 10.000 mAh</strong> + zonnepaneel 30W</li>
           <li>✓ Waterdichte opbergzak 20L</li>
           <li>✓ <strong>Reservebatterijen AA + AAA</strong></li>
         </ul>
@@ -715,13 +719,73 @@
     <!-- CATEGORY FILTERS -->
     <div class="cat-filters">
       <button class="cat-btn active" onclick="filterCat('alle', this)">Alles</button>
+      <button class="cat-btn" onclick="filterCat('water', this)">💧 Water &amp; Voeding</button>
       <button class="cat-btn" onclick="filterCat('licht', this)">🔦 Licht &amp; Energie</button>
       <button class="cat-btn" onclick="filterCat('ehbo', this)">💊 EHBO &amp; Gezondheid</button>
       <button class="cat-btn" onclick="filterCat('gereedschap', this)">🔧 Gereedschap</button>
       <button class="cat-btn" onclick="filterCat('overleving', this)">🎒 Overleving</button>
+      <button class="cat-btn" onclick="filterCat('hygiene', this)">🧴 Hygiëne &amp; Bescherming</button>
     </div>
 
     <div class="products-grid" id="productGrid">
+
+      <!-- ══ WATER & VOEDING ══ -->
+
+      <div class="product-card" data-cat="water">
+        <span class="product-badge badge-bestseller">Officieel aanbevolen</span>
+        <div class="product-icon">💧</div>
+        <div class="product-name">SEVEN OCEANS DRINKWATER (×6)</div>
+        <div class="product-desc">"Stel je voor: kraanwater valt weg na een overstroming of besmetting. Dit water blijft 5 jaar houdbaar en is goedgekeurd door de Noorse gezondheidsautoriteiten."</div>
+        <ul class="product-includes">
+          <li>6× zakje van 500ml = 3 liter totaal</li>
+          <li>5,5 jaar houdbaar — geen koeling nodig</li>
+          <li>SOLAS/ISO gecertificeerd (scheepvaartstandaard)</li>
+          <li>Vacuümverpakt, bestand tegen extreme temperaturen</li>
+          <li>Gebruikt door Rode Kruis &amp; UNICEF wereldwijd</li>
+        </ul>
+        <div class="product-stock product-stock-low">🔴 Beperkte voorraad</div>
+        <div class="product-footer">
+          <div class="product-price">€12,50 <span>/ 6 stuks</span></div>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Seven Oceans Drinkwater 6×')">📬 Seintje bij lancering</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="water">
+        <span class="product-badge badge-populair">Meest gekocht</span>
+        <div class="product-icon">🍫</div>
+        <div class="product-name">SEVEN OCEANS NOODRANTSOEN 500G</div>
+        <div class="product-desc">"Dag 2 zonder stroom. Winkels gesloten, kinderen hongerig. Dit rantsoen levert 2.500 kcal — de volledige dagbehoefte van een volwassene — zonder koken of water."</div>
+        <ul class="product-includes">
+          <li>500g — 9 repen van 250 kcal elk = 2.500 kcal totaal</li>
+          <li>5,5 jaar houdbaar</li>
+          <li>Direct eetbaar, geen bereiding nodig</li>
+          <li>Halal gecertificeerd · Vegan · Glutenvrij beschikbaar</li>
+          <li>Zelfde product als in reddingsvlotten wereldwijd</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€9,50 <span>/ stuk</span></div>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Seven Oceans Noodrantsoen 500g')">📬 Seintje bij lancering</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="water">
+        <span class="product-badge badge-nieuw">Essentieel</span>
+        <div class="product-icon">🔬</div>
+        <div class="product-name">LIFESTRAW WATERFILTER</div>
+        <div class="product-desc">"Na 72u raken je watervoorraden op. Met deze filter drink je veilig water uit elke kraan, rivier of regenbak — filtert 99,9% van alle bacteriën en parasieten."</div>
+        <ul class="product-includes">
+          <li>Filtert tot 4.000 liter water</li>
+          <li>Verwijdert 99,9999% bacteriën &amp; parasieten</li>
+          <li>Geen batterijen of chemicaliën nodig</li>
+          <li>Lichtgewicht (57g) — past in elke noodtas</li>
+          <li>Gebruikt door hulporganisaties in rampgebieden</li>
+        </ul>
+        <div class="product-stock product-stock-low">🔴 Nog 9 op voorraad</div>
+        <div class="product-footer">
+          <div class="product-price">€24,95 <span>/ stuk</span></div>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('LifeStraw Waterfilter')">📬 Seintje bij lancering</button>
+        </div>
+      </div>
 
       <!-- ══ LICHT & ENERGIE ══ -->
 
@@ -973,6 +1037,106 @@
         <div class="product-footer">
           <div class="product-price">€22,00 <span>/ stuk</span></div>
           <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Waterdichte zak 20L')">📬 Seintje bij lancering</button>
+        </div>
+      </div>
+
+      <!-- ══ HYGIËNE & BESCHERMING ══ -->
+
+      <div class="product-card" data-cat="hygiene">
+        <span class="product-badge badge-nieuw">Nieuw</span>
+        <div class="product-icon">🧴</div>
+        <div class="product-name">HANDDESINFECTANT + WETWIPES</div>
+        <div class="product-desc">"Zonder stromend water wordt hygiëne kritisch na 24u. Dit duo houdt infecties weg wanneer er geen kraanwater is."</div>
+        <ul class="product-includes">
+          <li>1× handdesinfectant 100ml (alcoholbasis, 70%)</li>
+          <li>1× zakje wetwipes (30 stuks)</li>
+          <li>1× microfiber doekje 40×60cm</li>
+          <li>Conform inhoud Rode Kruis noodpakket</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€6,50 <span>/ set</span></div>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Handdesinfectant + Wetwipes set')">📬 Seintje bij lancering</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="hygiene">
+        <span class="product-badge badge-populair">Aanbevolen</span>
+        <div class="product-icon">😷</div>
+        <div class="product-name">MONDKAPJES FFP2 (10×)</div>
+        <div class="product-desc">"Bij brand, chemische incidenten of luchtvervuiling is een FFP2-masker je eerste bescherming. Beter er 10 te hebben dan er 0 nodig te hebben."</div>
+        <ul class="product-includes">
+          <li>10× FFP2-masker (CE EN149 gecertificeerd)</li>
+          <li>Filtert 94% fijnstof en aerosolen</li>
+          <li>Verstelbaar neusstuk voor goede pasvorm</li>
+          <li>Individueel verpakt — lang houdbaar</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€7,95 <span>/ 10 stuks</span></div>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Mondkapjes FFP2 10×')">📬 Seintje bij lancering</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="hygiene">
+        <div class="product-icon">🦺</div>
+        <div class="product-name">WARMTEPONCHO NOOD</div>
+        <div class="product-desc">"Bij evacuatie 's nachts of in de regen: een nooddeken houdt je warm liggend, een poncho houdt je warm staand en in beweging."</div>
+        <ul class="product-includes">
+          <li>Gemetalliseerd polyester — reflecteert lichaamswarmte</li>
+          <li>Waterdicht + winddicht</li>
+          <li>One size fits all — capuchon inbegrepen</li>
+          <li>Slechts 87g — past in elke zak</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€5,95 <span>/ stuk</span></div>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Warmteponcho Nood')">📬 Seintje bij lancering</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="hygiene">
+        <div class="product-icon">🧤</div>
+        <div class="product-name">WERKHANDSCHOENEN</div>
+        <div class="product-desc">"Bij puin ruimen, glasscherven of beschadigde infrastructuur zijn onbeschermde handen je zwakste punt. Stevig, maar beweeglijk genoeg."</div>
+        <ul class="product-includes">
+          <li>Snijbestendige laag (niveau 3)</li>
+          <li>Antislip coating op palm en vingers</li>
+          <li>Ademend materiaal — comfortabel bij gebruik</li>
+          <li>Maat L/XL (universeel)</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€8,50 <span>/ paar</span></div>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Werkhandschoenen')">📬 Seintje bij lancering</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="hygiene">
+        <div class="product-icon">🚧</div>
+        <div class="product-name">BREAKLIGHTS (2×) + FLUITJE + TOUW</div>
+        <div class="product-desc">"Drie kleine items die het verschil maken: lichtstaafjes om jezelf zichtbaar te maken, een fluitje om hulp te roepen, touw voor alles."</div>
+        <ul class="product-includes">
+          <li>2× chemische breaklights (25cm, 8u brandtijd)</li>
+          <li>1× noodfluitje (120dB, hoorbaar op 1km)</li>
+          <li>1× paracord noodtouw 5m (550 pond trekkracht)</li>
+          <li>Conform Rode Kruis noodpakket inhoud</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€6,95 <span>/ set</span></div>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Breaklights + Fluitje + Touw set')">📬 Seintje bij lancering</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-cat="hygiene">
+        <div class="product-icon">🔧</div>
+        <div class="product-name">DUCTAPE + HOT/COLD PACK</div>
+        <div class="product-desc">"Ductape repareert tijdelijk alles — van kapotte ramen tot lekke waterleiding. Hot/cold pack verlicht pijn zonder medicatie of ijs."</div>
+        <ul class="product-includes">
+          <li>1× ductape mini-rol 10m (extra sterk, waterbestendig)</li>
+          <li>2× instant hot/cold pack 10×15cm</li>
+          <li>Activering met 1 druk — geen koeling nodig</li>
+          <li>Conform Rode Kruis noodpakket inhoud</li>
+        </ul>
+        <div class="product-footer">
+          <div class="product-price">€5,50 <span>/ set</span></div>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Ductape + Hot/Cold Pack set')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
