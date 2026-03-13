@@ -1928,11 +1928,10 @@
     };
 
     // ══ BREVO WAITLIST INTEGRATIE ══
-    // Vul hieronder jouw gegevens in zodra je Brevo account klaar is:
-    var BREVO_API_KEY  = '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';
-    var BREVO_LIST_ID  = 4;
+    // API-sleutel staat veilig op de server (Vercel environment variable)
+    // De site roept enkel onze eigen /api/waitlist aan
 
-    // Teller: elke inschrijving telt op bij de weergave (lokaal, geen server nodig)
+    // Teller: elke inschrijving telt op bij de weergave
     var waitlistCount = parseInt(localStorage.getItem('ck_wl_count') || '47');
     document.addEventListener('DOMContentLoaded', function() {
       var el = document.getElementById('waitlistCount');
@@ -1940,29 +1939,13 @@
     });
 
     async function sendToBrevo(email, productHint) {
-      // Als API key nog niet ingevuld is → sla lokaal op als demo
-      if (!BREVO_API_KEY || BREVO_API_KEY === 'JOUW_BREVO_API_KEY_HIER') {
-        console.log('[CrisisKit] Demo-modus: e-mail zou verstuurd worden voor', email, '| product:', productHint);
-        return { ok: true, demo: true };
-      }
       try {
-        var body = {
-          email: email,
-          listIds: [BREVO_LIST_ID],
-          updateEnabled: true,
-          attributes: { PRODUCT_INTERESSE: productHint || 'Algemeen' }
-        };
-        var res = await fetch('https://api.brevo.com/v3/contacts', {
+        var res = await fetch('/api/waitlist', {
           method: 'POST',
-          headers: {
-            'accept': 'application/json',
-            'content-type': 'application/json',
-            'api-key': BREVO_API_KEY
-          },
-          body: JSON.stringify(body)
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, product: productHint || 'Algemeen' })
         });
-        // 201 = aangemaakt, 204 = al bestaat maar geüpdated → beide OK
-        return { ok: res.status === 201 || res.status === 204 };
+        return { ok: res.ok };
       } catch (e) {
         return { ok: false };
       }
