@@ -532,9 +532,50 @@
       0%, 100% { opacity: 1; }
       50% { opacity: .6; }
     }
+
+    /* ══ COMING SOON BANNER ══ */
+    #comingSoonBanner {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: var(--accent); color: var(--black);
+      padding: .55rem 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+      font-size: .85rem; font-weight: 600;
+      z-index: 200; flex-wrap: wrap;
+    }
+    .csb-pulse { color: #8b1a1a; font-size: .65rem; animation: pulse 1.5s infinite; }
+    #comingSoonBanner > span { flex: 1; min-width: 200px; }
+    .csb-btn {
+      background: var(--black); color: var(--accent);
+      padding: .3rem .85rem; font-weight: 700; font-size: .82rem;
+      text-decoration: none; white-space: nowrap; transition: opacity .2s;
+    }
+    .csb-btn:hover { opacity: .8; }
+    .csb-close {
+      background: none; border: none; color: var(--black);
+      opacity: .5; cursor: pointer; font-size: 1rem; padding: 0 .2rem;
+    }
+    /* Schuif navbar omlaag zodat banner zichtbaar blijft */
+    nav { top: 34px !important; }
+
+    /* ══ WAITLIST COUNTER ══ */
+    .waitlist-counter {
+      display: flex; flex-direction: column; align-items: center;
+      margin-top: 2rem; gap: .4rem;
+    }
+    .wc-number { font-family: var(--font-head); font-size: 3.5rem; color: var(--accent); letter-spacing: 4px; }
+    .wc-label { font-size: .85rem; color: var(--muted); }
+
   </style>
 </head>
 <body>
+
+  <!-- ══ COMING SOON BANNER ══ -->
+  <div id="comingSoonBanner">
+    <span class="csb-pulse">●</span>
+    <span>CrisisKit is <strong>binnenkort beschikbaar</strong> — wil je als eerste weten wanneer we live gaan?</span>
+    <a href="#waitlist" class="csb-btn">Zet me op de lijst →</a>
+    <button class="csb-close" onclick="document.getElementById('comingSoonBanner').style.display='none'">✕</button>
+  </div>
 
   <!-- NAVBAR -->
   <nav>
@@ -560,8 +601,8 @@
       <strong>247 Belgische gezinnen</strong> bestelden deze maand een CrisisKit — zij zijn klaar. Ben jij het ook?
     </p>
     <div class="hero-cta">
-      <a class="btn-primary" href="#pakketten">Bekijk de 72u pakketten</a>
-      <a class="btn-secondary" href="#waarom">Slimme voorbereiding →</a>
+      <a class="btn-primary" href="#waitlist">Zet me op de wachtlijst</a>
+      <a class="btn-secondary" href="#pakketten">Bekijk de pakketten →</a>
     </div>
     <div class="hero-stats">
       <div>
@@ -606,7 +647,7 @@
           <li class="pakket-mist">✗ Grote powerbank</li>
           <li class="pakket-mist">✗ Waterdichte opbergzak</li>
         </ul>
-        <button class="btn-secondary" style="width:100%;margin-top:auto;" onclick="addToCart('Stroomuitval Startkit', 105, '🔵')">Voeg toe</button>
+        <button class="btn-secondary waitlist-btn" style="width:100%;margin-top:auto;" onclick="openWaitlist('Stroomuitval Startkit')">📬 Stuur me een seintje</button>
         <div class="pakket-stock" style="opacity:.5;">Beschikbaar</div>
       </div>
 
@@ -630,7 +671,7 @@
           <li>✓ <strong>Waterdichte opbergzak 20L</strong></li>
           <li class="pakket-mist">✗ Grote powerbank 10.000 mAh</li>
         </ul>
-        <button class="btn-primary" style="width:100%;margin-top:auto;" onclick="addToCart('72u Gezinspakket', 133, '🟡')">Direct bestellen</button>
+        <button class="btn-primary waitlist-btn" style="width:100%;margin-top:auto;" onclick="openWaitlist('72u Gezinspakket')">📬 Stuur me een seintje</button>
         <div class="pakket-stock pakket-stock-low">🔴 Nog 11 op voorraad</div>
       </div>
 
@@ -653,7 +694,7 @@
           <li>✓ Waterdichte opbergzak 20L</li>
           <li>✓ <strong>Reservebatterijen AA + AAA</strong></li>
         </ul>
-        <button class="btn-secondary" style="width:100%;margin-top:auto;" onclick="addToCart('Volledige Bescherming Pakket', 149, '⭐')">Voeg toe</button>
+        <button class="btn-secondary waitlist-btn" style="width:100%;margin-top:auto;" onclick="openWaitlist('Volledige Bescherming Pakket')">📬 Stuur me een seintje</button>
         <div class="pakket-stock" style="opacity:.5;">Beschikbaar</div>
       </div>
 
@@ -698,7 +739,7 @@
         <div class="product-stock product-stock-low">🔴 Nog 8 op voorraad</div>
         <div class="product-footer">
           <div class="product-price">€29,75 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Noodradio 3-in-1', 29.75, '📻')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Noodradio 3-in-1')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -714,7 +755,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€15,95 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Noodradio met batterijen', 15.95, '📡')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Noodradio met batterijen')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -732,7 +773,7 @@
         <div class="product-stock product-stock-low">🔴 Nog 14 op voorraad</div>
         <div class="product-footer">
           <div class="product-price">€24,50 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Zaklamp met zonnepaneel', 24.50, '🔦')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Zaklamp met zonnepaneel')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -748,7 +789,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€11,50 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Zaklamp met batterijen', 11.50, '💡')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Zaklamp met batterijen')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -764,7 +805,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€19,70 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Powerbank 10.000 mAh', 19.70, '🔋')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Powerbank 10.000 mAh')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -779,7 +820,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€8,50 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Powerbank 2.200 mAh', 8.50, '⚡')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Powerbank 2.200 mAh')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -795,7 +836,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€20,80 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Zonnepaneel 30W', 20.80, '☀️')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Zonnepaneel 30W')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -810,7 +851,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€5,00 <span>/ set</span></div>
-          <button class="add-to-cart" onclick="addToCart('Batterijen AA+AAA set', 5.00, '🔌')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Batterijen AA+AAA set')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -830,7 +871,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€28,00 <span>/ set</span></div>
-          <button class="add-to-cart" onclick="addToCart('EHBO-set 280 stuks', 28.00, '🩺')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('EHBO-set 280 stuks')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -846,7 +887,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€8,50 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Digitale thermometer', 8.50, '🌡️')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Digitale thermometer')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -862,7 +903,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€9,00 <span>/ 4 stuks</span></div>
-          <button class="add-to-cart" onclick="addToCart('Nooddeken 4×', 9.00, '🦺')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Nooddeken 4×')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -881,7 +922,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€29,50 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Multitool zakmes 12-in-1', 29.50, '🛠️')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Multitool zakmes 12-in-1')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -897,7 +938,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€12,00 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Survival mes', 12.00, '🔪')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Survival mes')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -915,7 +956,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€4,50 <span>/ set</span></div>
-          <button class="add-to-cart" onclick="addToCart('Aanstekers + lucifers set', 4.50, '🔥')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Aanstekers + lucifers set')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -931,7 +972,7 @@
         </ul>
         <div class="product-footer">
           <div class="product-price">€22,00 <span>/ stuk</span></div>
-          <button class="add-to-cart" onclick="addToCart('Waterdichte zak 20L', 22.00, '🎒')">+ Voeg toe</button>
+          <button class="add-to-cart waitlist-btn" onclick="openWaitlist('Waterdichte zak 20L')">📬 Seintje bij lancering</button>
         </div>
       </div>
 
@@ -1005,18 +1046,29 @@
     </div>
   </section>
 
-  <!-- NIEUWSBRIEF -->
-  <section id="nieuwsbrief">
+  <!-- WAITLIST SECTIE -->
+  <section id="waitlist">
     <div class="newsletter-inner reveal">
-      <div class="section-label">Gratis weerbaarheidsadvies</div>
-      <h2 class="section-title">WAT ALS HET MORGEN GEBEURT?</h2>
-      <p class="section-sub">Schrijf je in en ontvang maandelijks concrete tips over crisisvoorbereiding — gebaseerd op actuele nieuwsgebeurtenissen in BE en NL. Geen reclame, geen spam.</p>
+      <div class="section-label">Binnenkort beschikbaar</div>
+      <h2 class="section-title">WEES ALS EERSTE<em>KLAAR.</em></h2>
+      <p class="section-sub">CrisisKit opent binnenkort. Schrijf je in en ontvang als eerste een bericht — inclusief een <strong>exclusieve openingskorting</strong> voor vroege inschrijvers.</p>
       <div class="newsletter-form">
         <input class="newsletter-input" type="email" id="emailInput" placeholder="jouw@emailadres.be" />
-        <button class="newsletter-btn" onclick="subscribeNewsletter()">Ja, ik wil klaar zijn</button>
+        <button class="newsletter-btn" onclick="subscribeWaitlist()">Ja, zet me op de lijst →</button>
       </div>
-      <div class="newsletter-note">🔒 Uitschrijven kan altijd met één klik. AVG/GDPR-conform. Al <strong>1.240 lezers</strong> gingen je voor.</div>
-      <div id="nl-success">✓ Goed gedaan. Je ontvangt binnenkort je eerste tip.</div>
+      <div class="newsletter-note">🔒 Geen spam. Alleen een seintje wanneer we live gaan. Uitschrijven kan altijd. GDPR-conform.</div>
+      <div id="nl-success" style="display:none;">
+        ✓ <strong>Goed bezig.</strong> Je staat op de lijst. We sturen je een bericht zodra CrisisKit live gaat!
+      </div>
+      <div id="nl-error" style="display:none; color:#e74c3c; margin-top:1rem; font-size:.9rem;">
+        ⚠️ Er ging iets mis. Probeer het opnieuw of stuur een mail naar <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="98f1f6fef7d8fbeaf1ebf1ebf3f1ecb6fafd">[email&#160;protected]</a>
+      </div>
+
+      <!-- Teller — sociaal bewijs -->
+      <div class="waitlist-counter reveal">
+        <div class="wc-number" id="waitlistCount">47</div>
+        <div class="wc-label">mensen staan al op de wachtlijst</div>
+      </div>
     </div>
   </section>
 
@@ -1688,7 +1740,7 @@
     }
   </style>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     'use strict';
 
     // ══ CART DATA ══
@@ -1875,19 +1927,140 @@
       document.getElementById('noResults').style.display = zichtbaar === 0 ? 'block' : 'none';
     };
 
-    // ══ NIEUWSBRIEF ══
-    window.subscribeNewsletter = function() {
-      var input = document.getElementById('emailInput');
-      if (!input.value.includes('@')) {
+    // ══ BREVO WAITLIST INTEGRATIE ══
+    // Vul hieronder jouw gegevens in zodra je Brevo account klaar is:
+    var BREVO_API_KEY  = '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';
+    var BREVO_LIST_ID  = 4;
+
+    // Teller: elke inschrijving telt op bij de weergave (lokaal, geen server nodig)
+    var waitlistCount = parseInt(localStorage.getItem('ck_wl_count') || '47');
+    document.addEventListener('DOMContentLoaded', function() {
+      var el = document.getElementById('waitlistCount');
+      if (el) el.textContent = waitlistCount;
+    });
+
+    async function sendToBrevo(email, productHint) {
+      // Als API key nog niet ingevuld is → sla lokaal op als demo
+      if (!BREVO_API_KEY || BREVO_API_KEY === 'JOUW_BREVO_API_KEY_HIER') {
+        console.log('[CrisisKit] Demo-modus: e-mail zou verstuurd worden voor', email, '| product:', productHint);
+        return { ok: true, demo: true };
+      }
+      try {
+        var body = {
+          email: email,
+          listIds: [BREVO_LIST_ID],
+          updateEnabled: true,
+          attributes: { PRODUCT_INTERESSE: productHint || 'Algemeen' }
+        };
+        var res = await fetch('https://api.brevo.com/v3/contacts', {
+          method: 'POST',
+          headers: {
+            'accept': 'application/json',
+            'content-type': 'application/json',
+            'api-key': BREVO_API_KEY
+          },
+          body: JSON.stringify(body)
+        });
+        // 201 = aangemaakt, 204 = al bestaat maar geüpdated → beide OK
+        return { ok: res.status === 201 || res.status === 204 };
+      } catch (e) {
+        return { ok: false };
+      }
+    }
+
+    // ── Waitlist formulier op de pagina (sectie #waitlist) ──
+    window.subscribeWaitlist = async function() {
+      var input   = document.getElementById('emailInput');
+      var success = document.getElementById('nl-success');
+      var error   = document.getElementById('nl-error');
+      var btn     = document.querySelector('.newsletter-btn');
+
+      if (!input.value || !input.value.includes('@')) {
         input.style.borderColor = '#8b2e2e';
         setTimeout(function() { input.style.borderColor = ''; }, 1500);
         return;
       }
-      document.getElementById('nl-success').style.display = 'block';
-      input.value = '';
-      input.disabled = true;
-      document.querySelector('.newsletter-btn').disabled = true;
+
+      btn.textContent = 'Even geduld…';
+      btn.disabled = true;
+
+      var result = await sendToBrevo(input.value, 'Algemeen');
+      if (result.ok) {
+        // Teller ophogen
+        waitlistCount++;
+        localStorage.setItem('ck_wl_count', waitlistCount);
+        var el = document.getElementById('waitlistCount');
+        if (el) el.textContent = waitlistCount;
+
+        success.style.display = 'block';
+        error.style.display   = 'none';
+        input.value    = '';
+        input.disabled = true;
+      } else {
+        btn.textContent = 'Ja, zet me op de lijst →';
+        btn.disabled = false;
+        error.style.display   = 'block';
+        success.style.display = 'none';
+      }
     };
+
+    // ── Waitlist modal (vanuit productknopppen) ──
+    window.openWaitlist = function(productNaam) {
+      document.getElementById('wlProductName').textContent = '👉 Interesse in: ' + productNaam;
+      document.getElementById('wlSuccess').style.display = 'none';
+      document.getElementById('wlError').style.display   = 'none';
+      document.getElementById('wlEmail').value = '';
+      document.getElementById('wlEmail').disabled = false;
+      document.getElementById('waitlistModal').style.display  = 'block';
+      document.getElementById('waitlistOverlay').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      setTimeout(function() { document.getElementById('wlEmail').focus(); }, 100);
+    };
+
+    window.closeWaitlistModal = function() {
+      document.getElementById('waitlistModal').style.display  = 'none';
+      document.getElementById('waitlistOverlay').style.display = 'none';
+      document.body.style.overflow = '';
+    };
+
+    window.submitWaitlistModal = async function() {
+      var emailEl  = document.getElementById('wlEmail');
+      var success  = document.getElementById('wlSuccess');
+      var error    = document.getElementById('wlError');
+      var product  = document.getElementById('wlProductName').textContent.replace('👉 Interesse in: ', '');
+
+      if (!emailEl.value || !emailEl.value.includes('@')) {
+        emailEl.style.borderColor = '#8b2e2e';
+        setTimeout(function() { emailEl.style.borderColor = ''; }, 1500);
+        return;
+      }
+
+      var result = await sendToBrevo(emailEl.value, product);
+      if (result.ok) {
+        waitlistCount++;
+        localStorage.setItem('ck_wl_count', waitlistCount);
+        var el = document.getElementById('waitlistCount');
+        if (el) el.textContent = waitlistCount;
+
+        success.style.display = 'block';
+        error.style.display   = 'none';
+        emailEl.disabled = true;
+        setTimeout(window.closeWaitlistModal, 2200);
+      } else {
+        error.style.display   = 'block';
+        success.style.display = 'none';
+      }
+    };
+
+    // Enter-toets in modal
+    document.addEventListener('DOMContentLoaded', function() {
+      var wlEmail = document.getElementById('wlEmail');
+      if (wlEmail) {
+        wlEmail.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') window.submitWaitlistModal();
+        });
+      }
+    });
 
     // ══ INIT ══
     document.addEventListener('DOMContentLoaded', function() {
@@ -1903,5 +2076,18 @@
       reveals.forEach(function(el) { observer.observe(el); });
     });
   </script>
-</body>
-</html>
+  <!-- ══ WAITLIST MODAL ══ -->
+  <div id="waitlistOverlay" onclick="closeWaitlistModal()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:500;"></div>
+  <div id="waitlistModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--card); border:1px solid var(--accent); padding:2.5rem; z-index:501; max-width:440px; width:90%;">
+    <button onclick="closeWaitlistModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;">✕</button>
+    <div style="font-family:var(--font-head);font-size:1.8rem;letter-spacing:3px;color:var(--accent);margin-bottom:.5rem;">BINNENKORT</div>
+    <div id="wlProductName" style="font-size:.9rem;color:var(--light);margin-bottom:1.2rem;"></div>
+    <p style="font-size:.88rem;color:var(--muted);margin-bottom:1.5rem;">Dit product is binnenkort beschikbaar. Geef je e-mailadres en we sturen je een seintje — inclusief openingskorting.</p>
+    <div style="display:flex;gap:.5rem;margin-bottom:.8rem;">
+      <input id="wlEmail" type="email" placeholder="jouw@emailadres.be"
+        style="flex:1;background:var(--dark);border:1px solid var(--border);color:var(--white);padding:.75rem 1rem;font-family:var(--font-body);font-size:.9rem;outline:none;" />
+      <button onclick="submitWaitlistModal()"
+        style="background:var(--accent);color:var(--black);border:none;padding:.75rem 1.2rem;font-family:var(--font-head);font-size:1rem;letter-spacing:2px;cursor:pointer;white-space:nowrap;">OK →</button>
+    </div>
+    <div id="wlSuccess" style="display:none;color:#5cb85c;font-size:.88rem;margin-top:.5rem;">✓ Gelukt! We sturen je een seintje zodra we live gaan.</div>
+    <div id="wlError" style="display:none;color:#e74c3c;font-size:.88
