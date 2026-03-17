@@ -9,15 +9,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black:   #0a0a0a;
-      --dark:    #111111;
-      --card:    #181818;
-      --border:  #2a2a2a;
-      --muted:   #555;
-      --light:   #c8c8c8;
-      --white:   #f0ede8;
-      --accent:  #d4a853;   /* warm amber — urgency without aggression */
-      --accent2: #8b2e2e;   /* deep red for badges */
+      --black:   #0d1b2a;   /* diep marineblauw — vertrouwen, autoriteit */
+      --dark:    #132030;   /* iets lichter marineblauw voor secties */
+      --card:    #1a2d40;   /* kaartachtergrond */
+      --border:  #253d54;   /* subtiele randen */
+      --muted:   #5a7a90;   /* gedempte tekst */
+      --light:   #a8c4d4;   /* lichte tekst */
+      --white:   #f4f1ec;   /* warm wit — geen koud papier-wit */
+      --accent:  #2e9e82;   /* teal-groen — rust, veiligheid, natuur */
+      --accent2: #1d6e7a;   /* dieper teal voor badges */
       --font-head: 'Bebas Neue', sans-serif;
       --font-body: 'DM Sans', sans-serif;
     }
@@ -50,7 +50,7 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 5%;
       height: 68px;
-      background: rgba(10,10,10,.92);
+      background: rgba(13,27,42,.95);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
@@ -96,23 +96,23 @@
     .hero-bg {
       position: absolute; inset: 0;
       background:
-        linear-gradient(to bottom, rgba(10,10,10,.2) 0%, rgba(10,10,10,.85) 70%, var(--black) 100%),
-        linear-gradient(135deg, #1a1008 0%, #0a0a0a 50%, #0d0a0a 100%);
+        linear-gradient(to bottom, rgba(13,27,42,.1) 0%, rgba(13,27,42,.88) 70%, var(--black) 100%),
+        linear-gradient(135deg, #0a1824 0%, #0d1b2a 50%, #091520 100%);
     }
     /* Decorative grid */
     .hero-bg::after {
       content: '';
       position: absolute; inset: 0;
       background-image:
-        linear-gradient(rgba(212,168,83,.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(212,168,83,.06) 1px, transparent 1px);
+        linear-gradient(rgba(46,158,130,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46,158,130,.05) 1px, transparent 1px);
       background-size: 60px 60px;
       mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
     }
     .hero-badge {
       display: inline-flex; align-items: center; gap: .5rem;
-      background: rgba(212,168,83,.12);
-      border: 1px solid rgba(212,168,83,.3);
+      background: rgba(46,158,130,.12);
+      border: 1px solid rgba(46,158,130,.35);
       color: var(--accent);
       padding: .4rem 1rem;
       font-size: .8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
@@ -159,7 +159,7 @@
     }
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(212,168,83,.4);
+      box-shadow: 0 8px 30px rgba(46,158,130,.35);
     }
     .btn-secondary {
       background: transparent; color: var(--white);
@@ -257,7 +257,7 @@
       transform: scaleX(0); transform-origin: left;
       transition: transform .3s ease;
     }
-    .product-card:hover { background: #1e1e1e; }
+    .product-card:hover { background: var(--card); }
     .product-card:hover::before { transform: scaleX(1); }
 
     .product-badge {
@@ -288,7 +288,7 @@
     .product-includes li {
       font-size: .83rem; color: var(--muted);
       padding: .3rem 0;
-      border-bottom: 1px solid #222;
+      border-bottom: 1px solid var(--border);
       display: flex; align-items: center; gap: .5rem;
     }
     .product-includes li::before { content: '—'; color: var(--accent); font-size: .7rem; }
@@ -437,7 +437,7 @@
     .chk-item {
       display: flex; align-items: flex-start; gap: .8rem;
       padding: .7rem 0;
-      border-bottom: 1px solid #1a1a1a;
+      border-bottom: 1px solid var(--border);
       cursor: pointer;
       color: var(--light);
       font-size: .9rem;
@@ -501,7 +501,7 @@
     }
     .pakket-card:last-child { border-right: none; }
     .pakket-featured {
-      background: #161610;
+      background: var(--black);
       border: 2px solid var(--accent) !important;
       margin: -1px;
       z-index: 2;
@@ -533,7 +533,7 @@
     }
     .pakket-lijst li {
       font-size: .85rem; color: var(--light);
-      padding: .3rem 0; border-bottom: 1px solid #1e1e1e;
+      padding: .3rem 0; border-bottom: 1px solid var(--border);
     }
     .pakket-lijst li strong { color: var(--white); }
     .pakket-mist { color: var(--muted) !important; text-decoration: line-through; opacity: .5; }
@@ -560,7 +560,7 @@
       transition: background .2s;
     }
     .review-card:hover { background: var(--card); }
-    .review-featured { background: #12120e; border-left: 3px solid var(--accent); }
+    .review-featured { background: var(--black); border-left: 3px solid var(--accent); }
     .review-stars { color: var(--accent); font-size: 1.1rem; letter-spacing: 2px; }
     .review-text { font-size: .92rem; color: var(--light); line-height: 1.7; font-style: italic; }
     .review-meta { font-size: .8rem; color: var(--muted); }
@@ -576,23 +576,24 @@
     /* ══ COMING SOON BANNER ══ */
     #comingSoonBanner {
       position: fixed; top: 0; left: 0; right: 0;
-      background: var(--accent); color: var(--black);
+      background: var(--accent); color: #fff;
       padding: .55rem 1.5rem;
       display: flex; align-items: center; gap: 1rem;
       font-size: .85rem; font-weight: 600;
       z-index: 200; flex-wrap: wrap;
     }
-    .csb-pulse { color: #8b1a1a; font-size: .65rem; animation: pulse 1.5s infinite; }
+    .csb-pulse { color: rgba(255,255,255,.6); font-size: .65rem; animation: pulse 1.5s infinite; }
     #comingSoonBanner > span { flex: 1; min-width: 200px; }
     .csb-btn {
-      background: var(--black); color: var(--accent);
+      background: rgba(255,255,255,.15); color: #fff;
       padding: .3rem .85rem; font-weight: 700; font-size: .82rem;
-      text-decoration: none; white-space: nowrap; transition: opacity .2s;
+      text-decoration: none; white-space: nowrap; transition: background .2s;
+      border: 1px solid rgba(255,255,255,.3);
     }
-    .csb-btn:hover { opacity: .8; }
+    .csb-btn:hover { background: rgba(255,255,255,.25); }
     .csb-close {
-      background: none; border: none; color: var(--black);
-      opacity: .5; cursor: pointer; font-size: 1rem; padding: 0 .2rem;
+      background: none; border: none; color: #fff;
+      opacity: .6; cursor: pointer; font-size: 1rem; padding: 0 .2rem;
     }
     /* Schuif navbar omlaag zodat banner zichtbaar blijft */
     nav { top: 34px !important; }
@@ -634,30 +635,18 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-badge">Gebaseerd op richtlijnen van Crisis.be &amp; Rode Kruis</div>
     <h1>WAT DOE JIJ<em>ALS HET LICHT UITVALT?</em></h1>
     <p class="hero-sub">
-      Midden in de nacht. Kinderen thuis. Geen stroom, geen gsm-signaal, geen warmte.
-      <strong>247 Belgische gezinnen</strong> bestelden deze maand een CrisisKit — zij zijn klaar. Ben jij het ook?
+      Midden in de nacht. Kinderen thuis. Geen stroom, geen gsm-signaal, geen warmte.<br>
+      Weet jij wat te doen — en kun je snel handelen?
     </p>
     <div class="hero-cta">
       <a class="btn-primary" href="#waitlist">Zet me op de wachtlijst</a>
       <a class="btn-secondary" href="#pakketten">Bekijk de pakketten →</a>
     </div>
-    <div class="hero-stats">
-      <div>
-        <div class="stat-num">247</div>
-        <div class="stat-label">Belgische gezinnen deze maand</div>
-      </div>
-      <div>
-        <div class="stat-num">72u</div>
-        <div class="stat-label">Zelfstandig overleven</div>
-      </div>
-      <div>
-        <div class="stat-num">Crisis.be</div>
-        <div class="stat-label">Richtlijnen gevolgd</div>
-      </div>
-    </div>
+    <p style="margin-top:1.5rem; font-size:.82rem; color:var(--muted); position:relative; z-index:1;">
+      Samengesteld op basis van Crisis.be &amp; Rode Kruis richtlijnen
+    </p>
   </section>
 
   <!-- PAKKETTEN ANCHOR — aparte sectie met decoy-effect -->
@@ -1409,7 +1398,7 @@
     .legal-body ul { padding-left: 1.4rem; margin-bottom: .7rem; }
     .legal-body ul li { margin-bottom: .3rem; }
     .legal-body code {
-      background: #1e1e1e; padding: .1rem .4rem;
+      background: var(--card); padding: .1rem .4rem;
       font-size: .82rem; color: var(--accent);
     }
 
@@ -1551,7 +1540,7 @@
       display: flex; justify-content: space-between;
       padding: .45rem 0;
       font-size: .9rem; color: var(--light);
-      border-bottom: 1px solid #1e1e1e;
+      border-bottom: 1px solid var(--card);
     }
     .summary-total {
       font-family: var(--font-head);
