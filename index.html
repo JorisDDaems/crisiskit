@@ -123,9 +123,9 @@
     .hero-badge::before { content: '⬡'; font-size: .7rem; }
     .hero h1 {
       font-family: var(--font-head);
-      font-size: clamp(4rem, 10vw, 9rem);
-      line-height: .92;
-      letter-spacing: 4px;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: .95;
+      letter-spacing: 3px;
       color: var(--white);
       position: relative; z-index: 1;
       animation: fadeUp .8s .15s ease both;
@@ -172,6 +172,32 @@
     }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
+    /* ── PAKKET KNOPPEN ── */
+    .btn-waitlist {
+      width: 100%; margin-top: auto;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--light);
+      padding: .85rem 1.2rem;
+      font-family: var(--font-body); font-size: .9rem; font-weight: 600;
+      cursor: pointer; letter-spacing: .3px;
+      transition: all .2s;
+    }
+    .btn-waitlist:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .btn-waitlist-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn-waitlist-primary:hover {
+      background: #279e80;
+      border-color: #279e80;
+      color: #fff;
+    }
+
     .hero-stats {
       display: flex; gap: 3rem; flex-wrap: wrap;
       margin-top: 3.5rem;
@@ -187,7 +213,7 @@
     .stat-label { font-size: .8rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
 
     /* ── SECTION SHARED ── */
-    section { padding: 7rem 5%; }
+    section { padding: 5rem 5%; }
     .section-label {
       font-size: .75rem; font-weight: 600; letter-spacing: 3px;
       text-transform: uppercase; color: var(--accent);
@@ -474,14 +500,61 @@
       text-decoration: line-through;
     }
     /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .pakket-keuze { grid-template-columns: 1fr; }
+      .pakket-featured { transform: none; margin: 0; border: 2px solid var(--accent) !important; }
+      .pakket-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .pakket-card:last-child { border-bottom: none; }
+    }
+
     @media (max-width: 768px) {
+      /* Nav */
       .nav-links { display: none; }
-      .hero-stats { gap: 1.5rem; }
+      nav { padding: 0 4%; }
+
+      /* Hero */
+      .hero { padding: 0 5% 6vh; min-height: 85vh; }
+      .hero h1 { font-size: clamp(2.4rem, 9vw, 4rem); }
+      .hero-sub { font-size: 1rem; }
+      .hero-cta { flex-direction: column; gap: .8rem; }
+      .hero-cta a { text-align: center; }
+
+      /* Secties */
+      section { padding: 3.5rem 5%; }
+
+      /* Inhoud grid — van 4 kolommen naar 2 */
+      #waarom > div[style*="grid-template-columns:repeat(auto-fit, minmax(200px"] {
+        grid-template-columns: 1fr 1fr !important;
+      }
+      /* Op heel kleine schermen: 1 kolom */
+    }
+
+    @media (max-width: 480px) {
+      /* Hero */
+      .hero h1 { font-size: clamp(2rem, 11vw, 3rem); }
+      .btn-primary, .btn-secondary { padding: .85rem 1.6rem; font-size: .9rem; }
+
+      /* Pakketten */
+      .pakket-prijs { font-size: 2.2rem; }
+      .pakket-card { padding: 1.6rem 1.4rem; }
+
+      /* Vergelijkingstabel scrollbaar op klein scherm */
+      #waarom table { font-size: .82rem; }
+      #waarom table td { padding: .5rem .4rem; }
+
+      /* Reviews: 1 kolom */
+      .reviews-grid { grid-template-columns: 1fr; }
+
+      /* Waitlist form */
       .newsletter-form { flex-direction: column; }
       .newsletter-input { border-right: 1px solid var(--border); border-bottom: none; }
-      footer { flex-direction: column; align-items: flex-start; }
-      .pakket-keuze { grid-template-columns: 1fr; }
-      .pakket-featured { transform: none; margin: 0; }
+
+      /* Footer */
+      footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .footer-links { flex-wrap: wrap; gap: 1rem; }
+
+      /* Inhoud grid — 1 kolom op klein scherm */
+      #waarom > div { grid-template-columns: 1fr !important; }
     }
 
     /* ══ PAKKET KEUZE (3 kaarten met decoy-effect) ══ */
@@ -509,18 +582,20 @@
     }
     .pakket-tag {
       display: inline-block;
-      background: var(--accent); color: var(--black);
-      font-size: .72rem; font-weight: 800;
-      letter-spacing: 2px; text-transform: uppercase;
-      padding: .3rem .9rem;
+      background: var(--accent); color: #fff;
+      font-size: .75rem; font-weight: 600;
+      letter-spacing: .5px;
+      padding: .25rem .8rem;
       margin-bottom: 1rem; width: fit-content;
+      border-radius: 2px;
     }
     .pakket-naam {
-      font-family: var(--font-head);
-      font-size: 1.7rem; letter-spacing: 3px; line-height: 1.1;
-      color: var(--white); margin-bottom: 1.2rem;
+      font-family: var(--font-body);
+      font-size: 1.1rem; font-weight: 600; letter-spacing: .5px;
+      color: var(--light); margin-bottom: 1rem;
+      text-transform: none;
     }
-    .pakket-featured .pakket-naam { color: var(--accent); }
+    .pakket-featured .pakket-naam { color: var(--white); }
     .pakket-prijs-wrap { margin-bottom: 1.5rem; }
     .pakket-prijs {
       font-family: var(--font-head);
@@ -622,10 +697,9 @@
   <nav>
     <a class="nav-logo" href="#">CRISIS<span>KIT</span></a>
     <ul class="nav-links">
-      <li><a href="#producten">Producten</a></li>
-      <li><a href="#waarom">Waarom ons</a></li>
-      <li><a href="#nieuwsbrief">Contact</a></li>
-      <li><a href="#" onclick="openLegal('impressum');return false;">Info</a></li>
+      <li><a href="#pakketten">Pakketten</a></li>
+      <li><a href="#waarom">Inhoud</a></li>
+      <li><a href="#waitlist">Wachtlijst</a></li>
     </ul>
     <button class="nav-cart" onclick="openCart()">
       🛒 Mandje <span class="cart-count" id="cartCount">0</span>
@@ -635,12 +709,10 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
-<h1>ALS DE STROOM UITVALT,<em>BEN JIJ VOORBEREID?</em></h1>
-<p class="hero-sub">
-  Een noodsituatie komt zelden aangekondigd. Denk aan een stroompanne, zware storm of technische storing.<br>
-  Op zo’n moment is snel en doordacht handelen cruciaal — toch zijn de meeste gezinnen hier onvoldoende op voorbereid.<br>
-  Met een crisiskit heb je alles bij de hand om kalm te blijven en meteen te reageren.
-</p>
+    <h1>ALS DE STROOM UITVALT,<em>BEN JIJ VOORBEREID?</em></h1>
+    <p class="hero-sub">
+      Een noodsituatie komt zelden aangekondigd. Denk aan een stroompanne, zware storm of technische storing. Op zo'n moment is snel en doordacht handelen cruciaal — toch zijn de meeste gezinnen hier onvoldoende op voorbereid. Met een crisiskit heb je alles bij de hand om kalm te blijven en meteen te reageren.
+    </p>
     <div class="hero-cta">
       <a class="btn-primary" href="#waitlist">Zet me op de wachtlijst</a>
       <a class="btn-secondary" href="#pakketten">Bekijk de pakketten →</a>
@@ -650,329 +722,235 @@
     </p>
   </section>
 
-  <!-- PAKKETTEN ANCHOR — aparte sectie met decoy-effect -->
-  <section id="pakketten" style="background:var(--black); padding: 7rem 5%;">
-    <div class="section-label">Slimme voorbereiding</div>
-    <h2 class="section-title">KIES JE 72U STARTKIT</h2>
-    <p class="section-sub">Stel je voor: het is woensdag 23u. Stroom weg, geen internet, kinderen wakker. Welk pakket had jij dan gewild?</p>
+  <!-- PAKKETTEN -->
+  <section id="pakketten" style="background:var(--dark); padding: 5rem 5%;">
+    <p style="font-size:.78rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:2rem;">Samengesteld op basis van Crisis.be en Rode Kruis richtlijnen — als enige inclusief water en voedsel.</p>
 
     <div class="pakket-keuze">
 
-      <!-- BASIS — Startkit 1 persoon -->
       <div class="pakket-card pakket-basis">
-        <div class="pakket-naam">STROOMUITVAL<br>STARTKIT</div>
+        <div class="pakket-naam">Startkit</div>
         <div class="pakket-prijs-wrap">
           <div class="pakket-prijs">€119</div>
-          <div class="pakket-unit">voor 1 persoon · 72u</div>
+          <div class="pakket-unit">1 persoon · 72u</div>
         </div>
         <ul class="pakket-lijst">
-          <li>💧 <strong>3× Seven Oceans water 500ml</strong></li>
-          <li>🍫 <strong>1× Seven Oceans noodrantsoen 500g</strong></li>
-          <li>✓ Noodradio met batterijen</li>
-          <li>✓ Zaklamp met batterijen</li>
-          <li>✓ 2× nooddeken</li>
-          <li>✓ EHBO-set 280 stuks</li>
-          <li>✓ Aanstekers + lucifers</li>
-          <li>✓ Survival mes</li>
-          <li>✓ Powerbank 2.200 mAh</li>
-          <li>✓ Zonnepaneel 30W</li>
-          <li class="pakket-mist">✗ Waterfilter</li>
-          <li class="pakket-mist">✗ Grote powerbank</li>
+          <li>3× noodwater + 1× noodrantsoen</li>
+          <li>Noodradio + zaklamp + batterijen</li>
+          <li>2× nooddeken · EHBO-set 280 stuks</li>
+          <li>Powerbank + zonnepaneel</li>
+          <li>Aanstekers + survival mes</li>
         </ul>
-        <button class="btn-secondary waitlist-btn" style="width:100%;margin-top:auto;" onclick="openWaitlist('Stroomuitval Startkit')">📬 Stuur me een seintje</button>
-        <div class="pakket-stock" style="opacity:.5;">Beschikbaar</div>
+        <button class="btn-waitlist" onclick="addToCart('Startkit', 119, '🎒')">Voeg toe aan mandje</button>
       </div>
 
-      <!-- PLUS — Gezinspakket 2 personen (decoy, visueel dominant) -->
       <div class="pakket-card pakket-plus pakket-featured">
-        <div class="pakket-tag">⚡ MEEST GEKOZEN</div>
-        <div class="pakket-naam">72U<br>GEZINSPAKKET</div>
+        <div class="pakket-tag">Meest gekozen</div>
+        <div class="pakket-naam">Gezinspakket</div>
         <div class="pakket-prijs-wrap">
           <div class="pakket-prijs">€159</div>
-          <div class="pakket-unit">voor 2 personen · 72u</div>
+          <div class="pakket-unit">2 personen · 72u</div>
         </div>
         <ul class="pakket-lijst">
-          <li>💧 <strong>6× Seven Oceans water 500ml</strong></li>
-          <li>🍫 <strong>2× Seven Oceans noodrantsoen 500g</strong></li>
-          <li>🔬 <strong>LifeStraw waterfilter</strong></li>
-          <li>✓ Noodradio met batterijen</li>
-          <li>✓ <strong>Luxe zaklamp met zonnepaneel</strong></li>
-          <li>✓ 2× nooddeken</li>
-          <li>✓ EHBO-set 280 stuks</li>
-          <li>✓ <strong>4× aanstekers + 120× lucifers</strong></li>
-          <li>✓ Powerbank 2.200 mAh + zonnepaneel 30W</li>
-          <li>✓ <strong>Waterdichte opbergzak 20L</strong></li>
-          <li class="pakket-mist">✗ Grote powerbank 10.000 mAh</li>
+          <li>6× noodwater + 2× noodrantsoen</li>
+          <li>LifeStraw waterfilter</li>
+          <li>Noodradio + luxe zaklamp met solar</li>
+          <li>2× nooddeken · waterdichte zak 20L</li>
+          <li>EHBO-set 280 stuks + lucifers</li>
+          <li>Powerbank + zonnepaneel</li>
         </ul>
-        <button class="btn-primary waitlist-btn" style="width:100%;margin-top:auto;" onclick="openWaitlist('72u Gezinspakket')">📬 Stuur me een seintje</button>
-        <div class="pakket-stock pakket-stock-low">🔴 Nog 11 op voorraad</div>
+        <button class="btn-waitlist btn-waitlist-primary" onclick="addToCart('Gezinspakket', 159, '🏠')">Voeg toe aan mandje</button>
       </div>
 
-      <!-- PREMIUM — Volledige bescherming 2-4 personen -->
       <div class="pakket-card pakket-premium">
-        <div class="pakket-naam">VOLLEDIGE<br>BESCHERMING</div>
+        <div class="pakket-naam">Volledig pakket</div>
         <div class="pakket-prijs-wrap">
           <div class="pakket-prijs">€189</div>
-          <div class="pakket-unit">voor 2–4 personen · 72u</div>
+          <div class="pakket-unit">2–4 personen · 72u</div>
         </div>
         <ul class="pakket-lijst">
-          <li>💧 <strong>12× Seven Oceans water 500ml</strong></li>
-          <li>🍫 <strong>4× Seven Oceans noodrantsoen 500g</strong></li>
-          <li>🔬 <strong>LifeStraw waterfilter</strong></li>
-          <li>✓ <strong>Noodradio 3-in-1 met zonnepaneel</strong></li>
-          <li>✓ Luxe zaklamp met zonnepaneel</li>
-          <li>✓ <strong>4× nooddeken</strong></li>
-          <li>✓ EHBO-set 280 stuks</li>
-          <li>✓ <strong>Multitool zakmes 12-in-1</strong></li>
-          <li>✓ <strong>Powerbank 10.000 mAh</strong> + zonnepaneel 30W</li>
-          <li>✓ Waterdichte opbergzak 20L</li>
-          <li>✓ <strong>Reservebatterijen AA + AAA</strong></li>
+          <li>12× noodwater + 4× noodrantsoen</li>
+          <li>LifeStraw waterfilter</li>
+          <li>Noodradio 3-in-1 + luxe zaklamp</li>
+          <li>4× nooddeken · waterdichte zak 20L</li>
+          <li>EHBO-set + multitool 12-in-1</li>
+          <li>Powerbank 10.000 mAh + zonnepaneel</li>
         </ul>
-        <button class="btn-secondary waitlist-btn" style="width:100%;margin-top:auto;" onclick="openWaitlist('Volledige Bescherming Pakket')">📬 Stuur me een seintje</button>
-        <div class="pakket-stock" style="opacity:.5;">Beschikbaar</div>
+        <button class="btn-waitlist" onclick="addToCart('Volledig pakket', 189, '🛡️')">Voeg toe aan mandje</button>
       </div>
 
-    </div>
-
-    <div class="pakket-note">
-      🛡️ Alle pakketten zijn samengesteld op basis van de officiële aanbevelingen van <strong>Crisis.be</strong> en het <strong>Rode Kruis</strong>.
-      Gratis levering bij bestelling vanaf €75 — ook bij losse producten.
     </div>
   </section>
 
-  <!-- WAAROM EEN NOODPAKKET -->
-  <section id="waarom" style="background:var(--dark); padding: 6rem 5%;">
-    <div class="section-label">Waarom voorbereid zijn</div>
-<h2 class="section-title">JE HOOPT DAT HET NOOIT<br><em>NODIG IS.</em></h2>
-<p class="section-sub" style="max-width:580px;">
-  De meeste noodsituaties beginnen klein — tot ze plots impact hebben op je hele huishouden.<br>
-  Geen elektriciteit, geen communicatie, geen duidelijk plan.<br>
-  Wie voorbereid is, behoudt overzicht en kan rustig de juiste keuzes maken.
-</p>
-    <div class="why-grid reveal">
-      <div class="why-card">
-        <span class="why-icon">🏠</span>
-        <div class="why-title">ZELFREDZAAMHEID</div>
-        <div class="why-text">In noodsituaties kunnen hulpdiensten overbelast of onbereikbaar zijn. Met een noodpakket red je jezelf en je gezin tijdelijk zonder hulp van buitenaf.</div>
-      </div>
-      <div class="why-card">
-        <span class="why-icon">🧘</span>
-        <div class="why-title">GEMOEDSRUST</div>
-        <div class="why-text">Weten dat je voorbereid bent, geeft rust. Je hoeft niet in paniek te raken of op het laatste moment op zoek te gaan naar spullen. Het pakket staat klaar.</div>
-      </div>
-      <div class="why-card">
-        <span class="why-icon">⚡</span>
-        <div class="why-title">SNEL REAGEREN</div>
-        <div class="why-text">Bij een evacuatie of plotselinge crisis telt elke minuut. Een kant-en-klaar noodpakket zorgt ervoor dat je meteen kunt handelen — zonder nadenken.</div>
-      </div>
-    </div>
-  </section>
+  <!-- WAAROM + INHOUD + TIPS — alles samen, compact -->
+  <section id="waarom" style="background:var(--black); padding: 5rem 5%;">
 
-  <!-- WAT ZIT ERIN -->
-  <section style="background:var(--black); padding: 6rem 5%;">
-    <div class="section-label">Inhoud</div>
-    <h2 class="section-title">WAT ZIT ER IN<br><em>EEN CRISISKIT?</em></h2>
-    <p class="section-sub" style="max-width:580px;">Elk item zit er bewust in — gebaseerd op de officiële richtlijnen van het Rode Kruis en aangevuld met wat zij zelf aanraden maar niet leveren.</p>
-
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:3rem; margin-top:3rem; max-width:900px;">
-
-      <div>
-        <div style="font-family:var(--font-head); font-size:1rem; letter-spacing:2px; color:var(--accent); margin-bottom:1.2rem; padding-bottom:.6rem; border-bottom:1px solid var(--border);">💧 WATER &amp; VOEDSEL</div>
-        <ul style="list-style:none; font-size:.9rem; color:var(--light); line-height:2;">
-          <li>Seven Oceans noodwater — 5,5 jaar houdbaar, SOLAS-gecertificeerd</li>
-          <li>Noodrantsoen 2.500 kcal — direct eetbaar, geen koken nodig</li>
-          <li>LifeStraw waterfilter — filtert tot 4.000L (Rode Kruis: 1.500L)</li>
-        </ul>
-        <p style="font-size:.8rem; color:var(--muted); margin-top:.8rem; font-style:italic;">Het Rode Kruis levert geen water of voedsel — zij verwijzen dit door als "extra tip". Wij leveren het mee.</p>
-      </div>
-
-      <div>
-        <div style="font-family:var(--font-head); font-size:1rem; letter-spacing:2px; color:var(--accent); margin-bottom:1.2rem; padding-bottom:.6rem; border-bottom:1px solid var(--border);">🔦 VERLICHTING &amp; COMMUNICATIE</div>
-        <ul style="list-style:none; font-size:.9rem; color:var(--light); line-height:2;">
-          <li>Noodradio 3-in-1 — solar, handslinger en USB. Test vooraf op Radio 1 (89.0 FM)</li>
-          <li>Zaklamp met zonnepaneel — werkt ook als powerbank voor je gsm</li>
-          <li>Powerbank tot 10.000 mAh — meerdere gsm-ladingen</li>
-        </ul>
-      </div>
-
-      <div>
-        <div style="font-family:var(--font-head); font-size:1rem; letter-spacing:2px; color:var(--accent); margin-bottom:1.2rem; padding-bottom:.6rem; border-bottom:1px solid var(--border);">🩹 EHBO &amp; HYGIËNE</div>
-        <ul style="list-style:none; font-size:.9rem; color:var(--light); line-height:2;">
-          <li>EHBO-set 280 stuks — pleisters, verbandgaas, schaar, pincet</li>
-          <li>Handdesinfectant + wetwipes — kritisch wanneer kraanwater wegvalt</li>
-          <li>Mondkapjes FFP2 — bescherming bij brand of chemische incidenten</li>
-        </ul>
-      </div>
-
-      <div>
-        <div style="font-family:var(--font-head); font-size:1rem; letter-spacing:2px; color:var(--accent); margin-bottom:1.2rem; padding-bottom:.6rem; border-bottom:1px solid var(--border);">🔧 GEREEDSCHAP &amp; BESCHERMING</div>
-        <ul style="list-style:none; font-size:.9rem; color:var(--light); line-height:2;">
-          <li>Multitool 12-in-1 — mes, schaar, schroevendraaier en meer</li>
-          <li>Noodponcho + nooddekens — warm in beweging én liggend</li>
-          <li>Werkhandschoenen, noodtouw 5m, ductape, noodfluitje</li>
-        </ul>
-      </div>
-
+    <!-- Intro -->
+    <div style="max-width:620px; margin-bottom:4rem;">
+      <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.8rem;">Waarom voorbereid zijn</div>
+      <h2 style="font-family:var(--font-head); font-size:clamp(1.8rem,4vw,2.8rem); letter-spacing:2px; color:var(--white); margin-bottom:1rem; line-height:1.1;">JE HOOPT DAT HET NOOIT NODIG IS.</h2>
+      <p style="font-size:.95rem; color:var(--light); line-height:1.7;">De meeste noodsituaties beginnen klein — tot ze plots impact hebben op je hele huishouden. Geen elektriciteit, geen communicatie, geen duidelijk plan. Wie voorbereid is, behoudt overzicht en kan rustig de juiste keuzes maken.</p>
     </div>
 
-    <!-- Zelf toevoegen — compact -->
-    <div style="margin-top:3.5rem; padding:2rem 2.5rem; border-left:3px solid var(--accent); background:var(--card); max-width:620px;">
-      <div style="font-family:var(--font-head); font-size:1rem; letter-spacing:2px; color:var(--accent); margin-bottom:.8rem;">WAT VOEG JE ZELF NOG TOE?</div>
-      <p style="font-size:.88rem; color:var(--muted); line-height:1.9;">Medicijnen · Cash geld · Kopie ID-kaart · Babyvoeding of huisdiervoeding · Warme kledij · Tandenborstel · Gsm-lader · <a href="https://crisiscentrum.be/sites/default/files/documents/files/MijnEigenNoodplan_interactievePDF.pdf" target="_blank" style="color:var(--accent); text-decoration:none;">Persoonlijk noodplan (download gratis) →</a></p>
+    <!-- 3 pijlers — compact, geen grote titels -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:2.5rem; margin-bottom:4rem; max-width:860px;">
+      <div>
+        <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.6rem;">Zelfredzaamheid</div>
+        <p style="font-size:.92rem; color:var(--light); line-height:1.7;">In noodsituaties kunnen hulpdiensten overbelast zijn. Met een noodpakket red je jezelf tijdelijk zonder hulp van buitenaf.</p>
+      </div>
+      <div>
+        <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.6rem;">Gemoedsrust</div>
+        <p style="font-size:.92rem; color:var(--light); line-height:1.7;">Weten dat je voorbereid bent geeft rust. Je hoeft niet in paniek te raken of op het laatste moment op zoek te gaan naar materiaal.</p>
+      </div>
+      <div>
+        <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.6rem;">Snel reageren</div>
+        <p style="font-size:.92rem; color:var(--light); line-height:1.7;">Bij evacuatie telt elke minuut. Een kant-en-klaar pakket zorgt ervoor dat je meteen kunt handelen — zonder nadenken.</p>
+      </div>
     </div>
-  </section>
 
-  <!-- VERGELIJKINGSTABEL -->
-  <section style="background:var(--dark); padding: 6rem 5%;">
-    <div class="section-label">Eerlijke vergelijking</div>
-    <h2 class="section-title">CRISISKIT VS.<br><em>RODE KRUIS</em></h2>
-    <p class="section-sub" style="max-width:540px;">Het Rode Kruis noodpakket is tijdelijk uitverkocht en kost €154,95. Het bevat geen water of voedsel. Zie zelf het verschil.</p>
+    <div style="height:1px; background:var(--border); max-width:860px; margin-bottom:4rem;"></div>
 
-    <div style="overflow-x:auto; margin-top:3rem; max-width:720px;">
-      <table style="width:100%; border-collapse:collapse; font-size:.9rem;">
-        <thead>
-          <tr style="border-bottom:2px solid var(--accent);">
-            <th style="text-align:left; padding:.8rem 1rem; color:var(--muted); font-weight:500; font-size:.8rem; letter-spacing:1px; text-transform:uppercase;">Inhoud</th>
-            <th style="text-align:center; padding:.8rem 1rem; color:var(--accent); font-family:var(--font-head); font-size:1rem; letter-spacing:2px;">CRISISKIT</th>
-            <th style="text-align:center; padding:.8rem 1rem; color:var(--muted); font-weight:500; font-size:.8rem; letter-spacing:1px; text-transform:uppercase;">Rode Kruis</th>
-          </tr>
-        </thead>
+    <!-- Inhoud per categorie — compact lijstformaat -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:2.5rem; max-width:860px; margin-bottom:4rem;">
+      <div>
+        <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.8rem;">💧 Water &amp; voedsel</div>
+        <ul style="list-style:none; font-size:.88rem; color:var(--light); line-height:2.1;">
+          <li>Seven Oceans noodwater — 5,5 jaar houdbaar</li>
+          <li>Noodrantsoen 2.500 kcal — direct eetbaar</li>
+          <li>LifeStraw waterfilter — tot 4.000L</li>
+        </ul>
+        <p style="font-size:.78rem; color:var(--muted); margin-top:.6rem; font-style:italic;">Het Rode Kruis levert dit niet — wij wel.</p>
+      </div>
+      <div>
+        <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.8rem;">🔦 Licht &amp; communicatie</div>
+        <ul style="list-style:none; font-size:.88rem; color:var(--light); line-height:2.1;">
+          <li>Noodradio — solar, handslinger, USB</li>
+          <li>Zaklamp met zonnepaneel + powerbank</li>
+          <li>Powerbank tot 10.000 mAh</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.8rem;">🩹 EHBO &amp; hygiëne</div>
+        <ul style="list-style:none; font-size:.88rem; color:var(--light); line-height:2.1;">
+          <li>EHBO-set 280 stuks</li>
+          <li>Handdesinfectant + wetwipes</li>
+          <li>Mondkapjes FFP2 · nooddekens</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.8rem;">🔧 Gereedschap</div>
+        <ul style="list-style:none; font-size:.88rem; color:var(--light); line-height:2.1;">
+          <li>Multitool 12-in-1 · survival mes</li>
+          <li>Noodponcho · werkhandschoenen</li>
+          <li>Touw 5m · ductape · noodfluitje</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="height:1px; background:var(--border); max-width:860px; margin-bottom:4rem;"></div>
+
+    <!-- Vergelijking — compacte tabel zonder grote heading -->
+    <div style="max-width:620px; margin-bottom:4rem;">
+      <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:1.5rem;">Vergelijking met Rode Kruis (€154,95)</div>
+      <table style="width:100%; border-collapse:collapse; font-size:.88rem;">
         <tbody>
           <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:.75rem 1rem; color:var(--light);">💧 Drinkwater</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50; font-weight:600;">✓ Inbegrepen</td>
-            <td style="text-align:center; padding:.75rem; color:var(--muted);">— Niet inbegrepen</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,.02);">
-            <td style="padding:.75rem 1rem; color:var(--light);">🍫 Noodvoedsel</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50; font-weight:600;">✓ Inbegrepen</td>
-            <td style="text-align:center; padding:.75rem; color:var(--muted);">— Niet inbegrepen</td>
+            <td style="padding:.6rem 0; color:var(--light);">Drinkwater</td>
+            <td style="text-align:center; padding:.6rem; color:#2e9e82; font-weight:600;">✓ Inbegrepen</td>
+            <td style="text-align:center; padding:.6rem; color:var(--muted);">Niet inbegrepen</td>
           </tr>
           <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:.75rem 1rem; color:var(--light);">🔬 Waterfilter</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50; font-weight:600;">✓ 4.000L</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50;">✓ 1.500L</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,.02);">
-            <td style="padding:.75rem 1rem; color:var(--light);">📻 Noodradio + zaklamp</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50; font-weight:600;">✓</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50;">✓</td>
+            <td style="padding:.6rem 0; color:var(--light);">Noodvoedsel</td>
+            <td style="text-align:center; padding:.6rem; color:#2e9e82; font-weight:600;">✓ Inbegrepen</td>
+            <td style="text-align:center; padding:.6rem; color:var(--muted);">Niet inbegrepen</td>
           </tr>
           <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:.75rem 1rem; color:var(--light);">🩹 EHBO-set</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50; font-weight:600;">✓ 280 stuks</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50;">✓ Compact</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,.02);">
-            <td style="padding:.75rem 1rem; color:var(--light);">🦺 Poncho + nooddeken</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50; font-weight:600;">✓ Beide</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50;">✓ Poncho</td>
+            <td style="padding:.6rem 0; color:var(--light);">Waterfilter</td>
+            <td style="text-align:center; padding:.6rem; color:#2e9e82; font-weight:600;">✓ 4.000L</td>
+            <td style="text-align:center; padding:.6rem; color:var(--muted);">✓ 1.500L</td>
           </tr>
           <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:.75rem 1rem; color:var(--light);">🔋 Powerbank</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50; font-weight:600;">✓ Tot 10.000 mAh</td>
-            <td style="text-align:center; padding:.75rem; color:var(--muted);">—</td>
+            <td style="padding:.6rem 0; color:var(--light);">Noodradio + EHBO + poncho</td>
+            <td style="text-align:center; padding:.6rem; color:#2e9e82; font-weight:600;">✓</td>
+            <td style="text-align:center; padding:.6rem; color:var(--muted);">✓</td>
           </tr>
-          <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,.02);">
-            <td style="padding:.75rem 1rem; color:var(--light);">📦 Beschikbaarheid</td>
-            <td style="text-align:center; padding:.75rem; color:#4caf50; font-weight:600;">✓ Binnenkort</td>
-            <td style="text-align:center; padding:.75rem; color:#e74c3c;">✗ Uitverkocht</td>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:.6rem 0; color:var(--light);">Powerbank</td>
+            <td style="text-align:center; padding:.6rem; color:#2e9e82; font-weight:600;">✓ Tot 10.000 mAh</td>
+            <td style="text-align:center; padding:.6rem; color:var(--muted);">Niet inbegrepen</td>
           </tr>
-          <tr style="background:rgba(212,168,83,.06); border-top:2px solid var(--accent);">
-            <td style="padding:.9rem 1rem; color:var(--white); font-weight:600;">Prijs</td>
-            <td style="text-align:center; padding:.9rem; color:var(--accent); font-family:var(--font-head); font-size:1.2rem;">Vanaf €119</td>
-            <td style="text-align:center; padding:.9rem; color:var(--muted); font-weight:600;">€154,95</td>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:.6rem 0; color:var(--light);">Beschikbaarheid</td>
+            <td style="text-align:center; padding:.6rem; color:#2e9e82; font-weight:600;">✓ Binnenkort</td>
+            <td style="text-align:center; padding:.6rem; color:#c0392b;">✗ Uitverkocht</td>
+          </tr>
+          <tr>
+            <td style="padding:.8rem 0; color:var(--white); font-weight:600;">Prijs</td>
+            <td style="text-align:center; padding:.8rem; color:var(--accent); font-family:var(--font-head); font-size:1.2rem;">Vanaf €119</td>
+            <td style="text-align:center; padding:.8rem; color:var(--muted);">€154,95</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div style="margin-top:2rem;">
-      <a class="btn-primary waitlist-btn" href="#waitlist" style="display:inline-block;">📬 Zet me op de wachtlijst →</a>
+
+    <div style="height:1px; background:var(--border); max-width:860px; margin-bottom:4rem;"></div>
+
+    <!-- Tips — als simpele bulletlijst, geen kaarten -->
+    <div style="max-width:620px;">
+      <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:1.2rem;">Goed om te weten</div>
+      <ul style="list-style:none; font-size:.9rem; color:var(--light); line-height:1;">
+        <li style="padding:.7rem 0; border-bottom:1px solid var(--border);">Bewaar het pakket op een <strong>hogere, droge plek</strong> die alle gezinsleden kennen — niet in de kelder bij overstromingsrisico.</li>
+        <li style="padding:.7rem 0; border-bottom:1px solid var(--border);">Controleer minstens <strong>1× per jaar</strong> op houdbaarheid. Koppel het aan de klokwisseling.</li>
+        <li style="padding:.7rem 0; border-bottom:1px solid var(--border);"><strong>Test de noodradio</strong> vooraf. In België zend Radio 1 (89.0 FM) noodberichten uit bij nationale crises.</li>
+        <li style="padding:.7rem 0; border-bottom:1px solid var(--border);">Woon je met meerdere personen? <strong>Pas het pakket aan</strong> — voeg extra water, voedsel en nooddekens toe.</li>
+        <li style="padding:.7rem 0;">Voeg zelf toe: medicijnen · cash geld · kopie ID · <a href="https://crisiscentrum.be/sites/default/files/documents/files/MijnEigenNoodplan_interactievePDF.pdf" target="_blank" style="color:var(--accent); text-decoration:none;">persoonlijk noodplan (gratis download) →</a></li>
+      </ul>
     </div>
+
   </section>
 
-  <!-- PRAKTISCHE TIPS -->
-  <section id="tips" style="background:var(--black); padding: 6rem 5%;">
-    <div class="section-label">Goed om te weten</div>
-    <h2 class="section-title">TIPS VOOR JE<br><em>NOODPAKKET</em></h2>
-
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:2px; background:var(--border); margin-top:3rem; max-width:900px;">
-      <div style="background:var(--card); padding:2rem;">
-        <div style="font-size:1.6rem; margin-bottom:.7rem;">📍</div>
-        <div style="font-family:var(--font-head); font-size:1rem; letter-spacing:1.5px; color:var(--white); margin-bottom:.5rem;">TOEGANKELIJKE PLEK</div>
-        <div style="font-size:.88rem; color:var(--muted); line-height:1.7;">Bewaar je pakket op een hogere, droge locatie die alle gezinsleden kennen. Niet in de kelder bij overstromingsrisico.</div>
-      </div>
-      <div style="background:var(--card); padding:2rem;">
-        <div style="font-size:1.6rem; margin-bottom:.7rem;">📅</div>
-        <div style="font-family:var(--font-head); font-size:1rem; letter-spacing:1.5px; color:var(--white); margin-bottom:.5rem;">JAARLIJKSE CONTROLE</div>
-        <div style="font-size:.88rem; color:var(--muted); line-height:1.7;">Controleer minstens 1× per jaar. Vervang verlopen producten en laad de powerbank op. Tip: koppel het aan de klokwisseling.</div>
-      </div>
-      <div style="background:var(--card); padding:2rem;">
-        <div style="font-size:1.6rem; margin-bottom:.7rem;">📻</div>
-        <div style="font-family:var(--font-head); font-size:1rem; letter-spacing:1.5px; color:var(--white); margin-bottom:.5rem;">TEST DE NOODRADIO</div>
-        <div style="font-size:.88rem; color:var(--muted); line-height:1.7;">Test hem vooraf met het gezin. In België zend Radio 1 (89.0 FM) noodberichten uit bij nationale crises. Weet iedereen hoe hij werkt?</div>
-      </div>
-      <div style="background:var(--card); padding:2rem;">
-        <div style="font-size:1.6rem; margin-bottom:.7rem;">👨‍👩‍👧</div>
-        <div style="font-family:var(--font-head); font-size:1rem; letter-spacing:1.5px; color:var(--white); margin-bottom:.5rem;">PAS AAN OP JE GEZIN</div>
-        <div style="font-size:.88rem; color:var(--muted); line-height:1.7;">Woon je met meerdere personen? Voeg extra water, voedsel en nooddekens toe. Baby's, ouderen en huisdieren vragen extra voorbereiding.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- REVIEWS — sociale bewijskracht (Belgisch specifiek) -->
-  <section id="reviews" style="background:var(--dark); padding: 7rem 5%;">
-    <div class="section-label">Wat klanten zeggen</div>
-    <h2 class="section-title">POPULAIR IN ANTWERPEN,<br>GENT EN LEUVEN</h2>
-    <p class="section-sub">Belgische kopers zijn kritisch. Terecht. Dit is wat zij zeggen.</p>
-
+  <!-- REVIEWS -->
+  <section id="reviews" style="background:var(--dark); padding: 4rem 5%;">
+    <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:2rem;">Ervaringen</div>
     <div class="reviews-grid reveal">
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
         <div class="review-text">"Na de stroomstoring in onze straat vorig december was ik blij dat ik dit had besteld. Binnen het uur hadden we licht en warmte. Mijn buurman had niets."</div>
-        <div class="review-meta">
-          <strong>Lien V.</strong> — Antwerpen &nbsp;·&nbsp; <span>72u Gezinspakket</span>
-        </div>
+        <div class="review-meta"><strong>Lien V.</strong> — Antwerpen &nbsp;·&nbsp; <span>Gezinspakket</span></div>
       </div>
       <div class="review-card review-featured">
         <div class="review-stars">★★★★★</div>
         <div class="review-text">"Ik had lang getwijfeld — leek overdreven. Totdat er een gaslek was in onze wijk en we 6 uur buiten moesten wachten. Nu heb ik er twee besteld: één thuis, één op het werk."</div>
-        <div class="review-meta">
-          <strong>Tom D.</strong> — Gent &nbsp;·&nbsp; <span>Volledige Bescherming Pakket</span>
-        </div>
+        <div class="review-meta"><strong>Tom D.</strong> — Gent &nbsp;·&nbsp; <span>Volledig pakket</span></div>
       </div>
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"Als KMO-eigenaar was ik verplicht iets te regelen voor mijn medewerkers. Dit was verreweg de makkelijkste en goedkoopste oplossing. Snelle levering ook."</div>
-        <div class="review-meta">
-          <strong>Nathalie W.</strong> — Leuven &nbsp;·&nbsp; <span>Meerdere pakketten</span>
-        </div>
+        <div class="review-text">"Als KMO-eigenaar was ik verplicht iets te regelen voor mijn medewerkers. Dit was verreweg de makkelijkste en goedkoopste oplossing."</div>
+        <div class="review-meta"><strong>Nathalie W.</strong> — Leuven &nbsp;·&nbsp; <span>Meerdere pakketten</span></div>
       </div>
     </div>
   </section>
 
   <!-- WAITLIST SECTIE -->
-  <section id="waitlist">
-    <div class="newsletter-inner reveal">
-      <div class="section-label">Binnenkort beschikbaar</div>
-      <h2 class="section-title">WEES ALS EERSTE<em>KLAAR.</em></h2>
-      <p class="section-sub">CrisisKit opent binnenkort. Schrijf je in en ontvang als eerste een bericht — inclusief een <strong>exclusieve openingskorting</strong> voor vroege inschrijvers.</p>
+  <section id="waitlist" style="background:var(--black); padding: 5rem 5%;">
+    <div style="max-width:540px;">
+      <p style="font-size:.78rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:1rem;">Binnenkort beschikbaar</p>
+      <h2 style="font-family:var(--font-head); font-size:clamp(2rem,4vw,3rem); letter-spacing:2px; color:var(--white); margin-bottom:1rem; line-height:1.1;">WEES ALS EERSTE KLAAR.</h2>
+      <p style="font-size:.95rem; color:var(--light); margin-bottom:2rem; line-height:1.6;">Schrijf je in en ontvang als eerste een bericht bij lancering — inclusief een exclusieve openingskorting.</p>
       <div class="newsletter-form">
         <input class="newsletter-input" type="email" id="emailInput" placeholder="jouw@emailadres.be" />
-        <button class="newsletter-btn" onclick="subscribeWaitlist()">Ja, zet me op de lijst →</button>
+        <button class="newsletter-btn" onclick="subscribeWaitlist()">Zet me op de lijst →</button>
       </div>
-      <div class="newsletter-note">🔒 Geen spam. Alleen een seintje wanneer we live gaan. Uitschrijven kan altijd. GDPR-conform.</div>
-      <div id="nl-success" style="display:none;">
-        ✓ <strong>Goed bezig.</strong> Je staat op de lijst. We sturen je een bericht zodra CrisisKit live gaat!
+      <p style="font-size:.78rem; color:var(--muted); margin-top:.8rem;">Geen spam. Alleen een seintje bij lancering. GDPR-conform.</p>
+      <div id="nl-success" style="display:none; margin-top:1rem; color:var(--accent); font-size:.9rem;">
+        ✓ Je staat op de lijst. We sturen je een bericht zodra CrisisKit live gaat.
       </div>
-      <div id="nl-error" style="display:none; color:#e74c3c; margin-top:1rem; font-size:.9rem;">
-        ⚠️ Er ging iets mis. Probeer het opnieuw of stuur een mail naar <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="98f1f6fef7d8fbeaf1ebf1ebf3f1ecb6fafd">[email&#160;protected]</a>
+      <div id="nl-error" style="display:none; color:#c0392b; margin-top:1rem; font-size:.9rem;">
+        Er ging iets mis. Probeer het opnieuw of mail naar <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="375e5951587754455e445e445c5e43195552">[email&#160;protected]</a>
       </div>
-
-      <!-- Teller — sociaal bewijs -->
-      <div class="waitlist-counter reveal">
-        <div class="wc-number" id="waitlistCount">47</div>
-        <div class="wc-label">mensen staan al op de wachtlijst</div>
+      <div style="margin-top:2.5rem; display:flex; align-items:baseline; gap:.6rem;">
+        <span style="font-family:var(--font-head); font-size:2.5rem; color:var(--accent); letter-spacing:2px;" id="waitlistCount">47</span>
+        <span style="font-size:.85rem; color:var(--muted);">mensen staan al op de wachtlijst</span>
       </div>
     </div>
   </section>
@@ -1645,7 +1623,7 @@
     }
   </style>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     'use strict';
 
     // ══ CART DATA ══
@@ -1996,6 +1974,4 @@
         style="flex:1;background:var(--dark);border:1px solid var(--border);color:var(--white);padding:.75rem 1rem;font-family:var(--font-body);font-size:.9rem;outline:none;" />
       <button onclick="submitWaitlistModal()"
         style="background:var(--accent);color:var(--black);border:none;padding:.75rem 1.2rem;font-family:var(--font-head);font-size:1rem;letter-spacing:2px;cursor:pointer;white-space:nowrap;">OK →</button>
-    </div>
-    <div id="wlSuccess" style="display:none;color:#5cb85c;font-size:.88rem;margin-top:.5rem;">✓ Gelukt! We sturen je een seintje zodra we live gaan.</div>
-    <div id="wlError" style="display:none;color:#e74c3c;font-size:.88
+    </div
