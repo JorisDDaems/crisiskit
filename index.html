@@ -681,6 +681,69 @@
     .wc-number { font-family: var(--font-head); font-size: 3.5rem; color: var(--accent); letter-spacing: 4px; }
     .wc-label { font-size: .85rem; color: var(--muted); }
 
+    /* ── DETAIL KNOP ── */
+    .btn-detail {
+      width: 100%; background: transparent;
+      border: none; border-top: 1px solid var(--border);
+      color: var(--muted); padding: .7rem 0;
+      font-size: .8rem; cursor: pointer; letter-spacing: .3px;
+      transition: color .2s; margin: .5rem 0; text-align: center;
+    }
+    .btn-detail:hover { color: var(--accent); }
+
+    /* ── DETAIL MODAL ── */
+    #detailOverlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(13,27,42,.88); z-index: 300;
+      backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 1rem;
+    }
+    #detailOverlay.open { display: flex; }
+    #detailModal {
+      background: var(--card); border: 1px solid var(--border);
+      max-width: 780px; width: 100%; max-height: 88vh;
+      overflow-y: auto; padding: 2.5rem; position: relative;
+    }
+    #detailModal h3 {
+      font-family: var(--font-head); font-size: 1.4rem;
+      letter-spacing: 2px; color: var(--white); margin-bottom: .4rem;
+    }
+    .modal-sub { font-size: .85rem; color: var(--muted); margin-bottom: 2rem; }
+    .modal-close {
+      position: absolute; top: 1.2rem; right: 1.4rem;
+      background: none; border: none; color: var(--muted);
+      font-size: 1.3rem; cursor: pointer;
+    }
+    .modal-close:hover { color: var(--white); }
+    .detail-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    .detail-table th {
+      text-align: left; padding: .6rem .8rem;
+      font-size: .72rem; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--muted);
+      border-bottom: 2px solid var(--border);
+    }
+    .detail-table th:not(:first-child) { text-align: center; }
+    .detail-table td {
+      padding: .55rem .8rem; border-bottom: 1px solid var(--border);
+      color: var(--light); vertical-align: middle;
+    }
+    .detail-table td:not(:first-child) { text-align: center; }
+    .detail-table tr.cat-row td {
+      font-size: .72rem; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent);
+      padding-top: 1.4rem; border-bottom: none;
+    }
+    .ck-yes { color: var(--accent); font-weight: 600; }
+    .no { color: var(--muted); }
+    .extra { display: inline-block; background: rgba(46,158,130,.15);
+      color: var(--accent); font-size: .7rem; padding: .1rem .4rem;
+      margin-left: .3rem; border-radius: 2px; }
+    @media (max-width: 600px) {
+      #detailModal { padding: 1.5rem 1rem; }
+      .detail-table { font-size: .78rem; }
+      .detail-table td, .detail-table th { padding: .4rem .35rem; }
+    }
+
   </style>
 </head>
 <body>
@@ -741,6 +804,7 @@
           <li>Powerbank + zonnepaneel</li>
           <li>Aanstekers + survival mes</li>
         </ul>
+        <button class="btn-detail" onclick="openDetail('startkit')">Volledige inhoud bekijken ↓</button>
         <button class="btn-waitlist" onclick="addToCart('Startkit', 119, '🎒')">Voeg toe aan mandje</button>
       </div>
 
@@ -759,6 +823,7 @@
           <li>EHBO-set 280 stuks + lucifers</li>
           <li>Powerbank + zonnepaneel</li>
         </ul>
+        <button class="btn-detail" onclick="openDetail('gezins')">Volledige inhoud bekijken ↓</button>
         <button class="btn-waitlist btn-waitlist-primary" onclick="addToCart('Gezinspakket', 159, '🏠')">Voeg toe aan mandje</button>
       </div>
 
@@ -776,6 +841,7 @@
           <li>EHBO-set + multitool 12-in-1</li>
           <li>Powerbank 10.000 mAh + zonnepaneel</li>
         </ul>
+        <button class="btn-detail" onclick="openDetail('volledig')">Volledige inhoud bekijken ↓</button>
         <button class="btn-waitlist" onclick="addToCart('Volledig pakket', 189, '🛡️')">Voeg toe aan mandje</button>
       </div>
 
@@ -810,41 +876,28 @@
 
     <div style="height:1px; background:var(--border); max-width:860px; margin-bottom:4rem;"></div>
 
-    <!-- Inhoud per categorie — compact lijstformaat -->
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:2.5rem; max-width:860px; margin-bottom:4rem;">
-      <div>
-        <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.8rem;">💧 Water &amp; voedsel</div>
-        <ul style="list-style:none; font-size:.88rem; color:var(--light); line-height:2.1;">
-          <li>Seven Oceans noodwater — 5,5 jaar houdbaar</li>
-          <li>Noodrantsoen 2.500 kcal — direct eetbaar</li>
-          <li>LifeStraw waterfilter — tot 4.000L</li>
-        </ul>
-        <p style="font-size:.78rem; color:var(--muted); margin-top:.6rem; font-style:italic;">Het Rode Kruis levert dit niet — wij wel.</p>
+    <!-- Inhoud overzicht — compact, uitklapbaar via modal -->
+    <div style="max-width:860px; margin-bottom:4rem;">
+      <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:1.5rem;">Wat zit erin</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:1.5rem;">
+        <div>
+          <div style="font-size:.8rem; font-weight:600; color:var(--white); margin-bottom:.5rem;">💧 Water &amp; voedsel</div>
+          <p style="font-size:.83rem; color:var(--muted); line-height:1.7;">Seven Oceans noodwater · noodrantsoenen 2.500 kcal · LifeStraw filter tot 3.500L<br><em style="color:var(--accent); font-size:.78rem;">Niet inbegrepen bij Rode Kruis</em></p>
+        </div>
+        <div>
+          <div style="font-size:.8rem; font-weight:600; color:var(--white); margin-bottom:.5rem;">📻 Licht &amp; communicatie</div>
+          <p style="font-size:.83rem; color:var(--muted); line-height:1.7;">Noodradio solar + dynamo · zaklamp · kaars 25u · waterbestendige lucifers</p>
+        </div>
+        <div>
+          <div style="font-size:.8rem; font-weight:600; color:var(--white); margin-bottom:.5rem;">🩹 EHBO &amp; hygiëne</div>
+          <p style="font-size:.83rem; color:var(--muted); line-height:1.7;">EHBO-set 280 stuks · nooddeken · thermometer · brandwondenkompres · ORS sachets</p>
+        </div>
+        <div>
+          <div style="font-size:.8rem; font-weight:600; color:var(--white); margin-bottom:.5rem;">🔧 Gereedschap &amp; bescherming</div>
+          <p style="font-size:.83rem; color:var(--muted); line-height:1.7;">Multitool 12-in-1 · noodponcho · reflecterend vest · noodfluit · waterdichte tape · rugzak</p>
+        </div>
       </div>
-      <div>
-        <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.8rem;">🔦 Licht &amp; communicatie</div>
-        <ul style="list-style:none; font-size:.88rem; color:var(--light); line-height:2.1;">
-          <li>Noodradio — solar, handslinger, USB</li>
-          <li>Zaklamp met zonnepaneel + powerbank</li>
-          <li>Powerbank tot 10.000 mAh</li>
-        </ul>
-      </div>
-      <div>
-        <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.8rem;">🩹 EHBO &amp; hygiëne</div>
-        <ul style="list-style:none; font-size:.88rem; color:var(--light); line-height:2.1;">
-          <li>EHBO-set 280 stuks</li>
-          <li>Handdesinfectant + wetwipes</li>
-          <li>Mondkapjes FFP2 · nooddekens</li>
-        </ul>
-      </div>
-      <div>
-        <div style="font-size:.75rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:.8rem;">🔧 Gereedschap</div>
-        <ul style="list-style:none; font-size:.88rem; color:var(--light); line-height:2.1;">
-          <li>Multitool 12-in-1 · survival mes</li>
-          <li>Noodponcho · werkhandschoenen</li>
-          <li>Touw 5m · ductape · noodfluitje</li>
-        </ul>
-      </div>
+      <button onclick="openDetail('vergelijking')" style="margin-top:1.5rem; background:transparent; border:1px solid var(--border); color:var(--light); padding:.6rem 1.4rem; font-size:.85rem; cursor:pointer; transition:all .2s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--light)'">Bekijk volledige inhoud &amp; vergelijking met Rode Kruis ↓</button>
     </div>
 
     <div style="height:1px; background:var(--border); max-width:860px; margin-bottom:4rem;"></div>
@@ -954,6 +1007,88 @@
       </div>
     </div>
   </section>
+
+  <!-- DETAIL MODAL — volledige inhoud & vergelijking -->
+  <div id="detailOverlay" onclick="if(event.target===this)closeDetail()">
+    <div id="detailModal">
+      <button class="modal-close" onclick="closeDetail()">✕</button>
+      <h3 id="detailTitle">VOLLEDIGE INHOUD</h3>
+      <p class="modal-sub" id="detailSub">Gedetailleerde vergelijking van de inhoud ten opzichte van het Rode Kruis noodpakket (€154,95).</p>
+
+      <table class="detail-table">
+        <thead>
+          <tr>
+            <th style="width:42%">Inhoud</th>
+            <th style="width:22%">Rode Kruis</th>
+            <th style="width:36%" id="detailColHeader">CrisisKit</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr class="cat-row"><td colspan="3">🩹 EHBO</td></tr>
+          <tr><td>Gaaskompres small</td><td class="rk-yes">✓ 2 stuks</td><td class="ck-yes" id="ehbo1">✓ 5 stuks</td></tr>
+          <tr><td>Gaaskompres medium</td><td class="rk-yes">✓ 2 stuks</td><td class="ck-yes" id="ehbo2">✓ 4 stuks</td></tr>
+          <tr><td>Pleisters small</td><td class="rk-yes">✓ 6 stuks</td><td class="ck-yes" id="ehbo3">✓ 10 stuks</td></tr>
+          <tr><td>Pleisters medium</td><td class="rk-yes">✓ 6 stuks</td><td class="ck-yes" id="ehbo4">✓ 10 stuks</td></tr>
+          <tr><td>Hydrofiel windsel</td><td class="rk-yes">✓ 1 stuk</td><td class="ck-yes" id="ehbo5">✓ 2 stuks</td></tr>
+          <tr><td>Steunwindsel</td><td class="no">—</td><td class="ck-yes" id="ehbo6">✓ 1 stuk <span class="extra">extra</span></td></tr>
+          <tr><td>Snelverband</td><td class="rk-yes">✓ 1 stuk</td><td class="ck-yes" id="ehbo7">✓ 2 stuks</td></tr>
+          <tr><td>Driehoeksverband</td><td class="rk-yes">✓ 1 stuk</td><td class="ck-yes" id="ehbo8">✓ 1 stuk</td></tr>
+          <tr><td>Wondhechtstrips</td><td class="rk-yes">✓ 6 stuks</td><td class="ck-yes" id="ehbo9">✓ 5 strips</td></tr>
+          <tr><td>Vinyl handschoenen</td><td class="rk-yes">✓ 1 paar</td><td class="ck-yes" id="ehbo10">✓ 2 paar</td></tr>
+          <tr><td>Alcoholdoekjes</td><td class="rk-yes">✓ 4 stuks</td><td class="ck-yes" id="ehbo11">✓ 10 stuks</td></tr>
+          <tr><td>Verbandschaar</td><td class="rk-yes">✓</td><td class="ck-yes" id="ehbo12">✓</td></tr>
+          <tr><td>Pincet</td><td class="rk-yes">✓</td><td class="ck-yes" id="ehbo13">✓</td></tr>
+          <tr><td>Veiligheidsspelden</td><td class="no">—</td><td class="ck-yes" id="ehbo14">✓ 6 stuks <span class="extra">extra</span></td></tr>
+          <tr><td>Vingerbobs</td><td class="rk-yes">✓ 2 stuks</td><td class="no" id="ehbo15">—</td></tr>
+          <tr><td>Mond-op-mond kapje</td><td class="no">—</td><td class="ck-yes" id="ehbo16">✓ <span class="extra">extra</span></td></tr>
+          <tr><td>Thermometer</td><td class="no">—</td><td class="ck-yes" id="ehbo17">✓ <span class="extra">extra</span></td></tr>
+          <tr><td>Brandwondenkompres</td><td class="no">—</td><td class="ck-yes" id="ehbo18">✓ 10×10 cm <span class="extra">extra</span></td></tr>
+          <tr><td>Niet-verklevend kompres</td><td class="rk-yes">✓ 1 stuk</td><td class="ck-yes" id="ehbo19">✓ 4 stuks</td></tr>
+          <tr><td>Nooddeken</td><td class="rk-yes">✓</td><td class="ck-yes" id="ehbo20">✓</td></tr>
+          <tr><td>Waterdichte verpakking</td><td class="no">—</td><td class="ck-yes" id="ehbo21">✓ Drijft op water <span class="extra">extra</span></td></tr>
+
+          <tr class="cat-row"><td colspan="3">🧴 Desinfectie &amp; hygiëne</td></tr>
+          <tr><td>Desinfecterende doekjes 75%</td><td class="rk-yes">✓ 20 stuks</td><td class="no" id="hyg1">—</td></tr>
+          <tr><td>Herhydratatie (ORS sachets)</td><td class="no">—</td><td class="ck-yes" id="hyg2">✓ 10 stuks <span class="extra">extra</span></td></tr>
+
+          <tr class="cat-row"><td colspan="3">💧 Water</td></tr>
+          <tr><td>Waterfilter</td><td class="rk-yes">✓ Tot 1.500L</td><td class="ck-yes" id="water1">✓ Tot 3.500L <span class="extra">extra</span></td></tr>
+
+          <tr class="cat-row"><td colspan="3">🍫 Voeding</td></tr>
+          <tr><td>Noodvoeding 72u</td><td class="no">Zelf toe te voegen</td><td class="ck-yes" id="voed1">✓ 3 maaltijden <span class="extra">inbegrepen</span></td></tr>
+
+          <tr class="cat-row"><td colspan="3">📻 Verlichting &amp; communicatie</td></tr>
+          <tr><td>Noodradio (solar + dynamo + powerbank)</td><td class="rk-yes">✓</td><td class="ck-yes" id="licht1">✓ Kit 3</td></tr>
+          <tr><td>Zaklamp</td><td class="no">—</td><td class="ck-yes" id="licht2">✓ <span class="extra">extra</span></td></tr>
+          <tr><td>Kaars (25u brandduur)</td><td class="rk-yes">✓</td><td class="ck-yes" id="licht3">✓</td></tr>
+          <tr><td>Lucifers (waterbestendig)</td><td class="rk-yes">✓</td><td class="ck-yes" id="licht4">✓</td></tr>
+
+          <tr class="cat-row"><td colspan="3">🔧 Gereedschap &amp; bescherming</td></tr>
+          <tr><td>Multitool</td><td class="rk-yes">✓ Stanley 12-in-1</td><td class="ck-yes" id="gear1">✓</td></tr>
+          <tr><td>Noodponcho</td><td class="rk-yes">✓</td><td class="ck-yes" id="gear2">✓</td></tr>
+          <tr><td>Reflecterend vest</td><td class="rk-yes">✓</td><td class="ck-yes" id="gear3">✓</td></tr>
+          <tr><td>Noodfluit</td><td class="rk-yes">✓</td><td class="ck-yes" id="gear4">✓</td></tr>
+          <tr><td>Waterdichte tape</td><td class="rk-yes">✓</td><td class="ck-yes" id="gear5">✓</td></tr>
+          <tr><td>Veiligheidstouw 5m</td><td class="rk-yes">✓</td><td class="no" id="gear6">— <span style="font-size:.75rem;color:var(--muted)">binnenkort</span></td></tr>
+          <tr><td>Documentenhouder (brandwerend)</td><td class="rk-yes">✓</td><td class="no" id="gear7">— <span style="font-size:.75rem;color:var(--muted)">te sourcen</span></td></tr>
+          <tr><td>Rugzak met reflecterende stroken</td><td class="rk-yes">✓</td><td class="ck-yes" id="gear8">✓</td></tr>
+
+          <tr style="border-top: 2px solid var(--accent);">
+            <td style="padding:.9rem .8rem; font-weight:600; color:var(--white);">Prijs</td>
+            <td style="text-align:center; padding:.9rem; color:var(--muted); font-weight:600;">€154,95</td>
+            <td style="text-align:center; padding:.9rem; color:var(--accent); font-family:var(--font-head); font-size:1.1rem;" id="detailPrijs">Vanaf €119</td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+        <button id="detailCartBtn" class="btn-waitlist btn-waitlist-primary" style="flex:1; min-width:160px;">Voeg toe aan mandje</button>
+        <button onclick="closeDetail()" class="btn-waitlist" style="flex:1; min-width:120px;">Sluiten</button>
+      </div>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer>
@@ -1625,6 +1760,36 @@
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     'use strict';
+
+    // ══ DETAIL MODAL ══
+    const detailConfig = {
+      startkit:    { title: 'STARTKIT — VOLLEDIGE INHOUD', sub: '1 persoon · 72u · €119', prijs: '€119', cart: ['Startkit', 119, '🎒'] },
+      gezins:      { title: 'GEZINSPAKKET — VOLLEDIGE INHOUD', sub: '2 personen · 72u · €159', prijs: '€159', cart: ['Gezinspakket', 159, '🏠'] },
+      volledig:    { title: 'VOLLEDIG PAKKET — VOLLEDIGE INHOUD', sub: '2–4 personen · 72u · €189', prijs: '€189', cart: ['Volledig pakket', 189, '🛡️'] },
+      vergelijking:{ title: 'VOLLEDIGE INHOUD & VERGELIJKING', sub: 'Gedetailleerde vergelijking met het Rode Kruis noodpakket (€154,95).', prijs: 'Vanaf €119', cart: null }
+    };
+    window.openDetail = function(key) {
+      const cfg = detailConfig[key] || detailConfig.vergelijking;
+      document.getElementById('detailTitle').textContent = cfg.title;
+      document.getElementById('detailSub').textContent = cfg.sub;
+      document.getElementById('detailPrijs').textContent = cfg.prijs;
+      document.getElementById('detailColHeader').textContent = key === 'vergelijking' ? 'CrisisKit' : 'Jouw pakket';
+      const btn = document.getElementById('detailCartBtn');
+      if (cfg.cart) {
+        btn.style.display = 'block';
+        btn.onclick = () => { addToCart(...cfg.cart); closeDetail(); };
+        btn.textContent = 'Voeg ' + cfg.cart[0] + ' toe aan mandje';
+      } else {
+        btn.style.display = 'none';
+      }
+      document.getElementById('detailOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    window.closeDetail = function() {
+      document.getElementById('detailOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    };
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
 
     // ══ CART DATA ══
     let cart = [];
