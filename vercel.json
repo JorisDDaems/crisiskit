@@ -1,6 +1,11 @@
 {
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/((?!api).*)", "destination": "/index.html" }
+    { "source": "/noodpakket-belgie", "destination": "/noodpakket-belgie.html" },
+    { "source": "/noodpakket-checklist", "destination": "/noodpakket-checklist.html" },
+    { "source": "/noodpakket-rode-kruis", "destination": "/noodpakket-rode-kruis.html" },
+    { "source": "/72-uur-noodpakket", "destination": "/72-uur-noodpakket.html" },
+    { "source": "/noodpakket-stroomuitval", "destination": "/noodpakket-stroomuitval.html" },
+    { "source": "/wachtlijst", "destination": "/index.html" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
