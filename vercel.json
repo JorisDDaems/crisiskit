@@ -5,7 +5,6 @@
     { "source": "/noodpakket-rode-kruis", "destination": "/noodpakket-rode-kruis.html" },
     { "source": "/72-uur-noodpakket", "destination": "/72-uur-noodpakket.html" },
     { "source": "/noodpakket-stroomuitval", "destination": "/noodpakket-stroomuitval.html" },
-    { "source": "/wachtlijst", "destination": "/index.html" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/wachtlijst", "destination": "/index.html" }
   ]
 }
