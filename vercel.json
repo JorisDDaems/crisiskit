@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    { "source": "/noodpakket-belgie.html", "destination": "/noodpakket-belgie", "permanent": true },
+    { "source": "/noodpakket-checklist.html", "destination": "/noodpakket-checklist", "permanent": true },
+    { "source": "/noodpakket-rode-kruis.html", "destination": "/noodpakket-rode-kruis", "permanent": true },
+    { "source": "/72-uur-noodpakket.html", "destination": "/72-uur-noodpakket", "permanent": true },
+    { "source": "/noodpakket-stroomuitval.html", "destination": "/noodpakket-stroomuitval", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/noodpakket-belgie", "destination": "/noodpakket-belgie.html" },
     { "source": "/noodpakket-checklist", "destination": "/noodpakket-checklist.html" },
